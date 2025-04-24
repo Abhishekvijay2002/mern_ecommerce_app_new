@@ -26,6 +26,7 @@ import Allreviews from "../pages/admin/Allreviews.jsx";
 import Addreply from "../pages/Addreply.jsx";
 import CategoryManagement from "../pages/admin/ManageCategory.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import AllUsers from "../pages/AllUsers.jsx"
 
 export const router = createBrowserRouter([
   {
@@ -156,6 +157,10 @@ export const router = createBrowserRouter([
       {
         path: "updateproduct/:productid",
         element: <UpdateProduct/>,
+      },
+      {
+        path: "allorders",
+        element: <Allorders/>,
       },
       {
         path: "allreviews",
