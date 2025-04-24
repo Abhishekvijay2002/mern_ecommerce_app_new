@@ -14,9 +14,10 @@ mongoose.connect(process.env.database_connect ).then((res) =>{
     console.log(err);
 })
 app.use(cors({
-    origin : "https://mern-ecommerce-app-new-xaci.vercel.app/" ,
-    credentials : true
-}))
+    origin: process.env.FRONTEND_URL,  // Removed the trailing slash
+    credentials: true
+}));
+
 app.use(cookieparser())
 app.use("/api",manageRouter)
 app.get("/", (req ,res ) => {
