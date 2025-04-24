@@ -16,7 +16,7 @@ import AdminLayout from "../layout/AdminLayout.jsx";
 import BecomeaSeller from "../pages/BecomeaSeller.jsx";
 import SellerLayout from "../layout/SellerLayout.jsx";
 import SellerRequest from "../pages/SellerRequest.jsx";
-import Allusers from "../pages/admin/allusers.jsx";
+import Allusers from "../pages/admin/AllUsers.jsx";
 import AllSellers from "../pages/admin/AllSellers.jsx";
 import Allproducts from "../pages/admin/Allproducts.jsx";
 import AddProduct from "../pages/admin/AddProduct.jsx";
