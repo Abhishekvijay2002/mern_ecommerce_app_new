@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { GetAllUsers, userDelete } from '../../services/UserService';
+import { GetAllUsers, userDelete } from '../services/UserService';
 
 function Allusers() {
     const [users, setUser] = useState([]);
