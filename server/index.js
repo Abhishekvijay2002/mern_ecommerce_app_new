@@ -14,7 +14,7 @@ mongoose.connect(process.env.database_connect ).then((res) =>{
     console.log(err);
 })
 app.use(cors({
-    origin : process.env.FRONTEND_URL ,
+    origin : "https://mern-ecommerce-app-new-xaci.vercel.app/" ,
     credentials : true
 }))
 app.use(cookieparser())
