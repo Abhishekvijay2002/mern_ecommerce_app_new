@@ -15,8 +15,7 @@ import SignupPage from "../pages/SignupPage.jsx";
 import AdminLayout from "../layout/AdminLayout.jsx";
 import BecomeaSeller from "../pages/BecomeaSeller.jsx";
 import SellerLayout from "../layout/SellerLayout.jsx";
-import SellerRequest from "../pages/SellerRequest.jsx";
-import Allusers from "../pages/admin/AllUsers.jsx";
+import SellerRequest from "../pages/SellerRequest.jsx";;
 import AllSellers from "../pages/admin/AllSellers.jsx";
 import Allproducts from "../pages/admin/Allproducts.jsx";
 import AddProduct from "../pages/admin/AddProduct.jsx";
@@ -27,6 +26,7 @@ import Allreviews from "../pages/admin/Allreviews.jsx";
 import Addreply from "../pages/Addreply.jsx";
 import CategoryManagement from "../pages/admin/ManageCategory.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
+import AllUsers  from "../pages/admin/AllUsers.jsx"
 
 export const router = createBrowserRouter([
   {
@@ -140,7 +140,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "userlist",
-        element: <Allusers/>,
+        element: <AllUsers/>,
       },
       {
         path: "sellerlist",
