@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { AddProduct,  GetAllCategory } from "../../services/UserService";
+import { useNavigate } from "react-router-dom";
 
-const CreateProduct = () => {
+const CreateProductbyseller = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -48,15 +50,17 @@ const CreateProduct = () => {
       data.append("stock", formData.stock);
       data.append("category", formData.category);
 
-      // Append all images
+  
       formData.images.forEach((image) => {
-        data.append("images", image); // backend should use upload.array("image")
+        data.append("images", image);
       });
 
       const response = await AddProduct(data);
       toast.success("Product created successfully");
       console.log(response.data);
+      navigate("/seller/dashboard");
     } catch (error) {
+      console.log(error)
       toast.error(error.response?.data?.error || "Something went wrong!");
     }
   };
@@ -132,4 +136,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default CreateProductbyseller;

@@ -100,7 +100,6 @@ const ProductDetails = () => {
             <button onClick={addToCartHandler} className="px-4 py-2 bg-black text-white rounded">
               Add to Cart
             </button>
-            <button className="px-4 py-2 bg-black text-white rounded">Buy Now</button>
           </div>
         </div>
       </div>

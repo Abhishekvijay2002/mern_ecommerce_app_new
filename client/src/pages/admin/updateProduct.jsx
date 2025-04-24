@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Getproductbyid, UpdateProductbyid } from "../../services/UserService";
 
 const UpdateProduct = () => {
   const { productid } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -16,7 +17,7 @@ const UpdateProduct = () => {
   useEffect(() => {
     Getproductbyid(productid)
       .then((res) => {
-        const { title, description, price, stock, category } = res.data;
+        const { title, description, price, stock, category, images } = res.data;
         setFormData((prev) => ({
           ...prev,
           title,
@@ -24,6 +25,7 @@ const UpdateProduct = () => {
           price,
           stock,
           category,
+          images, // Ensure images are also set in the state
         }));
       })
       .catch((error) => {
@@ -60,6 +62,7 @@ const UpdateProduct = () => {
       const response = await UpdateProductbyid(productid, data);
       console.log(response.data);
       alert("Product updated successfully!");
+      navigate("/admin/dashboard");
     } catch (error) {
       alert(error.response?.data?.message || "Update failed");
     }
@@ -72,14 +75,14 @@ const UpdateProduct = () => {
         <input
           type="text"
           name="title"
-          value={formData.title}
+          value={formData.title || ""} // ensure value is never undefined or null
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
         <textarea
           name="description"
-          value={formData.description}
+          value={formData.description || ""}
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -87,7 +90,7 @@ const UpdateProduct = () => {
         <input
           type="number"
           name="price"
-          value={formData.price}
+          value={formData.price || ""}
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -95,7 +98,7 @@ const UpdateProduct = () => {
         <input
           type="number"
           name="stock"
-          value={formData.stock}
+          value={formData.stock || ""}
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -103,16 +106,16 @@ const UpdateProduct = () => {
         <input
           type="text"
           name="category"
-          value={formData.category}
+          value={formData.category || ""}
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
         />
         <input
           type="file"
-          name="images" // changed from 'image' to 'images'
+          name="images"
           accept="image/*"
-          multiple // ✅ allow multiple image selection
+          multiple
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none"
         />

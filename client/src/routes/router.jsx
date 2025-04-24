@@ -27,6 +27,11 @@ import Addreply from "../pages/Addreply.jsx";
 import CategoryManagement from "../pages/admin/ManageCategory.jsx";
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 import AllUsers from "../pages/AllUsers.jsx"
+import AllProducts from "../pages/seller/Allproduct.jsx";
+import UpdateProductbyseller from "../pages/seller/UpdateproductByseller.jsx";
+import ManageReviewByseller from "../pages/seller/ManageReviewBySeller.jsx";
+import AddReplyBySeller from "../pages/shared/AddReplyBySeller.jsx";
+import CreateProductbyseller from "../pages/seller/AddproductByseller.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -188,27 +193,27 @@ export const router = createBrowserRouter([
     children: [
        {
         path: "dashboard",
-        element: <div><h1>hiii</h1></div>, // Removed the extra ">"
+        element: <div><h1>hiii</h1></div>,
       },
       {
         path: "productlist",
-        element: <Allproducts/>,
+        element: <AllProducts/>,
       },
       {
         path: "addproduct",
-        element: <AddProduct/>,
+        element: <CreateProductbyseller/>,
       },
       {
         path: "updateproduct/:productid",
-        element: <UpdateProduct/>,
+        element: <UpdateProductbyseller/>,
       },
       {
         path: "allreviews",
-        element: <Allreviews/>,
+        element: <ManageReviewByseller/>,
       },
       {
         path: "addreply/:reviewid",
-        element:<Addreply/>,
+        element:<AddReplyBySeller/>,
       },
 
     ]

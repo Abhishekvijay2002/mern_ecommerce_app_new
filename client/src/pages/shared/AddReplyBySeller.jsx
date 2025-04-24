@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { toast } from "sonner";
-import { useNavigate, useParams } from "react-router-dom";
-import { addReply } from "../services/UserService";
+import { toast } from 'sonner';
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom"; 
+import { addReply } from "../../services/UserService";
 
-const AddReply = () => {
-  const navigate = useNavigate();
-  const { reviewid } = useParams(); // Make sure this matches the route param in your React Router config
+const AddReplyBySeller = () => {
+  const { reviewid } = useParams(); // Ensure it matches backend param name
   const [values, setValues] = useState({
-    comment: "",
+    comment: '',
   });
+  const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    
+    // Debugging check
     if (!reviewid) {
       toast.error("Review ID is missing!");
       console.error("Review ID is undefined");
@@ -20,10 +22,11 @@ const AddReply = () => {
     }
 
     try {
-      const res = await addReply(reviewid, { Comment: values.comment }); // Ensure `Comment` is what the backend expects
+      const res = await addReply(reviewid, { Comment: values.comment }); // Ensure field matches backend
       console.log("Response:", res);
       toast.success("Review reply submitted successfully!");
-      navigate("/admin/allreviews");
+      navigate("/seller/allreviews");
+
     } catch (err) {
       toast.error(err.response?.data?.error || "Failed!");
       console.error("Error:", err);
@@ -47,13 +50,11 @@ const AddReply = () => {
                 id="comment"
                 name="comment"
                 value={values.comment}
-                onChange={(e) =>
-                  setValues({ ...values, comment: e.target.value })
-                }
+                onChange={(e) => setValues({ ...values, comment: e.target.value })}
                 className="w-full p-2 border rounded-lg bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
               />
             </div>
-            <button
+            <button 
               type="submit"
               className="w-full px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
             >
@@ -66,4 +67,4 @@ const AddReply = () => {
   );
 };
 
-export default AddReply;
+export default AddReplyBySeller;

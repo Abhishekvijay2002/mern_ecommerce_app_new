@@ -19,7 +19,7 @@ app.use(cors({
 }));
 
 app.use(cookieparser())
-app.use("/api",manageRouter)
+app.use("/",manageRouter)
 app.get("/", (req ,res ) => {
     res.json("server started")
 })

@@ -22,7 +22,16 @@ function Allorders() {
 
     const handleUpdate = async (id, status) => {
         try {
+            // Update the order status in the backend
             await updateOrder(id, { orderstatus: status });
+            
+            // Update the order status locally for real-time updating
+            setorder((prevOrders) => 
+                prevOrders.map((order) =>
+                    order._id === id ? { ...order, orderstatus: status } : order
+                )
+            );
+            
             toast.success(`Order status updated to ${status}`);
         } catch (error) {
             console.log(error);
@@ -45,7 +54,7 @@ function Allorders() {
                     </thead>
                     <tbody>
                         {allorders.length > 0 ? (
-                            allorders.map(order => (
+                            allorders.map((order) => (
                                 <tr key={order._id} className="border-b border-gray-300 hover:bg-gray-100 transition">
                                     <td className="py-3 px-6">{order._id}</td>
                                     <td className="py-3 px-6">{order.userId.name}</td>

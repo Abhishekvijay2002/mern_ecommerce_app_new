@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Getproductbyid, UpdateProductbyid } from "../../services/UserService";
 
-const UpdateProduct = () => {
+const UpdateProductbyseller = () => {
   const { productid } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -60,8 +61,11 @@ const UpdateProduct = () => {
       const response = await UpdateProductbyid(productid, data);
       console.log(response.data);
       alert("Product updated successfully!");
+      navigate("/seller/dashboard");
+
     } catch (error) {
       alert(error.response?.data?.message || "Update failed");
+      console.log(error);
     }
   };
 
@@ -127,4 +131,4 @@ const UpdateProduct = () => {
   );
 };
 
-export default UpdateProduct;
+export default UpdateProductbyseller;

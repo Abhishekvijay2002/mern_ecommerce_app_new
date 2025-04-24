@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { addReview } from "../services/UserService";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const ReviewPage = () => {
    const [newReview, setNewReview] = useState("");
    const [rating, setRating] = useState(0);
    const { productid } = useParams();
+   const navigate = useNavigate();
 
    const handleAddReview = () => {
       const data = {
@@ -20,6 +22,7 @@ const ReviewPage = () => {
             toast.success("Review added successfully!");
             setNewReview("");
             setRating(0);
+            navigate(`/productdetails/${productid}`);
          })
          .catch((error) => {
             toast.error("Failed to add review!");

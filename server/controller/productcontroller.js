@@ -222,48 +222,100 @@ const getProductsByCategory = async (req, res) => {
   }
 };
 
-
 const updateProduct = async (req, res) => {
   try {
     const { title, description, price, stock, category, offerPrice } = req.body;
     const product = await productModel.findById(req.params.productid);
 
-    if (!product) return res.status(404).json({ message: "Product not found" });
-
-    if (req.userId.role === 'seller' && product.createdBy.toString() !== req.userId.id) {
-      return res.status(403).json({ message: "Unauthorized" });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
+    // Ensure 'addedBy' is defined before using toString()
+    if (req.userId.role === 'seller') {
+      if (!product.addedBy) {
+        return res.status(400).json({ message: "'addedBy' field is missing in the product" });
+      }
+
+      // Check if the user trying to update the product is the seller who added it
+      if (product.addedBy.toString() !== req.userId.id) {
+        return res.status(403).json({ message: "Unauthorized" });
+      }
+    }
+
+    // Handle image uploads if any
     let imageUrls = product.image;
     if (req.files && req.files.length > 0) {
       imageUrls = await Promise.all(req.files.map(file => uploadToCloudinary(file.path)));
     }
 
+    // Update the product with the new data
     const updatedProduct = await productModel.findByIdAndUpdate(
       req.params.productid,
-      { title, description, price, stock, category, offerPrice, image: imageUrls },
+      { 
+        title, 
+        description, 
+        price, 
+        stock, 
+        category, 
+        offerPrice, 
+        image: imageUrls 
+      },
       { new: true }
     );
 
-    res.status(200).json({ message: "Product updated", updatedProduct });
+    res.status(200).json({ message: "Product updated successfully", updatedProduct });
+
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
 
+
+
 const deleteProduct = async (req, res) => {
   try {
-    const product = await productModel.findById(req.params.productid);
-    if (!product) return res.status(404).json({ message: "Product not found" });
-
-    if (req.userId.role === 'seller' && product.createdBy.toString() !== req.userId.id) {
-      return res.status(403).json({ message: "Unauthorized" });
+    // Check if user info is attached
+    if (!req.userId) {
+      return res.status(401).json({ message: "Unauthorized. No user data." });
     }
 
+    // Log IDs for debugging
+    console.log("Requested Product ID:", req.params.productid);
+    console.log("User ID:", req.userId.id);
+    console.log("User Role:", req.userId.role);
+
+    // Fetch product
+    const product = await productModel.findById(req.params.productid);
+
+    // Check if product exists
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Log createdBy info
+    console.log("Product createdBy:", product.createdBy?.toString());
+
+    // Restrict delete for sellers who don’t own the product
+    if (
+      req.userId.role === 'seller' &&
+      product.createdBy &&
+      product.createdBy.toString() !== req.userId.id
+    ) {
+      return res.status(403).json({ message: "Unauthorized: Not your product" });
+    }
+
+    // Delete product
     await productModel.findByIdAndDelete(req.params.productid);
-    res.status(200).json({ message: "Product deleted" });
+
+    // Success
+    return res.status(200).json({ message: "Product deleted successfully" });
+
   } catch (error) {
-    res.status(500).json({ message: error.message || "Internal Server Error" });
+    // Log and return error
+    console.error("Error while deleting product:", error);
+    return res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
 

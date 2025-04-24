@@ -22,6 +22,13 @@ const OrderHistory = () => {
     
     cancelOrder(id).then(() => {
         toast.success("Order canceled successfully!");
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order._id === id
+              ? { ...order, orderstatus: "Cancelled" } // Update status
+              : order
+          )
+        );
       })
       .catch((error) => {
         console.error("Error canceling order:", error.message);

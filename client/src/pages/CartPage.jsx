@@ -116,7 +116,7 @@ const CartPage = () => {
                     alt={item.productid.title}
                     className="w-12 h-12 rounded"
                   />
-                  <span>{item.productid.title}</span>
+                  <span>{item.productid.title.slice(0,70)}</span>
                 </td>
                 <td>${item.price}</td>
                 <td>

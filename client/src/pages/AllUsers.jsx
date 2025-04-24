@@ -18,17 +18,18 @@ function Allusers() {
             });
     }, []);
 
-     const handleDelete = (id) => {
-          userDelete(id)
+    const handleDelete = (id) => {
+        userDelete(id)
             .then(() => {
-              toast.success("User account deleted successfully!");
+                // Remove deleted user from the state to immediately update the UI
+                setUser(users.filter(user => user._id !== id));
+                toast.success("User account deleted successfully!");
             })
             .catch((error) => {
                 console.log(error);
-              toast.error("Failed to delete user account.");
-
+                toast.error("Failed to delete user account.");
             });
-      };
+    };
 
     return (
         <div className="p-6 bg-gray-100 min-h-full">
@@ -53,26 +54,25 @@ function Allusers() {
                                         {user.role}
                                     </td>
                                     <td className="py-3 px-6 text-center">
-                                                <div className="flex justify-center gap-2">
-                                                    <button
-                                                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-                                                    >
-                                                        view Details
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(user._id)}
-                                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-                                                    >
-                                                        delete
-                                                    </button>
-
-                                                </div>
-                                            </td>
+                                        <div className="flex justify-center gap-2">
+                                            <button
+                                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+                                            >
+                                                View Details
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(user._id)}
+                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="3" className="py-3 px-6 text-center text-gray-500">
+                                <td colSpan="4" className="py-3 px-6 text-center text-gray-500">
                                     No users available
                                 </td>
                             </tr>

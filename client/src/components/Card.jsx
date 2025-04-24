@@ -51,7 +51,7 @@ function Card({ product }) {
       {/* Content */}
       <div className="p-4 text-center">
         {/* Product Name */}
-        <h2 className="text-lg font-semibold text-gray-800">{Product.title}</h2>
+        <h2 className="text-lg font-semibold text-gray-800">{Product.title.slice(0,17)}</h2>
 
         {/* Price */}
         <p className="text-sm text-gray-500 mt-2">₹{Product.price}</p>

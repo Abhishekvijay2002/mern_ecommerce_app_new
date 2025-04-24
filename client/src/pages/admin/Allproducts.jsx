@@ -26,6 +26,8 @@ function AllProducts() {
           DeleteProduct(id)
             .then(() => {
               toast.success("product deleted successfully!");
+              setproducts((prevProducts) =>
+                prevProducts.filter((product) => product._id !== id) );
             })
             .catch((error) => {
                 console.log(error);

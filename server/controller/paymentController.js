@@ -11,7 +11,7 @@ const paymentFunction = async (req, res) => {
                 currency: 'inr',
                 product_data: {
                     name: product.title,
-                    images: [product.image],
+                    images: [product.image[0]],
                 },
                 unit_amount: Math.round(product.price * 100),
             },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { AddProduct,  GetAllCategory } from "../../services/UserService";
+import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const CreateProduct = () => {
   });
 
   const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -55,6 +57,8 @@ const CreateProduct = () => {
 
       const response = await AddProduct(data);
       toast.success("Product created successfully");
+      navigate("/admin/dashboard");
+
       console.log(response.data);
     } catch (error) {
       toast.error(error.response?.data?.error || "Something went wrong!");

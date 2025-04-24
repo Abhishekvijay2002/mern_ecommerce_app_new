@@ -1,6 +1,7 @@
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModels');
 const mongoose = require("mongoose");
+const productM0del = require('../models/productM0del');
 
 const addOrder = async (req, res) => {
     try {
@@ -36,8 +37,11 @@ const addOrder = async (req, res) => {
             const productId = item.productid._id;
             const quantity = item.quantity;
 
-            await Product.findByIdAndUpdate(productId, {
-                $inc: { salesCount: quantity }
+            await productM0del.findByIdAndUpdate(productId, {
+                $inc: {
+                    stock: -quantity,
+                    salesCount: quantity
+                }
             });
         }
 
@@ -105,14 +109,27 @@ const cancelOrder = async (req, res) => {
         if (order.orderstatus !== "pending") {
             return res.status(400).json({ message: "Order cannot be canceled" });
         }
+
         order.orderstatus = "cancelled";
         await order.save();
+
+        // Loop through each product in the order to revert stock and salesCount
+        for (const item of order.product) {
+            await productM0del.findByIdAndUpdate(item.productid, {
+                $inc: {
+                    stock: item.quantity,
+                    salesCount: -item.quantity
+                }
+            });
+        }
+
         res.status(200).json({ message: "Order cancelled successfully", order });
     } catch (error) {
-        console.log(error)
-        res.status(error.status || 500).json({ error: error.message || "Intenal Server Error" })
+        console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
     }
 };
+
 
 module.exports = {
     addOrder,

@@ -36,10 +36,11 @@ function SellerRequest() {
         approveSellerRequest(id)
             .then(() => {
                 toast.success("Seller Request Approved");
+                // Filter out the approved request from the list
                 setSeller((prev) =>
                     prev.map((request) =>
                         request._id === id ? { ...request, sellerApprovalStatus: "approved" } : request
-                    )
+                    ).filter((request) => request.sellerApprovalStatus !== "approved")
                 );
             })
             .catch((err) => {

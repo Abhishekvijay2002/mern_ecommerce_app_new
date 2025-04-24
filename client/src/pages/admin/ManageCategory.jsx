@@ -9,6 +9,7 @@ const CategoryManagement = () => {
   const [editCategory, setEditCategory] = useState({ id: '', name: '', image: null });
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState(''); // New state for search
 
   // Load categories when the component mounts
   useEffect(() => {
@@ -70,9 +71,24 @@ const CategoryManagement = () => {
     }
   };
 
+  // Filter categories based on the search term
+  const filteredCategories = categories.filter(category =>
+    category.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="p-6 bg-gray-100 min-h-full">
       <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Categories</h2>
+      
+      {/* Search input for filtering categories */}
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search Categories..."
+        className="border p-2 w-full mb-4 rounded"
+      />
+
       <button
         onClick={() => setIsAddModalOpen(true)}
         className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition mb-4"
@@ -90,8 +106,8 @@ const CategoryManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {categories.length > 0 ? (
-              categories.map((category) => (
+            {filteredCategories.length > 0 ? (
+              filteredCategories.map((category) => (
                 <tr key={category._id} className="border-b border-gray-300 hover:bg-gray-100 transition">
                   <td className="py-3 px-6">{category.name}</td>
                   <td className="py-3 px-6 text-center">
@@ -195,5 +211,3 @@ const CategoryManagement = () => {
 };
 
 export default CategoryManagement;
-
-
