@@ -10,7 +10,6 @@ import OrderSuccess from "../pages/OrderSuccess.jsx";
 import OrderHistory from "../pages/OrderHistory.jsx";
 import ProfilePage from "../pages/Profile.jsx";
 import SupportHelp from "../pages/Support.jsx";
-import RequestPending from "../pages/RequestPending.jsx";
 import UserLayout from "../layout/UserLayout.jsx";
 import SignupPage from "../pages/SignupPage.jsx";
 import AdminLayout from "../layout/AdminLayout.jsx";
@@ -70,8 +69,6 @@ export const router = createBrowserRouter([
             <CartPage/>
           </ProtectedRoute>
         )
-        
-        // element: <CartPage />,
       },
 
       {
