@@ -62,7 +62,7 @@ const ProductDetails = () => {
             alt="Selected"
             className="w-80 h-80 object-cover rounded"
           />
-          
+
           {/* Thumbnail Images Section Below Main Image */}
           <div className="flex space-x-4 mt-4">
             {product.image?.map((imgUrl, index) => (
@@ -70,9 +70,8 @@ const ProductDetails = () => {
                 key={index}
                 src={imgUrl}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 object-cover rounded cursor-pointer ${
-                  selectedImage === imgUrl ? "border-4 border-blue-500" : ""
-                }`}
+                className={`w-20 h-20 object-cover rounded cursor-pointer ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""
+                  }`}
                 onClick={() => handleImageClick(imgUrl)} // Change selected image on click
               />
             ))}
@@ -84,14 +83,20 @@ const ProductDetails = () => {
           <div>
             <h2 className="text-xl font-bold">{product.title}</h2>
             <p className="text-sm text-gray-500 mt-1">{product.category}</p> {/* Added Category */}
-            <div className="flex items-center space-x-2 mt-2">
-
-              <span className="text-lg font-semibold">{product.price}</span>
-              {product.offerPrice && (
-                <span className="text-sm text-gray-500 line-through">{product.offerPrice}</span> // If there's an offer price, show it
+            <p className="text-xs md:text-sm text-gray-500 mt-2">
+              {product.offerPrice ? (
+                <>
+                  <span className="text-red-500 font-bold text-2xl pr-1">₹{product.offerPrice}</span>
+                  <span className="text-gray-500 line-through">₹{product.price}</span>{' '}
+                  
+                </>
+              ) : (
+                `₹${product.price}`
               )}
-            </div>
-            
+            </p>
+
+
+
             <p className="mt-4 text-gray-600">{product.description}</p>
           </div>
 

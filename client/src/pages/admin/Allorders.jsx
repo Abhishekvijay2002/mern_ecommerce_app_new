@@ -1,88 +1,138 @@
-import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { updateOrder, getAllOrders } from "../../services/UserService";
+import { AddProduct, GetAllCategory } from "../../services/UserService";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-function Allorders() {
-    const [allorders, setorder] = useState([]);
+const CreateProductbyseller = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    price: "",
+    stock: "",
+    category: "",
+    images: [], // supports multiple images
+  });
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const res = await getAllOrders();
-                setorder(res.data);
-                console.log(res.data);
-                toast.success("Orders Fetched");
-            } catch (err) {
-                console.error(err);
-                toast.error("Error Fetching Orders");
-            }
-        };
-        fetchOrders();
-    }, []);
+  const [categories, setCategories] = useState([]);
 
-    const handleUpdate = async (id, status) => {
-        try {
-            // Update the order status in the backend
-            await updateOrder(id, { orderstatus: status });
-            
-            // Update the order status locally for real-time updating
-            setorder((prevOrders) => 
-                prevOrders.map((order) =>
-                    order._id === id ? { ...order, orderstatus: status } : order
-                )
-            );
-            
-            toast.success(`Order status updated to ${status}`);
-        } catch (error) {
-            console.log(error);
-            toast.error("Failed to update order.");
-        }
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await GetAllCategory();
+        setCategories(res.data);
+      } catch (err) {
+        toast.error("Failed to fetch categories");
+      }
     };
 
-    return (
-        <div className="p-6 bg-gray-100 min-h-full">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Orders</h2>
-            <div className="overflow-x-auto shadow-lg rounded-lg">
-                <table className="min-w-full bg-white border rounded-lg">
-                    <thead className="bg-gray-200 text-gray-700 uppercase text-sm">
-                        <tr>
-                            <th className="py-3 px-6 text-left">Order ID</th>
-                            <th className="py-3 px-6 text-left">User Name</th>
-                            <th className="py-3 px-6 text-left">Total Amount</th>
-                            <th className="py-3 px-6 text-left">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {allorders.length > 0 ? (
-                            allorders.map((order) => (
-                                <tr key={order._id} className="border-b border-gray-300 hover:bg-gray-100 transition">
-                                    <td className="py-3 px-6">{order._id}</td>
-                                    <td className="py-3 px-6">{order.userId.name}</td>
-                                    <td className="py-3 px-6 text-yellow-600 font-medium">{order.totalamount}</td>
-                                    <td className="py-3 px-6 text-center">
-                                        <select
-                                            value={order.orderstatus}
-                                            onChange={(e) => handleUpdate(order._id, e.target.value)}
-                                            className="p-2 border border-gray-300 rounded-md"
-                                        >
-                                            <option value="pending">Pending</option>
-                                            <option value="shipped">Shipped</option>
-                                            <option value="delivered">Delivered</option>
-                                            <option value="cancelled">Cancelled</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5" className="py-3 px-6 text-center text-gray-500">No orders available</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-}
+    fetchCategories();
+  }, []);
 
-export default Allorders;
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "images") {
+      setFormData({ ...formData, images: Array.from(files) }); // multiple files
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = new FormData();
+
+      // Append all fields
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("stock", formData.stock);
+      data.append("category", formData.category);
+
+      formData.images.forEach((image) => {
+        data.append("images", image);
+      });
+
+      const response = await AddProduct(data);
+      toast.success("Product created successfully");
+      console.log(response.data);
+      navigate("/seller/dashboard");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data?.error || "Something went wrong!");
+    }
+  };
+
+  return (
+    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white sm:p-6 md:p-10">
+      <h2 className="text-2xl font-bold mb-6 text-center sm:text-xl md:text-2xl">Create Product</h2>
+      <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+        />
+        <input
+          type="number"
+          name="stock"
+          placeholder="Stock"
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+        />
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+        >
+          <option value="">Select Category</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="file"
+          name="images"
+          accept="image/*"
+          multiple
+          onChange={handleChange}
+          required
+          className="w-full p-3 border rounded-lg focus:outline-none sm:p-2 md:p-3"
+        />
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200 sm:p-2 md:p-3"
+        >
+          Create Product
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default CreateProductbyseller;

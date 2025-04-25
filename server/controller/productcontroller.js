@@ -106,6 +106,7 @@ const searchProducts = async (req, res) => {
 const setOfferprice = async (req, res) => {
   try {
     const { offerPrice } = req.body;
+    console.log("offerprice" , offerPrice)
     const { productid } = req.params;
     const userId = req.userId.id;
     const userRole = req.userId.role;

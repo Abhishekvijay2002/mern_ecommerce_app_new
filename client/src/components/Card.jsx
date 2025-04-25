@@ -16,8 +16,6 @@ function Card({ product }) {
     imageSrc = 'https://via.placeholder.com/300x200?text=No+Image';
   }
 
-
-
   const handleClick = () => {
     navigate(`/productdetails/${product._id}`);
   };
@@ -39,27 +37,38 @@ function Card({ product }) {
   return (
     <div
       onClick={handleClick}
-      className="max-w-80 rounded overflow-hidden shadow-lg bg-white border border-gray-200 hover:shadow-xl transition-shadow cursor-pointer"
+      className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 hover:shadow-xl transition-shadow cursor-pointer sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl"
     >
       {/* Product Image */}
       <img
-        className="w-full h-80 object-cover"
+        className="w-full h-60 md:h-80 object-cover"
         src={imageSrc}
         alt={Product.title}
       />
 
       {/* Content */}
-      <div className="p-4 text-center">
+      <div className="p-2 md:p-4 text-center">
         {/* Product Name */}
-        <h2 className="text-lg font-semibold text-gray-800">{Product.title.slice(0,17)}</h2>
+        <h2 className="text-sm md:text-lg font-semibold text-gray-800">{Product.title.slice(0,17)}</h2>
 
-        {/* Price */}
-        <p className="text-sm text-gray-500 mt-2">₹{Product.price}</p>
+        
+        <p className="text-xs md:text-sm text-gray-500 mt-2">
+  {Product.offerPrice ? (
+    <>
+      <span className="text-red-500 font-bold text-xl pr-1">₹{Product.offerPrice}</span>
+      <span className="text-gray-500 line-through">₹{Product.price}</span>{' '}
+      
+    </>
+  ) : (
+    `₹${Product.price}`
+  )}
+</p>
 
-        {/* Add to Cart Button */}
+
+        
         <button
           onClick={(event) => addCourseToCart(Product._id, event)}
-          className="mt-4 px-4 py-2 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
+          className="mt-4 px-3 md:px-4 py-1 md:py-2 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
         >
           Add to Cart
         </button>

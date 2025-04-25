@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { AddProduct,  GetAllCategory } from "../../services/UserService";
+import { AddProduct, GetAllCategory } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 
 const CreateProduct = () => {
@@ -31,7 +31,7 @@ const CreateProduct = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
+    if (name === "images") {
       setFormData({ ...formData, images: Array.from(files) }); // multiple files
     } else {
       setFormData({ ...formData, [name]: value });
@@ -52,7 +52,7 @@ const CreateProduct = () => {
 
       // Append all images
       formData.images.forEach((image) => {
-        data.append("images", image); // backend should use upload.array("image")
+        data.append("images", image); // backend should use upload.array("images")
       });
 
       const response = await AddProduct(data);
@@ -66,8 +66,8 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create Product</h2>
+    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white sm:p-6 md:p-10">
+      <h2 className="text-2xl font-bold mb-6 text-center sm:text-xl md:text-2xl">Create Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <input
           type="text"
@@ -75,14 +75,14 @@ const CreateProduct = () => {
           placeholder="Title"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         />
         <textarea
           name="description"
           placeholder="Description"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         />
         <input
           type="number"
@@ -90,7 +90,7 @@ const CreateProduct = () => {
           placeholder="Price"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         />
         <input
           type="number"
@@ -98,14 +98,14 @@ const CreateProduct = () => {
           placeholder="Stock"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         />
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         >
           <option value="">Select Category</option>
           {categories.map((cat) => (
@@ -122,12 +122,12 @@ const CreateProduct = () => {
           multiple
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none"
+          className="w-full p-3 border rounded-lg focus:outline-none sm:p-2 md:p-3"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200 sm:p-2 md:p-3"
         >
           Create Product
         </button>
@@ -137,3 +137,4 @@ const CreateProduct = () => {
 };
 
 export default CreateProduct;
+

@@ -10,16 +10,16 @@ import { useNavigate } from "react-router-dom";
 
 function AllProducts() {
   const navigate = useNavigate();
-  const [products, setproducts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [offerPrice, setOfferPrice] = useState("");
-  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const res = await listProducts();
-        setproducts(res.data);
+        setProducts(res.data);
         toast.success("Products Fetched");
       } catch (err) {
         console.error(err);
@@ -33,50 +33,41 @@ function AllProducts() {
     DeleteProduct(id)
       .then(() => {
         toast.success("Product deleted successfully!");
-        setproducts((prevProducts) =>
+        setProducts((prevProducts) =>
           prevProducts.filter((product) => product._id !== id)
         );
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         toast.error("Failed to delete product.");
       });
   };
 
-  const openOfferModal = (id) => {
-    setSelectedProductId(id);
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-    setOfferPrice("");
-    setSelectedProductId(null);
-  };
-
   const handleAddOffer = () => {
     if (!offerPrice) {
-      toast.error("Please enter a valid offer price.");
+      toast.error("Please enter an offer price!");
       return;
     }
-
-    addOffers(selectedProductId,  offerPrice )
+    addOffers(selectedProduct, offerPrice) // Fix: Pass offerPrice correctly
       .then(() => {
-        toast.success("Offer added successfully!");
-        closeModal();
+        toast.success("Offer price added successfully!");
+        setIsModalOpen(false);
+        setOfferPrice("");
       })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to add offer.");
+      .catch((error) => {
+        console.error(error);
+        toast.error("Failed to add offer price.");
       });
   };
+  
 
-  const handleRemoveOffer = (id) => {
-    removeOffers(id).then(() => {
+  const handleremoveoffers = (id) => {
+    removeOffers(id)
+      .then(() => {
         toast.success("Offer removed successfully!");
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((error) => {
+        console.error(error);
         toast.error("Failed to remove offer.");
       });
   };
@@ -91,101 +82,71 @@ function AllProducts() {
               <th className="py-3 px-6 text-left">Product Name</th>
               <th className="py-3 px-6 text-left">Category</th>
               <th className="py-3 px-6 text-left">Price</th>
-              <th className="py-3 px-6 text-left">Image</th>
               <th className="py-3 px-6 text-left">Action</th>
             </tr>
           </thead>
           <tbody>
-            {products.length > 0 ? (
-              products.map((product) => (
-                <tr
-                  key={product._id}
-                  className="border-b border-gray-300 hover:bg-gray-100 transition"
-                >
-                  <td className="py-3 px-6">{product.title}</td>
-                  <td className="py-3 px-6">{product.category}</td>
-                  <td className="py-3 px-6 text-yellow-600 font-medium">
-                    ₹{product.price}
-                  </td>
-                  <td className="py-3 px-6">
-                    <img
-                      src={product.image[0]}
-                      alt="Product"
-                      className="w-16 h-16 object-cover rounded-lg"
-                    />
-                  </td>
-                  <td className="py-3 px-6 text-center">
-                    <div className="flex justify-center gap-2 flex-wrap">
-                      <button
-                        onClick={() => handleDelete(product._id)}
-                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
-                      >
-                        Delete
-                      </button>
-                      <button
-                        onClick={() =>
-                          navigate(`/admin/updateproduct/${product._id}`)
-                        }
-                        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => openOfferModal(product._id)}
-                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-                      >
-                        Add Offer
-                      </button>
-                      <button
-                        onClick={() => handleRemoveOffer(product._id)}
-                        className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
-                      >
-                        Remove Offer
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan="5"
-                  className="py-3 px-6 text-center text-gray-500"
-                >
-                  No products available
+            {products.map((product) => (
+              <tr key={product._id} className="border-b hover:bg-gray-100">
+                <td className="py-3 px-6">{product.title}</td>
+                <td className="py-3 px-6">{product.category}</td>
+                <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.price}</td>
+                <td className="py-3 px-6 flex gap-2">
+                  <button 
+                    onClick={() => handleDelete(product._id)} 
+                    className="bg-red-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Delete
+                  </button>
+                  <button 
+                    onClick={() => navigate(`/admin/updateproduct/${product._id}`)} 
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Edit
+                  </button>
+                  <button 
+                    onClick={() => { setSelectedProduct(product._id); setIsModalOpen(true); }} 
+                    className="bg-green-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Add Offer
+                  </button>
+                  <button 
+                    onClick={() => handleremoveoffers(product._id)} 
+                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                  >
+                    Remove Offer
+                  </button>
                 </td>
               </tr>
-            )}
+            ))}
           </tbody>
         </table>
       </div>
 
-      {/* Offer Modal */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-40 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-[90%] max-w-md shadow-lg">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800">
-              Enter Offer Price
-            </h3>
-            <input
-              type="number"
-              value={offerPrice}
-              onChange={(e) => setOfferPrice(e.target.value)}
-              placeholder="Enter offer price"
-              className="w-full px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+      {/* Offer Price Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Enter Offer Price</h2>
+            <input 
+              type="number" 
+              value={offerPrice} 
+              onChange={(e) => setOfferPrice(e.target.value)} 
+              className="border px-4 py-2 w-full mb-4"
+              placeholder="Enter price..."
             />
             <div className="flex justify-end gap-2">
-              <button
-                onClick={handleAddOffer}
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-              >
-                Add Offer
-              </button>
-              <button
-                onClick={closeModal}
-                className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400 transition"
+              <button 
+                onClick={() => setIsModalOpen(false)} 
+                className="bg-gray-400 text-white px-4 py-2 rounded-md"
               >
                 Cancel
+              </button>
+              <button 
+                onClick={handleAddOffer} 
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              >
+                Confirm Offer
               </button>
             </div>
           </div>
@@ -196,5 +157,6 @@ function AllProducts() {
 }
 
 export default AllProducts;
+
 
 
