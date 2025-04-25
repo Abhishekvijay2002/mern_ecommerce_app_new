@@ -26,13 +26,13 @@ const register = async (req, res) => {
       const saved = await newUser.save()
       if (saved) {
          const token = createToken(saved.id)
-         res.cookie("user_token", token ,{
-            
-               httpOnly: false,
-               secure: process.env.NODE_ENV === "production" ? true : false
-,              sameSite: "lax",
-               path: "/" 
-,
+         res.cookie("user_token", token, {
+
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/"
+            ,
          })
          return res.status(201).json({ message: "User created successfully" })
       }
@@ -60,37 +60,37 @@ const login = async (req, res) => {
       let token;
       if (userExist.role === "seller") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("seller_token", token ,{
-            
-            httpOnly: false,
-            secure: process.env.NODE_ENV === "production" ? true : false ,
-            sameSite: "lax",
-            path: "/" 
+         res.cookie("seller_token", token, {
+
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            path: "/"
 
          });
          res.status(200).json({ message: "Seller login successful", seller: userExist });
       } else if (userExist.role === "admin") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("admin_token", token ,
+         res.cookie("admin_token", token,
             {
-               httpOnly: false,
-               secure: process.env.NODE_ENV === "production" ? true : false ,
-               sameSite: "lax",
-               path: "/" ,
+               httpOnly: true,
+               secure: true,
+               sameSite: "none",
+               path: "/"
 
-         }
-            
+            }
+
          );
          res.status(200).json({ message: "Admin login successful", admin: userExist });
       }
       else {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("user_token", token ,
+         res.cookie("user_token", token,
             {
-               httpOnly: false,
-               secure: process.env.NODE_ENV === "production" ? true : false 
-,              sameSite: "lax",
-               path: "/" ,
+               httpOnly: true,
+               secure: true,
+               sameSite: "none",
+               path: "/"
 
             }
 
@@ -154,7 +154,7 @@ const deleteUser = async (req, res) => {
       if (req.userId.role === "admin") {
          user = req.params.id;
       }
-   console.log(user)
+      console.log(user)
 
       const Userexist = await userModel.findById(user);
       if (!Userexist) {
