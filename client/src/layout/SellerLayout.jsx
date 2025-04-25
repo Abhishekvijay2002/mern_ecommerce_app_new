@@ -11,15 +11,17 @@ function SellerLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = async () => {
-    try {
-      await userLogout();
-      toast.success('Logout successful!');
-      navigate('/');
-    } catch (error) {
-      console.error(error);
-      toast.error('Logout failed!');
-    }
-  };
+     try {
+         localStorage.removeItem("token"); 
+         localStorage.removeItem("user"); 
+ 
+         toast.success("Logged out successfully!");
+         navigate("/");
+     } catch (error) {
+         console.error(error);
+         toast.error("Logout failed!");
+     }
+ };
 
   return (
     <div className="h-screen w-screen flex flex-col">

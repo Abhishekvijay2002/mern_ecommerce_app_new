@@ -12,34 +12,31 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    userLogin({ email, password })
-      .then((res) => {
-        console.log("API Response:", res); 
-  
-        if (!res?.data?.user?.role || !res?.data?.token) {
-          toast.error("Invalid response from server.");
-          return;
-        }
-  
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("user_role", res.data.user.role);
-        console.log("Role:", res.data.user.role);
-  
-        if (res.data.user.role === "admin") {
-          toast.success(res?.data?.message);
-          navigate("/admin/dashboard");
-        } else {
-          toast.success(res?.data?.message);
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        toast.error(err.response?.data?.error || "Login failed!");
-        console.error("Login Error:", err);
-      });
-  
+
+    try {
+      const res = await userLogin({ email, password });
+
+      console.log("API Response:", res);
+
+      if (!res?.data?.user?.role || !res?.data?.token) {
+        toast.error("Invalid response from server.");
+        return;
+      }
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user_role", res.data.user.role);
+
+      console.log("Role:", res.data.user.role);
+
+      toast.success(res?.data?.message || "Login successful!");
+      navigate(res.data.user.role === "admin" ? "/admin/dashboard" : "/");
+    } catch (err) {
+      console.error("Login Error:", err);
+      toast.error(err.response?.data?.error || "Login failed!");
+    }
   };
-  
+
+
+
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -51,29 +48,25 @@ const Login = () => {
 
   return (
     <div
-      className={`min-h-screen ${
-        isDarkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800"
-      } flex items-center justify-center`}
+      className={`min-h-screen ${isDarkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800"
+        } flex items-center justify-center`}
     >
       <div className="absolute top-4 right-4">
         <button
           onClick={toggleTheme}
-          className={`px-4 py-2 rounded-lg ${
-            isDarkMode
+          className={`px-4 py-2 rounded-lg ${isDarkMode
               ? "bg-gray-300 text-gray-800 hover:bg-gray-400"
               : "bg-blue-500 text-white hover:bg-blue-600"
-          }`}
+            }`}
         >
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </button>
       </div>
 
       <div
-        className={`${
-          isDarkMode ? "bg-gray-700" : "bg-white"
-        } rounded-lg shadow-lg p-8 transition-all duration-300 transform hover:scale-105 ${
-          isDarkMode ? "hover:ring-4 hover:ring-blue-500" : ""
-        }`}
+        className={`${isDarkMode ? "bg-gray-700" : "bg-white"
+          } rounded-lg shadow-lg p-8 transition-all duration-300 transform hover:scale-105 ${isDarkMode ? "hover:ring-4 hover:ring-blue-500" : ""
+          }`}
         style={{
           width: "50vw",
         }}
@@ -86,11 +79,10 @@ const Login = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className={`w-full p-2 border rounded-lg ${
-              isDarkMode
+            className={`w-full p-2 border rounded-lg ${isDarkMode
                 ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
                 : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-            }`}
+              }`}
           />
           <input
             type="password"
@@ -98,19 +90,17 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className={`w-full p-2 border rounded-lg ${
-              isDarkMode
+            className={`w-full p-2 border rounded-lg ${isDarkMode
                 ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
                 : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-            }`}
+              }`}
           />
           <button
             type="submit"
-            className={`w-full px-4 py-2 rounded-lg ${
-              isDarkMode
+            className={`w-full px-4 py-2 rounded-lg ${isDarkMode
                 ? "bg-blue-500 text-white hover:bg-blue-600"
                 : "bg-blue-500 text-white hover:bg-blue-600"
-            }`}
+              }`}
           >
             Login
           </button>

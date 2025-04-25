@@ -32,17 +32,17 @@ const Headersection = () => {
 
   const handleLogout = async () => {
     try {
-      await userLogout();
-      Cookies.remove('user_token');
-      Cookies.remove('seller_token');
-      Cookies.remove('user_name');
-      toast.success('Logout successful!');
-      navigate('/');
+        localStorage.removeItem("token"); 
+        localStorage.removeItem("user"); 
+
+        toast.success("Logged out successfully!");
+        navigate("/");
     } catch (error) {
-      console.error(error);
-      toast.error('Logout failed!');
+        console.error(error);
+        toast.error("Logout failed!");
     }
-  };
+};
+
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
