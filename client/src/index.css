@@ -1,2 +1,20 @@
 
 @import "tailwindcss";
+
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #333;
+    --heading-color: #444;
+  }
+  
+  [data-theme="dark"] {
+    --bg-color: #333;
+    --text-color: #ffffff;
+    --heading-color: #ddd;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  

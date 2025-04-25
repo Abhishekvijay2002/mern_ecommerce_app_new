@@ -62,11 +62,11 @@ function AllProducts() {
                                     </td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex justify-center gap-2">
-                                            <button
+                                            {/* <button
                                                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
                                             >
                                                 View Details
-                                            </button>
+                                            </button> */}
                                             <button
                                                 onClick={() => handleDelete(product._id)}
                                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"

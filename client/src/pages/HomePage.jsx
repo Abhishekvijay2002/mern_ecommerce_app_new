@@ -31,7 +31,7 @@ function HomePage() {
     }, []);
   return (
     <div>
-    <section className="bg-gray-800 text-white py-16 px-8 text-center">
+    <section className=" py-16 px-8 text-center">
       <h1 className="text-5xl font-bold mb-6 ">
         Endless Choices, Limitless Savings!
       </h1>
@@ -40,13 +40,13 @@ function HomePage() {
         we bring top-quality products at unbeatable prices, delivered right to your doorstep.
       </p>
     </section>
- <section className="py-16 px-8 bg-gray-100">
+ <section className="py-16 px-8 ">
       <h1 className="text-3xl font-bold mb-8 text-center">Categories</h1>
 
       <div className="flex flex-wrap gap-6 justify-center">
         {categories.map((category, index) => (
           <div key={index} className="flex flex-col items-center gap-2">
-            <div className="bg-gray-300 rounded-full h-20 w-20 overflow-hidden">
+            <div className=" rounded-full h-20 w-20 overflow-hidden">
               <img
                 src={category.image}
                 alt={category.name} onClick={() => navigate(`/product/category/${category._id}`)}
@@ -77,62 +77,6 @@ function HomePage() {
           ))}
         </div>
       </section>
-    <section>
-    <h1 className="text-3xl font-bold mb-8 text-center mt-4">Policy & Information Section </h1>
-    <div className="flex flex-wrap gap-6 justify-center">
-  {/* Card 1 */}
-  <div className="p-4">
-    <div className="flex flex-col items-center">
-      <img 
-        src="https://png.pngtree.com/png-vector/20221118/ourmid/pngtree-return-package-icon-with-shadow-and-arrow-cargo-delivery-symbol-vector-png-image_41226006.jpg" 
-        alt="Sample" 
-        className="w-28 h-28 object-cover mb-4 rounded-full overflow-hidden"/>
-      <p className="text-center text-gray-700 text-lg font-medium">
-        30 Days Return Policy
-      </p>
-    </div>
-  </div>
-
-  {/* Card 2 */}
-  <div className="p-4">
-    <div className="flex flex-col items-center">
-      <img 
-        src="https://png.pngtree.com/png-vector/20221118/ourmid/pngtree-return-package-icon-with-shadow-and-arrow-cargo-delivery-symbol-vector-png-image_41226006.jpg" 
-        alt="Sample" 
-        className="w-28 h-28 object-cover mb-4 rounded-full overflow-hidden"/>
-      <p className="text-center text-gray-700 text-lg font-medium">
-        30 Days Return Policy
-      </p>
-    </div>
-  </div>
-
-  {/* Card 3 */}
-  <div className="p-4">
-    <div className="flex flex-col items-center">
-      <img 
-        src="https://png.pngtree.com/png-vector/20221118/ourmid/pngtree-return-package-icon-with-shadow-and-arrow-cargo-delivery-symbol-vector-png-image_41226006.jpg" 
-        alt="Sample" 
-        className="w-28 h-28 object-cover mb-4 rounded-full overflow-hidden"/>
-      <p className="text-center text-gray-700 text-lg font-medium">
-        30 Days Return Policy
-      </p>
-    </div>
-  </div>
-
-  {/* Card 4 */}
-  <div className="p-4">
-    <div className="flex flex-col items-center">
-      <img 
-        src="https://png.pngtree.com/png-vector/20221118/ourmid/pngtree-return-package-icon-with-shadow-and-arrow-cargo-delivery-symbol-vector-png-image_41226006.jpg" 
-        alt="Sample" 
-        className="w-28 h-28 object-cover mb-4 rounded-full overflow-hidden"/>
-      <p className="text-center text-gray-700 text-lg font-medium">
-        30 Days Return Policy
-      </p>
-    </div>
-  </div>
-</div>
-</section>
     </div>
   )
 }

@@ -86,11 +86,11 @@ function AllSellers() {
                                     <td className="py-3 px-6">{seller.email}</td>
                                     <td className="py-3 px-6 text-center">
                                         <div className="flex justify-center gap-2">
-                                            <button
+                                            {/* <button
                                                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
                                             >
                                                 View Details
-                                            </button>
+                                            </button> */}
                                             <button
                                                 onClick={() => handleRemoveUser(seller._id)}
                                                 className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition"
