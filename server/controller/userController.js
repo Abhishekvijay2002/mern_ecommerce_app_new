@@ -28,9 +28,9 @@ const register = async (req, res) => {
          const token = createToken(saved.id)
          res.cookie("user_token", token ,{
             
-               httpOnly: true,
-               secure: process.env.NODE_ENV === "production",
-               sameSite: "lax",
+               httpOnly: false,
+               secure: process.env.NODE_ENV === "production" ? true : false
+,              sameSite: "lax",
                path: "/" 
 ,
          })
@@ -62,8 +62,8 @@ const login = async (req, res) => {
          token = createToken(userExist.id, userExist.role);
          res.cookie("seller_token", token ,{
             
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            httpOnly: false,
+            secure: process.env.NODE_ENV === "production" ? true : false ,
             sameSite: "lax",
             path: "/" 
 
@@ -73,10 +73,10 @@ const login = async (req, res) => {
          token = createToken(userExist.id, userExist.role);
          res.cookie("admin_token", token ,
             {
-               httpOnly: true,
-               secure: process.env.NODE_ENV === "production",
+               httpOnly: false,
+               secure: process.env.NODE_ENV === "production" ? true : false ,
                sameSite: "lax",
-               path: "/" 
+               path: "/" ,
 
          }
             
@@ -87,12 +87,13 @@ const login = async (req, res) => {
          token = createToken(userExist.id, userExist.role);
          res.cookie("user_token", token ,
             {
-               httpOnly: true,
-               secure: process.env.NODE_ENV === "production",
-               sameSite: "lax",
-               path: "/" 
+               httpOnly: false,
+               secure: process.env.NODE_ENV === "production" ? true : false 
+,              sameSite: "lax",
+               path: "/" ,
 
             }
+
          );
          res.status(200).json({ message: "User login successful", user: userExist });
       }
