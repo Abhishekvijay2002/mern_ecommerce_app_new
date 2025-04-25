@@ -24,11 +24,12 @@ const register = async (req, res) => {
          name, email, password: hashedPassword
       })
       const saved = await newUser.save()
-      if (saved) {
-         const token = createToken(saved.id)
-         res.cookie("user_token", token,{sameSite:"None", secure:true});
-
-      }
+      // if (saved) {
+      //    // const token = createToken(saved.id)
+      //    // res.cookie("user_token", token,{sameSite:"None", secure:true});
+      //    const  token = createToken(userExist.id, userExist.role);
+      //    res.status(200).json({ message: "User login successful", user: userObject  , token});
+      // }
    } catch (error) {
       console.log(error)
       res.status(error.status || 500).json({ error: error.message || "Intenal Server Error" })
@@ -50,25 +51,31 @@ const login = async (req, res) => {
       if (!passwordMatch) {
          return res.status(400).json({ error: "Invalid password" })
       }
-      let token;
-      if (userExist.role === "seller") {
-         token = createToken(userExist.id, userExist.role);
-         res.cookie("seller_token", token,{sameSite:"None", secure:true});
+      const userObject = userExist.toObject()
+        delete userObject.password
 
-         res.status(200).json({ message: "Seller login successful", seller: userExist });
-      } else if (userExist.role === "admin") {
-         token = createToken(userExist.id, userExist.role);
-         res.cookie("admin_token", token,{sameSite:"None", secure:true});
+      // let token;
+      // if (userExist.role === "seller") {
+      //    token = createToken(userExist.id, userExist.role);
+      //    res.cookie("seller_token", token,{sameSite:"None", secure:true});
 
-         res.status(200).json({ message: "Admin login successful", admin: userExist });
-      }
-      else {
-         token = createToken(userExist.id, userExist.role);
-         res.cookie("user_token", token,{sameSite:"None", secure:true});
+      //    res.status(200).json({ message: "Seller login successful", seller: userExist });
+      // } else if (userExist.role === "admin") {
+      //    token = createToken(userExist.id, userExist.role);
+      //    res.cookie("admin_token", token,{sameSite:"None", secure:true});
 
-         res.status(200).json({ message: "User login successful", user: userExist });
-      }
+      //    res.status(200).json({ message: "Admin login successful", admin: userExist });
+      // }
+      // else {
+      //    token = createToken(userExist.id, userExist.role);
+      //    res.cookie("user_token", token,{sameSite:"None", secure:true});
 
+      //    res.status(200).json({ message: "User login successful", user: userExist });
+      // }
+   const  token = createToken(userExist.id, userExist.role);
+      res.status(200).json({ message: "User login successful", user: userObject  , token});
+  
+  
    } catch (error) {
       console.log(error)
       res.status(error.status || 500).json({ error: error.message || "Intenal Server Error" })

@@ -2,7 +2,7 @@
 const { createproduct, listProducts, productDetails, updateProduct, deleteProduct, listProductsforSeller, searchProducts, bestselling, setOfferprice, offerproduct, removeOfferprice, getProductsByCategory } = require('../controller/productcontroller')
 
 const upload = require("../middleware/multer")
-const authAdminOrSeller = require('../middleware/authAdminOrSeller')
+const {  authAdminOrSeller } = require('../middleware/authmiddleware');
 
 const productRouter = require('express').Router()
 

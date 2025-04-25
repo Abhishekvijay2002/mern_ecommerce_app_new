@@ -1,6 +1,7 @@
 
 const { paymentFunction } = require('../controller/paymentController')
-const authUser = require('../middleware/authuser')
+const { authUser } = require('../middleware/authmiddleware')
+
 
 
 const paymentRouter = require('express').Router()

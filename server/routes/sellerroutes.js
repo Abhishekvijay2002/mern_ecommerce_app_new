@@ -1,8 +1,8 @@
 const express = require('express');
 const sellerrouter = express.Router();
-const authUser = require('../middleware/authuser');
 const { requestSeller, getSellerStatus, cancelSellerRequest, getSellerRequest, getAllSellerRequests, approveSellerRequest, rejectSellerRequest, getAllSeller, removeSeller } = require('../controller/sellercontroller');
-const authAdmin = require('../middleware/authadmin');
+const { authUser, authAdmin } = require('../middleware/authmiddleware');
+
 
 sellerrouter.post('/request',authUser,requestSeller);
 sellerrouter.get('/status', authUser, getSellerStatus);

@@ -1,6 +1,5 @@
 const uploadToCloudinary = require("../Utilities/imageUpload");
 const categoryModel = require("../models/categoryModel");
-const CategoryModel = require("../models/categoryModel");
 const fs = require("fs");
 
 

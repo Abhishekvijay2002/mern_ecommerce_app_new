@@ -1,14 +1,11 @@
-import { getRoleFromCookies } from "../utils/auth";
 import { Navigate, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import Cookies from "js-cookie";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const location = useLocation();
-
-  const token = Cookies.get("user_token") || Cookies.get("seller_token") || Cookies.get("admin_token");
-  const role = getRoleFromCookies(); // 🔑 This now uses decoded JWT
+  const [role, setRole] = useState(localStorage.getItem("user_role"));
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) {

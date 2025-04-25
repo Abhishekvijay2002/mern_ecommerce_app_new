@@ -28,7 +28,7 @@ const SignupPage = () => {
       .then((res) => {
         console.log(res);
         toast.success("Signup successful!");
-        navigate("/"); // ✅ Redirect to home
+        navigate("/login"); 
       })
       .catch((err) => {
         toast.error(err.response?.data?.error || "Signup failed!");

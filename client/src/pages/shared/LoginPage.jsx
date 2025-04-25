@@ -14,16 +14,32 @@ const Login = () => {
     e.preventDefault();
     userLogin({ email, password })
       .then((res) => {
-        toast.success("Login successful!");
-        console.log(res.data);
-        res.data.admin?.role === "admin"
-          ? navigate("/admin/dashboard")
-          : navigate("/");
+        console.log("API Response:", res); 
+  
+        if (!res?.data?.user?.role || !res?.data?.token) {
+          toast.error("Invalid response from server.");
+          return;
+        }
+  
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user_role", res.data.user.role);
+        console.log("Role:", res.data.user.role);
+  
+        if (res.data.user.role === "admin") {
+          toast.success(res?.data?.message);
+          navigate("/admin/dashboard");
+        } else {
+          toast.success(res?.data?.message);
+          navigate("/");
+        }
       })
       .catch((err) => {
         toast.error(err.response?.data?.error || "Login failed!");
+        console.error("Login Error:", err);
       });
+  
   };
+  
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
