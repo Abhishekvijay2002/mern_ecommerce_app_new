@@ -29,8 +29,9 @@ const register = async (req, res) => {
          res.cookie("user_token", token ,{
             
                httpOnly: true,
-               secure: true,
-               sameSite: "None",
+               secure: process.env.NODE_ENV === "production",
+               sameSite: "lax",
+               patch: "/",
          })
          return res.status(201).json({ message: "User created successfully" })
       }
@@ -60,9 +61,10 @@ const login = async (req, res) => {
          token = createToken(userExist.id, userExist.role);
          res.cookie("seller_token", token ,{
             
-               httpOnly: true,
-               secure: true,
-               sameSite: "None",
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            patch: "/",
          });
          res.status(200).json({ message: "Seller login successful", seller: userExist });
       } else if (userExist.role === "admin") {
@@ -70,8 +72,9 @@ const login = async (req, res) => {
          res.cookie("admin_token", token ,
             {
                httpOnly: true,
-               secure: true,
-               sameSite: "None",
+               secure: process.env.NODE_ENV === "production",
+               sameSite: "lax",
+               patch: "/",
          }
             
          );
@@ -82,8 +85,9 @@ const login = async (req, res) => {
          res.cookie("user_token", token ,
             {
                httpOnly: true,
-               secure: true,
-               sameSite: "None",
+               secure: process.env.NODE_ENV === "production",
+               sameSite: "lax",
+               patch: "/",
             }
          );
          res.status(200).json({ message: "User login successful", user: userExist });

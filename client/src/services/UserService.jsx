@@ -56,7 +56,7 @@ export const listProductswithOffers = () => {
    return axiosInstance.get("/product/offerproduct");
 };
 export const addOffers = (data ,productid) => {
-   return axiosInstance.put(`/product/setoffer/${productid}`);
+   return axiosInstance.put(`/product/setoffer/${productid}`,data);
 };
 export const removeOffers = (productid) => {
    return axiosInstance.delete(`/product/deleteoffer/${productid}`);
