@@ -32,6 +32,8 @@ import UpdateProductbyseller from "../pages/seller/UpdateproductByseller.jsx";
 import ManageReviewByseller from "../pages/seller/ManageReviewBySeller.jsx";
 import AddReplyBySeller from "../pages/shared/AddReplyBySeller.jsx";
 import CreateProductbyseller from "../pages/seller/AddproductByseller.jsx";
+import SellerDashboard from "../pages/SellerDasboard.jsx";
+import AdminDashboard from "../pages/AdminDasboard.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -137,7 +139,7 @@ export const router = createBrowserRouter([
     children: [
        {
         path: "dashboard",
-        element: <div><h1>hiii</h1></div>,
+        element: <AdminDashboard/>,
       },
       {
         path: "sellerrequestlist",
@@ -193,7 +195,7 @@ export const router = createBrowserRouter([
     children: [
        {
         path: "dashboard",
-        element: <div><h1>hiii</h1></div>,
+        element: <SellerDashboard/>,
       },
       {
         path: "productlist",

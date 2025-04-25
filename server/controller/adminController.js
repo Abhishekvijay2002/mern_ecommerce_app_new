@@ -1,4 +1,5 @@
 
+
 const userModel = require("../models/userModel")
 const { createToken } = require("../Utilities/generateToken")
 const {hashPassword, comparePassword} = require("../Utilities/passwordUtilities")
@@ -32,7 +33,7 @@ name,email,password:hashedPassword ,role : "admin"
    }
 }
  
- 
+
 
 
 module.exports = {
