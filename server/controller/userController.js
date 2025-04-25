@@ -26,15 +26,8 @@ const register = async (req, res) => {
       const saved = await newUser.save()
       if (saved) {
          const token = createToken(saved.id)
-         res.cookie("user_token", token, {
+         res.cookie("token", token,{sameSite:"None", secure:true});
 
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            path: "/"
-            ,
-         })
-         return res.status(201).json({ message: "User created successfully" })
       }
    } catch (error) {
       console.log(error)
@@ -60,41 +53,19 @@ const login = async (req, res) => {
       let token;
       if (userExist.role === "seller") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("seller_token", token, {
+         res.cookie("token", token,{sameSite:"None", secure:true});
 
-            httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            path: "/"
-
-         });
          res.status(200).json({ message: "Seller login successful", seller: userExist });
       } else if (userExist.role === "admin") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("admin_token", token,
-            {
-               httpOnly: true,
-               secure: true,
-               sameSite: "none",
-               path: "/"
+         res.cookie("token", token,{sameSite:"None", secure:true});
 
-            }
-
-         );
          res.status(200).json({ message: "Admin login successful", admin: userExist });
       }
       else {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("user_token", token,
-            {
-               httpOnly: true,
-               secure: true,
-               sameSite: "none",
-               path: "/"
+         res.cookie("token", token,{sameSite:"None", secure:true});
 
-            }
-
-         );
          res.status(200).json({ message: "User login successful", user: userExist });
       }
 
