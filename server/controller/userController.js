@@ -31,7 +31,8 @@ const register = async (req, res) => {
                httpOnly: true,
                secure: process.env.NODE_ENV === "production",
                sameSite: "lax",
-               patch: "/",
+               path: "/" 
+,
          })
          return res.status(201).json({ message: "User created successfully" })
       }
@@ -64,7 +65,8 @@ const login = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "lax",
-            patch: "/",
+            path: "/" 
+
          });
          res.status(200).json({ message: "Seller login successful", seller: userExist });
       } else if (userExist.role === "admin") {
@@ -74,7 +76,8 @@ const login = async (req, res) => {
                httpOnly: true,
                secure: process.env.NODE_ENV === "production",
                sameSite: "lax",
-               patch: "/",
+               path: "/" 
+
          }
             
          );
@@ -87,7 +90,8 @@ const login = async (req, res) => {
                httpOnly: true,
                secure: process.env.NODE_ENV === "production",
                sameSite: "lax",
-               patch: "/",
+               path: "/" 
+
             }
          );
          res.status(200).json({ message: "User login successful", user: userExist });
