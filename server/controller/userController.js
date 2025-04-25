@@ -26,7 +26,7 @@ const register = async (req, res) => {
       const saved = await newUser.save()
       if (saved) {
          const token = createToken(saved.id)
-         res.cookie("token", token,{sameSite:"None", secure:true});
+         res.cookie("user_token", token,{sameSite:"None", secure:true});
 
       }
    } catch (error) {
@@ -53,18 +53,18 @@ const login = async (req, res) => {
       let token;
       if (userExist.role === "seller") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("token", token,{sameSite:"None", secure:true});
+         res.cookie("seller_token", token,{sameSite:"None", secure:true});
 
          res.status(200).json({ message: "Seller login successful", seller: userExist });
       } else if (userExist.role === "admin") {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("token", token,{sameSite:"None", secure:true});
+         res.cookie("admin_token", token,{sameSite:"None", secure:true});
 
          res.status(200).json({ message: "Admin login successful", admin: userExist });
       }
       else {
          token = createToken(userExist.id, userExist.role);
-         res.cookie("token", token,{sameSite:"None", secure:true});
+         res.cookie("user_token", token,{sameSite:"None", secure:true});
 
          res.status(200).json({ message: "User login successful", user: userExist });
       }
