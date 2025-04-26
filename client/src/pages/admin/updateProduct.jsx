@@ -11,7 +11,7 @@ const UpdateProduct = () => {
     price: "",
     stock: "",
     category: "",
-    images: [], // changed from 'image' to 'images'
+    images: [],
   });
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const UpdateProduct = () => {
           price,
           stock,
           category,
-          images, // Ensure images are also set in the state
+          images,
         }));
       })
       .catch((error) => {
@@ -37,7 +37,7 @@ const UpdateProduct = () => {
     if (e.target.name === "images") {
       setFormData({
         ...formData,
-        images: Array.from(e.target.files), // support multiple files
+        images: Array.from(e.target.files),
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,9 +54,8 @@ const UpdateProduct = () => {
       data.append("stock", formData.stock);
       data.append("category", formData.category);
 
-      // Append each image
       formData.images.forEach((file) => {
-        data.append("images", file); // same field name as multer expects
+        data.append("images", file);
       });
 
       const response = await UpdateProductbyid(productid, data);
@@ -69,40 +68,44 @@ const UpdateProduct = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white">
+    <div className="max-w-3xl mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white">
       <h2 className="text-2xl font-bold mb-6 text-center">Update Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
-        <input
-          type="text"
-          name="title"
-          value={formData.title || ""} // ensure value is never undefined or null
-          onChange={handleChange}
-          required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        />
-        <textarea
-          name="description"
-          value={formData.description || ""}
-          onChange={handleChange}
-          required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        />
-        <input
-          type="number"
-          name="price"
-          value={formData.price || ""}
-          onChange={handleChange}
-          required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        />
-        <input
-          type="number"
-          name="stock"
-          value={formData.stock || ""}
-          onChange={handleChange}
-          required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        />
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+          <input
+            type="text"
+            name="title"
+            value={formData.title || ""}
+            onChange={handleChange}
+            required
+            className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <textarea
+            name="description"
+            value={formData.description || ""}
+            onChange={handleChange}
+            required
+            className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          />
+        </div>
+        <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+          <input
+            type="number"
+            name="price"
+            value={formData.price || ""}
+            onChange={handleChange}
+            required
+            className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          />
+          <input
+            type="number"
+            name="stock"
+            value={formData.stock || ""}
+            onChange={handleChange}
+            required
+            className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+          />
+        </div>
         <input
           type="text"
           name="category"
