@@ -1,20 +1,16 @@
 import React, { useState } from "react";
 import { toast } from 'sonner';
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom"; 
 import { addReply } from "../../services/UserService";
 
 const AddReplyBySeller = () => {
-  const { reviewid } = useParams(); // Ensure it matches backend param name
-  const [values, setValues] = useState({
-    comment: '',
-  });
+  const { reviewid } = useParams();
+  const [values, setValues] = useState({ comment: '' });
   const navigate = useNavigate();
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
-    // Debugging check
+
     if (!reviewid) {
       toast.error("Review ID is missing!");
       console.error("Review ID is undefined");
@@ -22,11 +18,10 @@ const AddReplyBySeller = () => {
     }
 
     try {
-      const res = await addReply(reviewid, { Comment: values.comment }); // Ensure field matches backend
+      const res = await addReply(reviewid, { Comment: values.comment });
       console.log("Response:", res);
       toast.success("Review reply submitted successfully!");
       navigate("/seller/allreviews");
-
     } catch (err) {
       toast.error(err.response?.data?.error || "Failed!");
       console.error("Error:", err);
@@ -36,32 +31,33 @@ const AddReplyBySeller = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-800 flex items-center justify-center">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="flex flex-col justify-center">
-          <h2 className="text-2xl font-semibold mb-4">Submit Your Reply</h2>
-          <form className="space-y-4" onSubmit={onSubmit}>
-            <div>
-              <label htmlFor="comment" className="block text-sm font-medium">
-                Review Reply
-              </label>
-              <input
-                type="text"
-                id="comment"
-                name="comment"
-                value={values.comment}
-                onChange={(e) => setValues({ ...values, comment: e.target.value })}
-                className="w-full p-2 border rounded-lg bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
-              />
-            </div>
-            <button 
-              type="submit"
-              className="w-full px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-            >
-              Submit
-            </button>
-          </form>
-        </div>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      <div className="w-full max-w-xl bg-white rounded-xl shadow-md p-8 md:p-10">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800">
+          Submit Your Reply
+        </h2>
+        <form className="space-y-6" onSubmit={onSubmit}>
+          <div>
+            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+              Review Reply
+            </label>
+            <input
+              type="text"
+              id="comment"
+              name="comment"
+              value={values.comment}
+              onChange={(e) => setValues({ ...values, comment: e.target.value })}
+              className="w-full p-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-800 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+              placeholder="Type your reply here..."
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-300"
+          >
+            Submit
+          </button>
+        </form>
       </div>
     </div>
   );

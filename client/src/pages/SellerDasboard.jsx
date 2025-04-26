@@ -20,7 +20,8 @@ const SellerDashboard = ({ sellerId }) => {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <div className="grid grid-cols-2 gap-4">
+      {/* Stats Grid for Desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 shadow rounded text-center">
           <h2 className="text-lg font-semibold">Total Products</h2>
           <p className="text-2xl font-bold">{products.length}</p>
@@ -41,10 +42,14 @@ const SellerDashboard = ({ sellerId }) => {
         <div className="bg-white p-4 shadow rounded">
           {products.length > 0 ? (
             products.map((product) => (
-              <div key={product._id} className="flex justify-between p-2 border-b">
+              <div key={product._id} className="flex flex-col sm:flex-row justify-between p-4 border-b">
                 <div className="flex items-center gap-4">
                   {product.image?.[0] && (
-                    <img src={product.image[0]} alt={product.title} className="w-16 h-16 object-cover rounded" />
+                    <img
+                      src={product.image[0]}
+                      alt={product.title}
+                      className="w-16 h-16 object-cover rounded"
+                    />
                   )}
                   <div>
                     <h3 className="font-medium">{product.title}</h3>
@@ -52,7 +57,7 @@ const SellerDashboard = ({ sellerId }) => {
                     <p className="text-gray-500">{product.offerPrice ? `Offer Price: ₹${product.offerPrice}` : "No Offer Available"}</p>
                   </div>
                 </div>
-                <span className="text-sm text-gray-500">Stock: {product.stock}</span>
+                <span className="text-sm text-gray-500 mt-2 sm:mt-0">Stock: {product.stock}</span>
               </div>
             ))
           ) : (
@@ -65,5 +70,6 @@ const SellerDashboard = ({ sellerId }) => {
 };
 
 export default SellerDashboard;
+
 
 

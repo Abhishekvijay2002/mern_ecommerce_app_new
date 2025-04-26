@@ -82,17 +82,17 @@ const login = async (req, res) => {
    }
 
 }
-const Logout = async (req, res) => {
-   try {
-      res.clearCookie("user_token");
-      res.clearCookie("seller_token");
-      res.clearCookie("admin_token");
-      res.status(200).json({ message: " logout successful" });
-   } catch (error) {
-      console.log(error);
-      res.status(500).json({ error: "Internal Server Error" });
-   }
-};
+// const Logout = async (req, res) => {
+//    try {
+//       res.clearCookie("user_token");
+//       res.clearCookie("seller_token");
+//       res.clearCookie("admin_token");
+//       res.status(200).json({ message: " logout successful" });
+//    } catch (error) {
+//       console.log(error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//    }
+// };
 
 const getuser = async (req, res) => {
    try {
@@ -168,5 +168,5 @@ const GetallUsers = async (req, res) => {
 
 
 module.exports = {
-   register, login, Logout, getuser, updateuser, deleteUser, GetallUsers
+   register, login, getuser, updateuser, deleteUser, GetallUsers
 }

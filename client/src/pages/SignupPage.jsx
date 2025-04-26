@@ -1,12 +1,10 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userRegister } from "../services/UserService";
 import { toast } from "sonner";
 
 const SignupPage = () => {
-  const navigate = useNavigate(); // ✅ Correct usage of useNavigate
-
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [values, setValues] = useState({
     name: '',
@@ -16,9 +14,7 @@ const SignupPage = () => {
   });
 
   const onSubmit = (e) => {
-    e.preventDefault(); // ✅ Prevent form reload
-
-    // Optional validation
+    e.preventDefault();
     if (values.password !== values.confirmpassword) {
       toast.error("Passwords do not match!");
       return;
@@ -26,148 +22,78 @@ const SignupPage = () => {
 
     userRegister(values)
       .then((res) => {
-        console.log(res);
         toast.success("Signup successful!");
-        navigate("/login"); 
+        navigate("/login");
       })
       .catch((err) => {
         toast.error(err.response?.data?.error || "Signup failed!");
         console.log(err);
       });
-
-    console.log(values, 'values');
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-
-  const navigateToLogin = () => {
-    navigate("/login");
-  };
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  const navigateToLogin = () => navigate("/login");
+  const navigateHome = () => navigate("/");
 
   return (
-    <div
-      className={`min-h-screen ${
-        isDarkMode ? "bg-gray-800 text-white" : "bg-gray-100 text-gray-800"
-      } flex items-center justify-center`}
-    >
+    <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"} p-4`}>
+      
+      {/* Theme Toggle */}
       <div className="absolute top-4 right-4">
         <button
           onClick={toggleTheme}
-          className={`px-4 py-2 rounded-lg ${
-            isDarkMode
-              ? "bg-gray-300 text-gray-800 hover:bg-gray-400"
-              : "bg-blue-500 text-white hover:bg-blue-600"
-          }`}
+          className={`px-4 py-2 rounded-lg ${isDarkMode ? "bg-gray-300 text-gray-800 hover:bg-gray-400" : "bg-blue-500 text-white hover:bg-blue-600"}`}
         >
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </button>
       </div>
 
-      <div
-        className={`${
-          isDarkMode ? "bg-gray-700" : "bg-white"
-        } rounded-lg shadow-lg p-8 transition-all duration-300 transform hover:scale-105 ${
-          isDarkMode ? "hover:ring-4 hover:ring-blue-500" : ""
-        }`}
-        style={{ width: "50vw" }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Signup Form Section */}
+      {/* Card Container */}
+      <div className={`w-full max-w-md ${isDarkMode ? "bg-gray-800" : "bg-white"} rounded-lg shadow-lg p-6 md:p-8 transition-all duration-300`}>
+        <div className="grid grid-cols-1 gap-6">
+          
+          {/* Signup Form */}
           <div className="flex flex-col justify-center">
             <h2 className="text-2xl font-semibold mb-4">Sign Up</h2>
             <form className="space-y-4" onSubmit={onSubmit}>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-                  className={`w-full p-2 border rounded-lg ${
-                    isDarkMode
-                      ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
-                      : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                  }`}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-                  className={`w-full p-2 border rounded-lg ${
-                    isDarkMode
-                      ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
-                      : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                  }`}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-                  className={`w-full p-2 border rounded-lg ${
-                    isDarkMode
-                      ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
-                      : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                  }`}
-                />
-              </div>
-
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmpassword"
-                  onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-                  className={`w-full p-2 border rounded-lg ${
-                    isDarkMode
-                      ? "bg-gray-600 text-white border-gray-500 focus:ring-blue-400 focus:border-blue-400"
-                      : "text-gray-700 focus:ring-blue-500 focus:border-blue-500"
-                  }`}
-                />
-              </div>
+              {["name", "email", "password", "confirmpassword"].map((field, idx) => (
+                <div key={idx}>
+                  <label htmlFor={field} className="block text-sm font-medium capitalize">{field === "confirmpassword" ? "Confirm Password" : field}</label>
+                  <input
+                    type={field.includes("password") ? "password" : "text"}
+                    id={field}
+                    name={field}
+                    onChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
+                    className={`w-full p-2 border rounded-lg ${isDarkMode ? "bg-gray-700 text-white border-gray-600 focus:ring-blue-400 focus:border-blue-400" : "bg-white text-gray-700 border-gray-300 focus:ring-blue-500 focus:border-blue-500"}`}
+                  />
+                </div>
+              ))}
 
               <button
                 type="submit"
-                className={`w-full px-4 py-2 rounded-lg ${
-                  isDarkMode
-                    ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-blue-500 text-white hover:bg-blue-600"
-                }`}
+                className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
               >
                 Sign Up
               </button>
             </form>
           </div>
 
-          {/* Login Prompt Section */}
-          <div className="flex flex-col justify-center">
-            <h2 className="text-2xl font-semibold mb-4">Welcome!</h2>
-            <p className="mb-4">
-              Already have an account? Click the button below to log in and stay connected with us.
-            </p>
-            <button
-              onClick={navigateToLogin}
-              className={`px-4 py-2 rounded-lg ${
-                isDarkMode
-                  ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-blue-500 text-white hover:bg-blue-600"
-              }`}
-            >
-              Login
+        </div>
+
+        {/* Login Prompt Below Form */}
+        <div className="mt-4 text-center space-y-2">
+          <p>
+            Already have an account?{" "}
+            <button onClick={navigateToLogin} className="text-blue-500 hover:underline">
+              Log in
             </button>
-          </div>
+          </p>
+          <button
+            onClick={navigateHome}
+            className={`text-sm px-3 py-1 rounded-md mt-2 ${isDarkMode ? "bg-gray-600 hover:bg-gray-500" : "bg-gray-200 hover:bg-gray-300"}`}
+          >
+            Go Home
+          </button>
         </div>
       </div>
     </div>
@@ -175,3 +101,5 @@ const SignupPage = () => {
 };
 
 export default SignupPage;
+
+

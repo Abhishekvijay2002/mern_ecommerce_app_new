@@ -19,27 +19,27 @@ const OrderHistory = () => {
 
   const handleDelete = (id) => {
     console.log("Cancelling order with ID:", id);
-    
+
     cancelOrder(id).then(() => {
-        toast.success("Order canceled successfully!");
-        setOrders((prevOrders) =>
-          prevOrders.map((order) =>
-            order._id === id
-              ? { ...order, orderstatus: "Cancelled" } // Update status
-              : order
-          )
-        );
-      })
-      .catch((error) => {
-        console.error("Error canceling order:", error.message);
-        toast.error("Failed to cancel order.");
-      });
+      toast.success("Order canceled successfully!");
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order._id === id
+            ? { ...order, orderstatus: "Cancelled" } // Update status
+            : order
+        )
+      );
+    })
+    .catch((error) => {
+      console.error("Error canceling order:", error.message);
+      toast.error("Failed to cancel order.");
+    });
   };
 
   return (
-    <div className="p-6 h-115">
+    <div className="p-6 h-auto">
       <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-      <div className="overflow-y-auto max-h-80 border border-gray-300 rounded-lg">
+      <div className="overflow-x-auto border border-gray-300 rounded-lg">
         <table className="min-w-full border border-gray-300 rounded-lg">
           <thead className="bg-gray-700 text-white">
             <tr>
@@ -93,3 +93,5 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
+
+

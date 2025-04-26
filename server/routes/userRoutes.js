@@ -7,7 +7,7 @@ const userRouter = require('express').Router()
 
 userRouter.post("/register",register)
 userRouter.post("/login",login)
-userRouter.post("/logout",Logout)
+// userRouter.post("/logout",Logout)
 userRouter.get("/getuser",authUser,getuser)
 userRouter.put("/update",authUser,updateuser)
 userRouter.delete("/delete/:id",authAdminOrUser,deleteUser)

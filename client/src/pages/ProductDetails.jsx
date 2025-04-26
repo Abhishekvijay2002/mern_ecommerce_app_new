@@ -53,25 +53,24 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="p-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left Side: Product Image */}
         <div>
           <img
             src={selectedImage} // Show the selected image
             alt="Selected"
-            className="w-80 h-80 object-cover rounded"
+            className="w-full h-80 object-cover rounded-lg shadow-lg"
           />
 
           {/* Thumbnail Images Section Below Main Image */}
-          <div className="flex space-x-4 mt-4">
+          <div className="flex space-x-4 mt-4 overflow-x-auto">
             {product.image?.map((imgUrl, index) => (
               <img
                 key={index}
                 src={imgUrl}
                 alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 object-cover rounded cursor-pointer ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""
-                  }`}
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""}`}
                 onClick={() => handleImageClick(imgUrl)} // Change selected image on click
               />
             ))}
@@ -81,30 +80,26 @@ const ProductDetails = () => {
         {/* Right Side: Product Details */}
         <div className="flex flex-col justify-between">
           <div>
-            <h2 className="text-xl font-bold">{product.title}</h2>
-            <p className="text-sm text-gray-500 mt-1">{product.category}</p> {/* Added Category */}
-            <p className="text-xs md:text-sm text-gray-500 mt-2">
+            <h2 className="text-2xl font-semibold text-gray-800">{product.title}</h2>
+            <p className="text-sm text-gray-500 mt-1">{product.category}</p>
+            <p className="text-xl text-gray-800 mt-2">
               {product.offerPrice ? (
                 <>
                   <span className="text-red-500 font-bold text-2xl pr-1">₹{product.offerPrice}</span>
-                  <span className="text-gray-500 line-through">₹{product.price}</span>{' '}
-                  
+                  <span className="text-gray-500 line-through">₹{product.price}</span>
                 </>
               ) : (
                 `₹${product.price}`
               )}
             </p>
-
-
-
-            <p className="mt-4 text-gray-600">{product.description}</p>
+            <div className="mt-4 flex space-x-2">
+            <button onClick={addToCartHandler} className="px-6 py-2 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300">
+              Add to Cart
+            </button>
           </div>
 
           {/* Actions */}
-          <div className="mt-4 flex space-x-2">
-            <button onClick={addToCartHandler} className="px-4 py-2 bg-black text-white rounded">
-              Add to Cart
-            </button>
+         
           </div>
         </div>
       </div>
@@ -113,19 +108,19 @@ const ProductDetails = () => {
       <div className="mt-10 border-b flex items-center space-x-6 text-lg">
         <button
           onClick={() => setActiveTab("description")}
-          className={`${activeTab === "description" ? "font-bold" : "text-gray-600"}`}
+          className={`px-4 py-2 ${activeTab === "description" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-gray-600"}`}
         >
           Description
         </button>
         <button
           onClick={() => setActiveTab("reviews")}
-          className={`${activeTab === "reviews" ? "font-bold" : "text-gray-600"}`}
+          className={`px-4 py-2 ${activeTab === "reviews" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-gray-600"}`}
         >
           Reviews
         </button>
         <button
           onClick={() => navigate(`/addreview/${product._id}`)}
-          className="ml-auto px-1 py-1 mb-1 bg-cyan-400 text-white rounded hover:bg-blue-600"
+          className="ml-auto px-4 py-2 bg-cyan-400 text-white rounded-lg hover:bg-cyan-500"
         >
           Add Review
         </button>
@@ -133,32 +128,26 @@ const ProductDetails = () => {
 
       {/* Description Section */}
       {activeTab === "description" && (
-        <div className="mt-4">
+        <div className="mt-6 space-y-4">
           <p className="text-gray-700">{product.description}</p>
-          <ul className="list-disc list-inside mt-4 text-gray-600">
-            <li>Lorem ipsum dolor sit amet</li>
-            <li>Consectetur adipisicing elit</li>
-            <li>Sed do eiusmod tempor incididunt</li>
-            <li>Ut labore et dolore magna aliqua</li>
-          </ul>
         </div>
       )}
 
-      {/* Reviews Section with Replies */}
+      {/* Reviews Section */}
       {activeTab === "reviews" && (
-        <div className="mt-4 space-y-4">
+        <div className="mt-6 space-y-4">
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
-              <div key={index} className="border p-4 rounded">
-                <div className="flex justify-between">
-                  <h4 className="font-semibold">{review.user?.name || "Anonymous"}</h4>
+              <div key={index} className="border p-4 rounded-lg shadow-md bg-white">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-semibold text-gray-800">{review.user?.name || "Anonymous"}</h4>
                   <span className="text-yellow-500">{review.rating} ⭐</span>
                 </div>
                 <p className="mt-2 text-gray-700">{review.review}</p>
 
                 {/* Replies Section */}
                 {review.replies && review.replies.length > 0 && (
-                  <div className="mt-4 border-l-4 pl-4">
+                  <div className="mt-4 border-l-4 pl-4 bg-gray-50">
                     <h5 className="font-bold text-gray-600">Replies:</h5>
                     {review.replies.map((reply, replyIndex) => (
                       <div key={replyIndex} className="border p-2 rounded mt-2 bg-gray-100">
@@ -188,3 +177,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+

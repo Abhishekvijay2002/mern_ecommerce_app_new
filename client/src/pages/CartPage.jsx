@@ -18,7 +18,6 @@ const CartPage = () => {
   useEffect(() => {
     getCart()
       .then((res) => {
-        console.log("Cart response:", res.data);
         const products = Array.isArray(res.data.cart?.product)
           ? res.data.cart.product
           : [];
@@ -27,7 +26,6 @@ const CartPage = () => {
         toast.success("Cart fetched successfully!");
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Failed to fetch cart!");
       });
   }, []);
@@ -45,8 +43,6 @@ const CartPage = () => {
 
     try {
       const response = await makepaymentOnStripe(body);
-      console.log("Stripe session response:", response.data); 
-
       const session = response.data.sessionId;
 
       if (!session) {
@@ -62,15 +58,12 @@ const CartPage = () => {
         });
 
         if (result.error) {
-          console.log(result.error.message);
           toast.error("Stripe redirect failed: " + result.error.message);
         }
       } else {
-        console.log("Stripe failed to load");
         toast.error("Stripe failed to load");
       }
     } catch (error) {
-      console.log("Payment Error:", error);
       toast.error("Something went wrong with payment!");
     }
   };
@@ -83,16 +76,15 @@ const CartPage = () => {
           prev.filter((item) => item.productid._id !== productid)
         );
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         toast.error("Failed to remove from cart!");
       });
   };
 
   return (
-    <div className="p-6 max-w-6xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto">
       <div className="overflow-x-auto mb-10">
-        <table className="w-full text-left border-separate border-spacing-y-4">
+        <table className="w-full text-left border-separate border-spacing-y-4 sm:table-auto">
           <thead>
             <tr className="text-gray-700 font-semibold">
               <th>Product</th>
@@ -116,7 +108,7 @@ const CartPage = () => {
                     alt={item.productid.title}
                     className="w-12 h-12 rounded"
                   />
-                  <span>{item.productid.title.slice(0,70)}</span>
+                  <span className="truncate max-w-xs">{item.productid.title}</span>
                 </td>
                 <td>${item.price}</td>
                 <td>

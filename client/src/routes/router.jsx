@@ -9,7 +9,6 @@ import CheckoutPage from "../pages/CheckoutPge.jsx";
 import OrderSuccess from "../pages/OrderSuccess.jsx";
 import OrderHistory from "../pages/OrderHistory.jsx";
 import ProfilePage from "../pages/Profile.jsx";
-import SupportHelp from "../pages/Support.jsx";
 import UserLayout from "../layout/UserLayout.jsx";
 import SignupPage from "../pages/SignupPage.jsx";
 import AdminLayout from "../layout/AdminLayout.jsx";
@@ -92,10 +91,6 @@ export const router = createBrowserRouter([
       },
 
       {
-        path: "/support",
-        element: <SupportHelp />,
-      },
-      {
         path: "/profile",
         element: <ProfilePage/>,
       },
@@ -109,11 +104,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/becomeSeller",
-        element:(
-          <ProtectedRoute allowedRoles={["user"]}>
-            <BecomeaSeller/>
-          </ProtectedRoute>
-        )
+        element: <BecomeaSeller/>
       },
       {
         path: "/addreview/:productid",
