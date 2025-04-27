@@ -8,6 +8,7 @@ import { AuthProvider } from './AuthContext.jsx';
 function App() {
   return (
     <>
+    
     <AuthProvider>
     <ThemeProvider>
     <Toaster position="top-right"/>

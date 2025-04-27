@@ -47,6 +47,7 @@ export const searchProduct = (searchQuery) => {
    return axiosInstance.get(`/product/search?q=${encodeURIComponent(searchQuery)}`);
 };
 export const getProductsByCategory = (categoryid) => {
+   console.log("category id from userservices" , categoryid)
    return axiosInstance.get(`/product/${categoryid}`);
 }
 export const ListBestsellingProducts = () => {

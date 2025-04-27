@@ -62,7 +62,7 @@ export const router = createBrowserRouter([
         path: "/product/bestsellers", element: <ProductPage />,
       },
       {
-        path: "/product/category/:categoryId", element: <ProductPage />,
+        path: "/product/category/:categoryid", element: <ProductPage />,
       },
       {
         path: "/search", element: <ProductPage />
@@ -104,7 +104,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/becomeSeller",
-        element: <BecomeaSeller/>
+        element: (
+          <ProtectedRoute allowedRoles={["user","seller"]}>
+            <BecomeaSeller/>
+          </ProtectedRoute>
+        )
       },
       {
         path: "/addreview/:productid",
