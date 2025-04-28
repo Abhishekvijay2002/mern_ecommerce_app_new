@@ -48,7 +48,7 @@ const ProductDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Product Image Section */}
         <div>
-          <img src={selectedImage} alt="Selected" className="w-full h-80 object-cover rounded-lg shadow-lg" />
+          <img src={selectedImage} alt="Selected" className="w-[70%] h-[70%] object-cover rounded-lg shadow-lg" />
           <div className="flex space-x-4 mt-4 overflow-x-auto">
             {product.image?.map((imgUrl, index) => (
               <img 
@@ -105,7 +105,7 @@ const ProductDetails = () => {
         </button>
         <button
           onClick={() => navigate(`/addreview/${product._id}`)}
-          className="ml-auto px-4 py-2 bg-cyan-400 text-white rounded-lg hover:bg-cyan-500"
+          className="ml-auto px-4 py-2 bg-cyan-400 text-white rounded-lg hover:bg-cyan-500 mb-2"
         >
           Add Review
         </button>
