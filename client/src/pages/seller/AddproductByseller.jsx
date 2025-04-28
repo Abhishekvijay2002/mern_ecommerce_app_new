@@ -65,46 +65,55 @@ const CreateProductbyseller = () => {
   };
 
   return (
-    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white sm:p-6 md:p-10">
-      <h2 className="text-2xl font-bold mb-6 text-center sm:text-xl md:text-2xl">Create Product</h2>
+    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-[var(--table-border)] rounded-2xl shadow-md bg-[var(--card-bg)] text-[var(--text-color)] sm:p-6 md:p-10">
+      <h2 className="text-2xl font-bold mb-6 text-center">Create Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
+        <label className="block text-[var(--text-color)]">Title</label>
         <input
           type="text"
           name="title"
-          placeholder="Title"
+          placeholder="Enter product title"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
+
+        <label className="block text-[var(--text-color)]">Description</label>
         <textarea
           name="description"
-          placeholder="Description"
+          placeholder="Enter product description"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
+
+        <label className="block text-[var(--text-color)]">Price</label>
         <input
           type="number"
           name="price"
-          placeholder="Price"
+          placeholder="Enter price"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
+
+        <label className="block text-[var(--text-color)]">Stock</label>
         <input
           type="number"
           name="stock"
-          placeholder="Stock"
+          placeholder="Enter stock quantity"
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
+
+        <label className="block text-[var(--text-color)]">Category</label>
         <select
           name="category"
           value={formData.category}
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         >
           <option value="">Select Category</option>
           {categories.map((cat) => (
@@ -114,6 +123,7 @@ const CreateProductbyseller = () => {
           ))}
         </select>
 
+        <label className="block text-[var(--text-color)]">Upload Images</label>
         <input
           type="file"
           name="images"
@@ -121,12 +131,12 @@ const CreateProductbyseller = () => {
           multiple
           onChange={handleChange}
           required
-          className="w-full p-3 border rounded-lg focus:outline-none sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none sm:p-2 md:p-3"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-200 sm:p-2 md:p-3"
+          className="w-full bg-[var(--button-bg)] text-[var(--button-text)] p-3 rounded-lg hover:brightness-90 transition sm:p-2 md:p-3"
         >
           Create Product
         </button>

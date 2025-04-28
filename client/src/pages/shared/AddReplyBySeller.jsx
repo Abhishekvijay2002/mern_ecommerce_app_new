@@ -31,14 +31,14 @@ const AddReplyBySeller = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-xl bg-white rounded-xl shadow-md p-8 md:p-10">
-        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-800">
+    <div className="min-h-screen  flex items-center justify-center px-4 ">
+      <div className="w-full max-w-xl  rounded-xl shadow-md p-8 md:p-10 bg-[var(--card-bg)] text-[var(--text-color)]">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
           Submit Your Reply
         </h2>
         <form className="space-y-6" onSubmit={onSubmit}>
           <div>
-            <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="comment" className="block text-sm font-medium  mb-1">
               Review Reply
             </label>
             <input

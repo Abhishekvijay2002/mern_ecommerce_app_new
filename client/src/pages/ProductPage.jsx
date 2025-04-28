@@ -55,7 +55,7 @@ function ProductPage() {
   return (
     <div className="p-4">
       <main className="w-full">
-        <div className="text-gray-700 mb-4 text-center">
+        <div className=" mb-4 text-center">
           Showing {products.length} item(s)
         </div>
         

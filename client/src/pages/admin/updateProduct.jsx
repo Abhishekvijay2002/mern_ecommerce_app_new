@@ -68,7 +68,7 @@ const UpdateProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white">
+    <div className="max-w-3xl mx-auto mt-10 p-8 border  rounded-2xl shadow-md bg-[var(--card-bg)] text-[var(--text-color)]">
       <h2 className="text-2xl font-bold mb-6 text-center">Update Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">

@@ -10,6 +10,7 @@ function BecomeSeller() {
   const [status, setStatus] = useState('');
   const [role, setRole] = useState('');
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); // default theme is light
 
   useEffect(() => {
     GetSellerStatus()
@@ -24,7 +25,10 @@ function BecomeSeller() {
         toast.error("Failed to fetch seller status");
         setLoading(false);
       });
-  }, []);
+
+    // Apply the current theme
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   const handleRequest = () => {
     RequestToBecomeaSeller()
@@ -114,15 +118,29 @@ function BecomeSeller() {
     return null;
   };
 
+  // Toggle theme function
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme); // Save theme preference
+  };
+
   return (
-    <div className="max-w-xl mx-auto m-20 p-8 bg-white border rounded-xl shadow-md text-center">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Seller Request</h2>
+    <div className="max-w-xl mx-auto m-20 p-8 bg-[var(--card-bg)] text-[var(--text-color)] border rounded-xl shadow-md text-center">
+      <h2 className="text-3xl font-bold mb-6 ">Seller Request</h2>
+
+      <button
+        onClick={toggleTheme}
+        className="absolute top-5 right-5 bg-gray-800 text-white p-2 rounded-full"
+      >
+        {theme === 'light' ? '🌙' : '🌞'} {/* Switch icon based on theme */}
+      </button>
 
       {loading ? (
-        <p className="text-gray-500">Loading status...</p>
+        <p className="">Loading status...</p>
       ) : (
         <>
-          <p className="text-gray-600 mb-6">
+          <p className=" mb-6">
             <span className="font-medium">Current Status:</span>{' '}
             {status === 'not_requested' ? 'Not Requested' : status.charAt(0).toUpperCase() + status.slice(1)}
           </p>
@@ -135,4 +153,5 @@ function BecomeSeller() {
 }
 
 export default BecomeSeller;
+
 

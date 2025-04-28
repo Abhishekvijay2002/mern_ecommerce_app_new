@@ -52,25 +52,26 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="max-w-lg m-6 mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6 sm:max-w-md md:max-w-lg lg:max-w-xl">
+    <div className="max-w-lg m-6 mx-auto rounded-xl shadow-md overflow-hidden p-6 sm:max-w-md md:max-w-lg lg:max-w-xl bg-[var(--bg-color)] text-[var(--text-color)] transition">
       <div className="text-center">
         <div
-          className="w-24 h-24 mx-auto m-4 bg-gray-200 rounded-full bg-cover bg-center"
+          className="w-24 h-24 mx-auto m-4 rounded-full bg-[var(--card-bg)] border border-[var(--border-color)] bg-cover bg-center"
           style={{ backgroundImage: 'url(https://static.vecteezy.com/system/resources/previews/043/116/836/non_2x/illustration-of-boy-profile-anime-style-black-silhouette-isolated-on-white-background-free-vector.jpg)' }}
         ></div>
 
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-xl font-semibold text-[var(--heading-color)]">
           {userDetails?.name || "N/A"}
         </h2>
-        <p className="text-gray-600">{userDetails?.email || "N/A"}</p>
+        <p className="text-[var(--text-color)]">{userDetails?.email || "N/A"}</p>
+
         <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4 w-full sm:w-auto"
+          className="px-4 py-2 rounded-md mt-4 w-full sm:w-auto bg-[var(--button-bg)] text-[var(--button-text)] hover:opacity-80 m-4"
           onClick={() => setIsUpdateOpen(true)}
         >
           Update
         </button>
         <button
-          className="bg-red-500 text-white px-4 py-2 rounded-md mt-4 w-full sm:w-auto"
+          className="px-4 py-2 rounded-md mt-4 w-full sm:w-auto bg-red-500 text-white hover:opacity-80"
           onClick={() => setIsDeleteOpen(true)}
         >
           Delete
@@ -79,22 +80,22 @@ const ProfilePage = () => {
 
       {/* Update Modal */}
       {isUpdateOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96 md:w-1/2 lg:w-1/3">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded-lg shadow-lg p-6 w-11/12 sm:w-96 md:w-1/2 lg:w-1/3 bg-[var(--modal-bg)] text-[var(--modal-text)]">
             <h2 className="text-lg font-semibold mb-4">Update User Details</h2>
             <input
               type="text"
               placeholder="Enter new name"
               value={updateData.name}
               onChange={(e) => setUpdateData({ ...updateData, name: e.target.value })}
-              className="w-full border p-2 rounded-md mb-2"
+              className="w-full border border-[var(--border-color)] p-2 rounded-md mb-2 bg-[var(--card-bg)] text-[var(--text-color)]"
             />
             <input
               type="email"
               placeholder="Enter new email"
               value={updateData.email}
               onChange={(e) => setUpdateData({ ...updateData, email: e.target.value })}
-              className="w-full border p-2 rounded-md mb-4"
+              className="w-full border border-[var(--border-color)] p-2 rounded-md mb-4 bg-[var(--card-bg)] text-[var(--text-color)]"
             />
             <div className="flex justify-end gap-2">
               <button
@@ -104,7 +105,7 @@ const ProfilePage = () => {
                 Cancel
               </button>
               <button
-                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                className="px-4 py-2 rounded-md bg-[var(--button-bg)] text-[var(--button-text)]"
                 onClick={handleUpdate}
               >
                 Save Changes
@@ -116,13 +117,13 @@ const ProfilePage = () => {
 
       {/* Delete Confirmation Modal */}
       {isDeleteOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 sm:w-96 md:w-1/2 lg:w-1/3">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded-lg shadow-lg p-6 w-11/12 sm:w-96 md:w-1/2 lg:w-1/3 bg-[var(--modal-bg)] text-[var(--modal-text)]">
             <h2 className="text-lg font-semibold mb-4 text-red-600">Warning: Account Deletion</h2>
-            <p className="text-gray-700 mb-4">
+            <p className="mb-4">
               Deleting your account is a permanent action and cannot be undone.
             </p>
-            <label className="flex items-center space-x-2 text-gray-700">
+            <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
                 checked={confirmDelete}
@@ -155,6 +156,7 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
+
 
 
 

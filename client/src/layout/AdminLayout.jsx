@@ -13,7 +13,7 @@ function AdminLayout() {
 
 
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden">
+    <div className="h-screen w-ful flex flex-col overflow-hidden">
       {/* Header */}
       <header className="h-[10vh] w-full bg-white text-black shadow-lg border-b border-gray-300 flex items-center justify-between px-6">
         <div className="text-2xl font-bold">MyApp</div>
@@ -72,9 +72,9 @@ function AdminLayout() {
       </div>
 
       {/* Layout Container */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex  overflow-hidden">
         {/* Sidebar for Desktop */}
-        <nav className="hidden md:flex flex-col w-[20vw] max-w-xs h-full bg-gray-700 text-white p-6 space-y-6 border-r border-gray-500 shadow-lg">
+        <nav className="hidden md:flex flex-col max-w-xs h-full bg-gray-700 text-white p-6 space-y-6 border-r border-gray-500 shadow-lg">
           <button onClick={() => navigate("/admin/dashboard")} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white">Dashboard</button>
           <button onClick={() => navigate("/admin/sellerrequestlist")} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white">Seller Request</button>
           <button onClick={() => navigate("/admin/allorders")} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white">Orders</button>
@@ -87,7 +87,7 @@ function AdminLayout() {
         </nav>
 
         {/* Main Content */}
-        <main className="flex flex-1 shadow-inner p-6 md:ml-[20vw] overflow-auto">
+        <main className="flex flex-1 shadow-inner p-6  overflow-auto">
           <Outlet />
         </main>
       </div>

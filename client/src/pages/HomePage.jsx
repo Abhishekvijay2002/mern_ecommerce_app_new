@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Card from '../components/Card';
-import { GetAllCategory, ListBestsellingProducts, listProductswithOffers } from '../services/UserService';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import Card from "../components/Card";
+import CardSlider from "../components/Cardslider";
+import { GetAllCategory, ListBestsellingProducts, listProductswithOffers } from "../services/UserService";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [bestsellingProducts, setBestsellingProducts] = useState([]);
@@ -15,11 +16,11 @@ function HomePage() {
         const [bestsellersRes, offersRes, categoriesRes] = await Promise.all([
           ListBestsellingProducts(),
           listProductswithOffers(),
-          GetAllCategory()
+          GetAllCategory(),
         ]);
 
-        setBestsellingProducts(bestsellersRes.data);
-        setOfferProducts(offersRes.data);
+        setBestsellingProducts(bestsellersRes.data.slice(0, 20)); // Show only 20 elements
+        setOfferProducts(offersRes.data.slice(0, 20));
         setCategory(categoriesRes.data);
       } catch (err) {
         console.log(err);
@@ -33,11 +34,9 @@ function HomePage() {
     <div>
       {/* Hero Section */}
       <section className="py-16 px-8 text-center">
-        <h1 className="text-5xl font-bold mb-6">
-          Endless Choices, Limitless Savings!
-        </h1>
+        <h1 className="text-5xl font-bold mb-6">Endless Choices, Limitless Savings!</h1>
         <p className="text-lg mb-8 leading-relaxed text-center">
-          Discover a seamless shopping experience with Quick Buy<br />
+          Discover a seamless shopping experience with Quick Buy <br />
           From the latest gadgets to fashion, home essentials, and more, 
           we bring top-quality products at unbeatable prices, delivered right to your doorstep.
         </p>
@@ -66,31 +65,25 @@ function HomePage() {
       {/* Bestsellers Section */}
       <section>
         <h1 className="text-3xl font-bold mb-8 text-center mt-4">Featured Products / Best sellers</h1>
-        <p className='text-right m-4 cursor-pointer text-blue-600' onClick={() => navigate('/product/bestsellers')}>
+        <p className="text-right m-4 cursor-pointer text-blue-600" onClick={() => navigate("/product/bestsellers")}>
           View More....
         </p>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 p-4'>
-          {bestsellingProducts.map(product => (
-            <Card key={product._id} product={product} />
-          ))}
-        </div>
+    
+        {bestsellingProducts.length > 0 && <CardSlider products={bestsellingProducts} />}
       </section>
 
       {/* Offers Section */}
       <section>
         <h1 className="text-3xl font-bold mb-8 text-center mt-4">Limited Time Deals / Offers</h1>
-        <p className='text-right m-4 cursor-pointer text-blue-600' onClick={() => navigate('/product/offers')}>
+        <p className="text-right m-4 cursor-pointer text-blue-600" onClick={() => navigate("/product/offers")}>
           View More....
         </p>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
-          {offerProducts.map(product => (
-            <Card key={product._id} product={product} />
-          ))}
-        </div>
+        {offerProducts.length > 0 && <CardSlider products={offerProducts} />}
       </section>
     </div>
   );
 }
 
 export default HomePage;
+
 

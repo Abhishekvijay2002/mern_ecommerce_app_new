@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { addToCart, deleteReview, Getproductbyid, getReviewsByProduct } from "../services/UserService";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { productid } = useParams();
-
+  
   const [product, setProduct] = useState({});
   const [reviews, setReviews] = useState([]);
   const [activeTab, setActiveTab] = useState("description");
-  const [selectedImage, setSelectedImage] = useState(""); // To store the selected image
+  const [selectedImage, setSelectedImage] = useState("");
 
   useEffect(() => {
     Getproductbyid(productid)
       .then((res) => {
         setProduct(res.data);
-        setSelectedImage(res.data.image[0]); // Default to the first image
+        setSelectedImage(res.data.image[0]); 
       })
       .catch((err) => console.log(err));
 
     getReviewsByProduct(productid)
-      .then((res) => {
-        setReviews(res.data.reviews);
-      })
+      .then((res) => setReviews(res.data.reviews))
       .catch((err) => console.log(err));
   }, [productid]);
 
@@ -38,51 +36,38 @@ const ProductDetails = () => {
 
   const handleDeleteReview = async (reviewId) => {
     deleteReview(reviewId)
-      .then((res) => {
+      .then(() => {
         toast.success("Review deleted successfully!");
-        setReviews(prevReviews => prevReviews.filter(review => review._id !== reviewId));
+        setReviews(prev => prev.filter(review => review._id !== reviewId));
       })
-      .catch((error) => {
-        toast.error("Failed to delete review!");
-        console.log(error);
-      });
-  };
-
-  const handleImageClick = (image) => {
-    setSelectedImage(image); // Update selected image
+      .catch(() => toast.error("Failed to delete review!"));
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto bg-[var(--bg-color)] text-[var(--text-color)] transition">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Side: Product Image */}
+        {/* Product Image Section */}
         <div>
-          <img
-            src={selectedImage} // Show the selected image
-            alt="Selected"
-            className="w-full h-80 object-cover rounded-lg shadow-lg"
-          />
-
-          {/* Thumbnail Images Section Below Main Image */}
+          <img src={selectedImage} alt="Selected" className="w-full h-80 object-cover rounded-lg shadow-lg" />
           <div className="flex space-x-4 mt-4 overflow-x-auto">
             {product.image?.map((imgUrl, index) => (
-              <img
-                key={index}
-                src={imgUrl}
-                alt={`Thumbnail ${index + 1}`}
-                className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""}`}
-                onClick={() => handleImageClick(imgUrl)} // Change selected image on click
+              <img 
+                key={index} 
+                src={imgUrl} 
+                alt={`Thumbnail ${index + 1}`} 
+                className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""}`} 
+                onClick={() => setSelectedImage(imgUrl)} 
               />
             ))}
           </div>
         </div>
 
-        {/* Right Side: Product Details */}
+        {/* Product Details Section */}
         <div className="flex flex-col justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-gray-800">{product.title}</h2>
-            <p className="text-sm text-gray-500 mt-1">{product.category}</p>
-            <p className="text-xl text-gray-800 mt-2">
+            <h2 className="text-2xl font-semibold text-[var(--heading-color)]">{product.title}</h2>
+            <p className="text-sm text-[var(--text-color)] mt-1">{product.category}</p>
+            <p className="text-xl text-[var(--text-color)] mt-2">
               {product.offerPrice ? (
                 <>
                   <span className="text-red-500 font-bold text-2xl pr-1">₹{product.offerPrice}</span>
@@ -92,29 +77,29 @@ const ProductDetails = () => {
                 `₹${product.price}`
               )}
             </p>
-            <div className="mt-4 flex space-x-2">
-            <button onClick={addToCartHandler} className="px-6 py-2 bg-black text-white rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300">
+
+            {/* Add to Cart Button */}
+            <button 
+              onClick={addToCartHandler} 
+              className="px-6 py-2 bg-[var(--button-bg)] text-[var(--button-text)] rounded-lg shadow-md hover:opacity-80 transition-all duration-300 mt-4"
+            >
               Add to Cart
             </button>
-          </div>
-
-          {/* Actions */}
-         
           </div>
         </div>
       </div>
 
-      {/* Tabs - Description & Reviews */}
-      <div className="mt-10 border-b flex items-center space-x-6 text-lg">
+      {/* Tabs: Description & Reviews */}
+      <div className="mt-10 border-b flex items-center space-x-6 text-lg text-[var(--text-color)]">
         <button
           onClick={() => setActiveTab("description")}
-          className={`px-4 py-2 ${activeTab === "description" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-gray-600"}`}
+          className={`px-4 py-2 ${activeTab === "description" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-[var(--text-color)]"}`}
         >
           Description
         </button>
         <button
           onClick={() => setActiveTab("reviews")}
-          className={`px-4 py-2 ${activeTab === "reviews" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-gray-600"}`}
+          className={`px-4 py-2 ${activeTab === "reviews" ? "font-bold text-blue-500 border-b-2 border-blue-500" : "text-[var(--text-color)]"}`}
         >
           Reviews
         </button>
@@ -126,49 +111,34 @@ const ProductDetails = () => {
         </button>
       </div>
 
-      {/* Description Section */}
+      {/* Description Tab */}
       {activeTab === "description" && (
         <div className="mt-6 space-y-4">
-          <p className="text-gray-700">{product.description}</p>
+          <p className="text-[var(--text-color)]">{product.description}</p>
         </div>
       )}
 
-      {/* Reviews Section */}
+      {/* Reviews Tab */}
       {activeTab === "reviews" && (
         <div className="mt-6 space-y-4">
           {reviews.length > 0 ? (
             reviews.map((review, index) => (
-              <div key={index} className="border p-4 rounded-lg shadow-md bg-white">
+              <div key={index} className="border p-4 rounded-lg shadow-md bg-[var(--card-bg)] border-[var(--border-color)]">
                 <div className="flex justify-between items-center">
-                  <h4 className="font-semibold text-gray-800">{review.user?.name || "Anonymous"}</h4>
+                  <h4 className="font-semibold text-[var(--heading-color)]">{review.user?.name || "Anonymous"}</h4>
                   <span className="text-yellow-500">{review.rating} ⭐</span>
                 </div>
-                <p className="mt-2 text-gray-700">{review.review}</p>
-
-                {/* Replies Section */}
-                {review.replies && review.replies.length > 0 && (
-                  <div className="mt-4 border-l-4 pl-4 bg-gray-50">
-                    <h5 className="font-bold text-gray-600">Replies:</h5>
-                    {review.replies.map((reply, replyIndex) => (
-                      <div key={replyIndex} className="border p-2 rounded mt-2 bg-gray-100">
-                        <h6 className="font-semibold">{reply.user?.name || "Anonymous"}</h6>
-                        <p className="text-gray-700">{reply.review}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Delete Review Button */}
+                <p className="mt-2 text-[var(--text-color)]">{review.review}</p>
                 <button
                   className="text-red-500 hover:text-blue-700 mt-2"
                   onClick={() => handleDeleteReview(review._id)}
                 >
-                  Delete review
+                  Delete Review
                 </button>
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No reviews yet. Be the first to review!</p>
+            <p className="text-[var(--text-color)]">No reviews yet. Be the first to review!</p>
           )}
         </div>
       )}
@@ -177,4 +147,5 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+
 

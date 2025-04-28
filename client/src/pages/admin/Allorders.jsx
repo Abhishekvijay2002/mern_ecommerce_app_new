@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { updateOrder, getAllOrders } from "../../services/UserService";
@@ -38,14 +37,16 @@ function AllOrders() {
     };
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen overflow-hidden">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Orders</h2>
+        <div className="p-6 min-h-screen overflow-hidden">
+            <h2 className="text-2xl font-semibold mb-4">All Orders</h2>
 
             {/* Scrollable Table Wrapper */}
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-                <div className="overflow-x-auto max-h-[400px]">
-                    <table className="w-full min-w-[1000px] text-left border-separate border-spacing-y-4">
-                        <thead className="bg-gray-200 text-gray-700 uppercase text-sm">
+            <div className="shadow-lg rounded-lg overflow-hidden">
+                {/* Allow horizontal scroll on small screens */}
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-separate border-spacing-y-4"
+                        style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
+                        <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
                             <tr>
                                 <th className="py-3 px-6 text-left">Order ID</th>
                                 <th className="py-3 px-6 text-left">User Name</th>
@@ -58,16 +59,15 @@ function AllOrders() {
                         <tbody>
                             {allOrders.length > 0 ? (
                                 allOrders.map((order) => (
-                                    <tr key={order._id} className="border-b border-gray-300 hover:bg-gray-100 transition">
+                                    <tr key={order._id} className="border-b border-gray-300 hover:bg-gray-100 transition"
+                                        style={{ color: "var(--table-text-color)" }}>
                                         <td className="py-3 px-6">{order._id}</td>
                                         <td className="py-3 px-6">{order.userId.name}</td>
                                         <td className="py-3 px-6 text-yellow-600 font-medium">₹{order.totalamount}</td>
                                         <td className="py-3 px-6 text-center">
-                                            <select
-                                                value={order.orderstatus}
+                                            <select value={order.orderstatus}
                                                 onChange={(e) => handleUpdate(order._id, e.target.value)}
-                                                className="p-2 border border-gray-300 rounded-md"
-                                            >
+                                                className="p-2 border border-gray-300 rounded-md">
                                                 <option value="pending">Pending</option>
                                                 <option value="shipped">Shipped</option>
                                                 <option value="delivered">Delivered</option>
@@ -80,7 +80,9 @@ function AllOrders() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="6" className="py-3 px-6 text-center text-gray-500">No orders available</td>
+                                    <td colSpan="6" className="py-3 px-6 text-center ">
+                                        No orders available
+                                    </td>
                                 </tr>
                             )}
                         </tbody>
@@ -92,4 +94,3 @@ function AllOrders() {
 }
 
 export default AllOrders;
-

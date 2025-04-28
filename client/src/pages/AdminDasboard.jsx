@@ -7,6 +7,7 @@ const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
   const [sellerProducts, setSellerProducts] = useState([]);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,8 +29,11 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className="p-4 md:p-8 min-h-screen bg-gray-50 text-gray-800">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6">Admin Dashboard</h1>
+    <div className="p-4 md:p-8 min-h-screen" style={{ backgroundColor: "var(--bg-color)", color: "var(--text-color)" }}>
+      
+      <h1 className="text-2xl md:text-3xl font-bold mb-6" style={{ color: "var(--heading-color)" }}>
+        Admin Dashboard
+      </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <DashboardCard title="Total Users" count={users.length} />
@@ -47,7 +51,11 @@ const AdminDashboard = () => {
 };
 
 const DashboardCard = ({ title, count }) => (
-  <div className="p-4 bg-white rounded-lg shadow hover:shadow-md transition">
+  <div className="p-4 rounded-lg shadow hover:shadow-md transition"
+    style={{
+      backgroundColor: "var(--card-bg)",
+      border: "1px solid var(--border-color)"
+    }}>
     <h2 className="text-lg font-medium mb-1">{title}</h2>
     <p className="text-2xl font-bold text-blue-600">{count}</p>
   </div>
@@ -56,12 +64,12 @@ const DashboardCard = ({ title, count }) => (
 const ProductList = ({ products }) => (
   <div className="mt-10">
     <h2 className="text-xl md:text-2xl font-semibold mb-4">All Products</h2>
-    <ul className="bg-white rounded-lg shadow divide-y">
+    <ul className=" rounded-lg shadow divide-y" style={{ backgroundColor: "var(--card-bg)" }}>
       {products.map((product) => (
         <li key={product.id} className="p-4">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <span className="font-semibold">{product.title}</span>
-            <span className="text-gray-600">₹{product.price}</span>
+            <span>₹{product.price}</span>
           </div>
         </li>
       ))}
@@ -70,4 +78,3 @@ const ProductList = ({ products }) => (
 );
 
 export default AdminDashboard;
-

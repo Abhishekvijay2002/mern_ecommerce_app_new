@@ -20,7 +20,7 @@ function Card({ product }) {
     navigate(`/productdetails/${product._id}`);
   };
 
-  const Product = product 
+  const Product = product;
 
   const addCourseToCart = async (productId, event) => {
     event.stopPropagation(); // Prevents navigation when clicking the button
@@ -37,7 +37,7 @@ function Card({ product }) {
   return (
     <div
       onClick={handleClick}
-      className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 hover:shadow-xl transition-shadow cursor-pointer sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl"
+      className="max-w-sm rounded overflow-hidden shadow-lg bg-[var(--card-bg)]  hover:shadow-xl transition-shadow cursor-pointer sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl text-[var(--text-color)]"
     >
       {/* Product Image */}
       <img
@@ -49,26 +49,22 @@ function Card({ product }) {
       {/* Content */}
       <div className="p-2 md:p-4 text-center">
         {/* Product Name */}
-        <h2 className="text-sm md:text-lg font-semibold text-gray-800">{Product.title.slice(0,17)}</h2>
+        <h2 className="text-sm md:text-lg font-semibold">{Product.title.slice(0,17)}</h2>
 
-        
-        <p className="text-xs md:text-sm text-gray-500 mt-2">
-  {Product.offerPrice ? (
-    <>
-      <span className="text-red-500 font-bold text-xl pr-1">₹{Product.offerPrice}</span>
-      <span className="text-gray-500 line-through">₹{Product.price}</span>{' '}
-      
-    </>
-  ) : (
-    `₹${Product.price}`
-  )}
-</p>
+        <p className="text-xs md:text-sm mt-2">
+          {Product.offerPrice ? (
+            <>
+              <span className="text-red-500 font-bold text-xl pr-1">₹{Product.offerPrice}</span>
+              <span className="line-through">₹{Product.price}</span>
+            </>
+          ) : (
+            `₹${Product.price}`
+          )}
+        </p>
 
-
-        
         <button
           onClick={(event) => addCourseToCart(Product._id, event)}
-          className="mt-4 px-3 md:px-4 py-1 md:py-2 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors"
+          className="mt-4 px-3 md:px-4 py-1 md:py-2 bg-[var(--button-bg)] text-[var(--button-text)] font-medium rounded-lg hover:brightness-90 transition"
         >
           Add to Cart
         </button>

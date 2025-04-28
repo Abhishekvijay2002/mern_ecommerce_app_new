@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { DeleteProduct, ListProductforSeller } from "../../services/UserService";
+import { DeleteProduct, ListProductforSeller, addOffers, removeOffers } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 
 function AllProducts() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [offerPrice, setOfferPrice] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -25,24 +28,44 @@ function AllProducts() {
     try {
       await DeleteProduct(id);
       toast.success("Product deleted successfully!");
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== id)
-      );
+      setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
     } catch (error) {
       console.log(error);
       toast.error("Failed to delete product.");
     }
   };
 
+  const handleAddOffer = () => {
+    if (!offerPrice) {
+      toast.error("Please enter an offer price!");
+      return;
+    }
+    addOffers(selectedProduct, offerPrice)
+      .then(() => {
+        toast.success("Offer price added successfully!");
+        setIsModalOpen(false);
+        setOfferPrice("");
+      })
+      .catch(() => toast.error("Failed to add offer price."));
+  };
+
+  const handleRemoveOffer = (id) => {
+    removeOffers(id)
+      .then(() => {
+        toast.success("Offer removed successfully!");
+      })
+      .catch(() => toast.error("Failed to remove offer."));
+  };
+
   return (
-    <div className="p-6 bg-gray-100 min-h-screen overflow-hidden">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4">All Products</h2>
+    <div className="p-6 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
+      <h2 className="text-2xl font-semibold mb-4">All Products</h2>
 
       {/* Scrollable Table Wrapper */}
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="shadow-lg rounded-lg overflow-hidden border border-[var(--table-border)] bg-[var(--table-bg)]">
         <div className="overflow-y-auto max-h-[400px]">
-          <table className="w-full text-left border-separate border-spacing-y-4">
-            <thead className="bg-gray-200 text-gray-700 uppercase text-sm">
+          <table className="w-full text-left border-separate border-spacing-y-4" style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
+            <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
               <tr>
                 <th className="py-3 px-6">Product Name</th>
                 <th className="py-3 px-6">Category</th>
@@ -54,7 +77,7 @@ function AllProducts() {
             <tbody>
               {products.length > 0 ? (
                 products.map((product) => (
-                  <tr key={product._id} className="border-b border-gray-300 hover:bg-gray-100 transition">
+                  <tr key={product._id} className="border-b border-[var(--table-border)] hover:bg-opacity-90 transition">
                     <td className="py-3 px-6">{product.title}</td>
                     <td className="py-3 px-6">{product.category}</td>
                     <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.price}</td>
@@ -69,21 +92,43 @@ function AllProducts() {
                         <button onClick={() => navigate(`/seller/updateproduct/${product._id}`)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
                           Edit
                         </button>
+                        <button onClick={() => { setSelectedProduct(product._id); setIsModalOpen(true); }} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
+                          Add Offer
+                        </button>
+                        <button onClick={() => handleRemoveOffer(product._id)} className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition">
+                          Remove Offer
+                        </button>
                       </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="py-3 px-6 text-center text-gray-500">No products available</td>
+                  <td colSpan="5" className="py-3 px-6 text-center text-[var(--table-text-color)]">No products available</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
+
+      {/* Offer Price Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="p-6 rounded-lg shadow-lg bg-[var(--card-bg)] text-[var(--text-color)]">
+            <h2 className="text-xl font-semibold mb-4">Enter Offer Price</h2>
+            <input type="number" value={offerPrice} onChange={(e) => setOfferPrice(e.target.value)} className="border px-4 py-2 w-full mb-4 bg-[var(--input-bg)] text-[var(--text-color)]" placeholder="Enter price..." />
+            <div className="flex justify-end gap-2">
+              <button onClick={() => setIsModalOpen(false)} className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition">Cancel</button>
+              <button onClick={handleAddOffer} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">Confirm Offer</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default AllProducts;
+
+

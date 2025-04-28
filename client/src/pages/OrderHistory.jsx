@@ -25,7 +25,7 @@ const OrderHistory = () => {
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === id
-            ? { ...order, orderstatus: "Cancelled" } // Update status
+            ? { ...order, orderstatus: "Cancelled" }
             : order
         )
       );
@@ -37,11 +37,12 @@ const OrderHistory = () => {
   };
 
   return (
-    <div className="p-6 h-auto">
+    <div className="p-6 h-auto bg-[var(--bg-color)] text-[var(--text-color)]">
       <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-      <div className="overflow-x-auto border border-gray-300 rounded-lg">
-        <table className="min-w-full border border-gray-300 rounded-lg">
-          <thead className="bg-gray-700 text-white">
+      <div className="overflow-x-auto border border-[var(--table-border)] rounded-lg bg-[var(--table-bg)]">
+        <table className="min-w-full border border-[var(--table-border)] rounded-lg"
+          style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
+          <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
             <tr>
               <th className="py-3 px-4 text-left">Order No</th>
               <th className="py-3 px-4 text-left">Items</th>
@@ -51,10 +52,10 @@ const OrderHistory = () => {
               <th className="py-3 px-4 text-left">Actions</th> 
             </tr>
           </thead>
-          <tbody className="bg-white text-gray-700">
+          <tbody>
             {orders.length > 0 ? (
               orders.map((order) => (
-                <tr key={order._id} className="border-t hover:bg-gray-100">
+                <tr key={order._id} className="border-t border-[var(--table-border)] hover:bg-opacity-90 transition">
                   <td className="py-3 px-4">{order._id || "N/A"}</td>
                   <td className="py-3 px-4">
                     {Array.isArray(order.product)
@@ -71,7 +72,7 @@ const OrderHistory = () => {
                   <td className="py-3 px-4">
                     <button
                       onClick={() => handleDelete(order._id)}
-                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-950 transition"
+                      className="bg-red-500  text-[var(--button-text)] px-3 py-2 rounded hover:brightness-90 transition"
                     >
                       Cancel Order
                     </button>
@@ -80,7 +81,7 @@ const OrderHistory = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="py-3 px-4 text-center text-gray-500">
+                <td colSpan="6" className="py-3 px-4 text-center text-[var(--table-text-color)]">
                   No orders found.
                 </td>
               </tr>
@@ -93,5 +94,6 @@ const OrderHistory = () => {
 };
 
 export default OrderHistory;
+
 
 

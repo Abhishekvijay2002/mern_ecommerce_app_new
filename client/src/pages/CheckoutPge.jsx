@@ -25,9 +25,9 @@ const OrderPage = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4">
-            <div className="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96">
-                <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">
+        <div className="flex justify-center items-center min-h-screen  px-4">
+            <div className=" bg-[var(--card-bg)] text-[var(--text-color)] p-6 rounded-lg shadow-lg w-full sm:w-96">
+                <h2 className="text-2xl font-semibold text-center  mb-4">
                     Place Your Order
                 </h2>
                 <input

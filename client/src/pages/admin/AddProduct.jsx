@@ -66,7 +66,7 @@ const CreateProduct = () => {
   };
 
   return (
-    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-gray-300 rounded-2xl shadow-md bg-white sm:p-6 md:p-10">
+    <div className="max-w-xl w-full mx-auto mt-10 p-8 border border-[var(--table-border)] bg-[var(--card-bg)] text-[var(--text-color)] rounded-2xl shadow-md sm:p-6 md:p-10">
       <h2 className="text-2xl font-bold mb-6 text-center sm:text-xl md:text-2xl">Create Product</h2>
       <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
         <input

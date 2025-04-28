@@ -25,7 +25,7 @@ const CartPage = () => {
         setTotalPrice(res.data.cart?.totalprice || 0);
         toast.success("Cart fetched successfully!");
       })
-      .catch((err) => {
+      .catch(() => {
         toast.error("Failed to fetch cart!");
       });
   }, []);
@@ -82,11 +82,12 @@ const CartPage = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="overflow-x-auto mb-10">
-        <table className="w-full text-left border-separate border-spacing-y-4 sm:table-auto">
-          <thead>
-            <tr className="text-gray-700 font-semibold">
+    <div className="p-6 max-w-7xl mx-auto bg-[var(--bg-color)] text-[var(--text-color)]">
+      <div className="overflow-x-auto mb-10 border border-[var(--table-border)] rounded-lg bg-[var(--table-bg)]">
+        <table className="w-full text-left border-separate border-spacing-y-4 sm:table-auto"
+          style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
+          <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
+            <tr>
               <th>Product</th>
               <th>Price</th>
               <th>Quantity</th>
@@ -95,29 +96,24 @@ const CartPage = () => {
           </thead>
           <tbody>
             {cartItems?.map((item) => (
-              <tr key={item._id} className="bg-gray-50 rounded-lg">
-                <td className="flex items-center space-x-4 py-4">
-                  <button
-                    onClick={() => handleRemove(item.productid._id)}
-                    className="text-gray-600 hover:text-gray-800"
-                  >
-                    <X className="w-5 h-5 text-gray-600" />
+              <tr key={item._id} className="border-b border-[var(--table-border)] hover:bg-opacity-90 transition ">
+                <td className="flex items-center space-x-4 p-4">
+                  <button onClick={() => handleRemove(item.productid._id)}
+                    className="text-[var(--text-color)] hover:brightness-90 transition">
+                    <X className="w-5 h-5" />
                   </button>
-                  <img
-                    src={item.productid.image[0]}
-                    alt={item.productid.title}
-                    className="w-12 h-12 rounded"
-                  />
+                  <img src={item.productid.image[0]} alt={item.productid.title}
+                    className="w-12 h-12 rounded" />
                   <span className="truncate max-w-xs">{item.productid.title}</span>
                 </td>
                 <td>${item.price}</td>
                 <td>
-                  <div className="flex items-center space-x-2">
-                    <button className="px-2 py-1 border rounded">
+                  <div className="flex items-center space-x-2 " >
+                    <button className="px-2 py-1 border rounded bg-[var(--button-bg)] text-[var(--button-text)]">
                       <Minus className="w-4 h-4" />
                     </button>
                     <span>{item.quantity}</span>
-                    <button className="px-2 py-1 border rounded">
+                    <button className="px-2 py-1 border rounded bg-[var(--button-bg)] text-[var(--button-text)]">
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
@@ -129,25 +125,16 @@ const CartPage = () => {
         </table>
       </div>
 
-      <div className="w-full md:w-1/3 ml-auto bg-gray-100 p-4 rounded">
+      <div className="w-full md:w-1/3 ml-auto p-4 rounded bg-[var(--card-bg)] border border-[var(--table-border)]">
         <h3 className="text-lg font-semibold mb-4 border-b pb-2">Cart Total</h3>
         <div className="flex justify-between py-2 border-b">
           <span>SUBTOTAL</span>
           <span>${totalPrice}</span>
         </div>
-        <div className="flex justify-between py-2 border-b">
-          <span>DISCOUNT</span>
-          <span>---</span>
-        </div>
-        <div className="flex justify-between py-2 font-semibold">
-          <span>TOTAL</span>
-          <span>${totalPrice}</span>
-        </div>
         <button
           onClick={makePayment}
           disabled={cartItems.length === 0}
-          className="w-full mt-4 bg-black text-white py-2 rounded hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
+          className="w-full mt-4 bg-[var(--button-bg)] text-[var(--button-text)] py-2 rounded hover:brightness-90 disabled:opacity-50">
           Pay with Stripe
         </button>
       </div>
@@ -156,3 +143,4 @@ const CartPage = () => {
 };
 
 export default CartPage;
+
