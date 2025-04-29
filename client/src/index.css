@@ -4,20 +4,23 @@
 
 [data-theme="light"] {
   --bg-color: #ffffff;
+  --secondary-bg-color : #F1F2F4;
   --text-color: #1f2937;
   --heading-color: #111827;
   --button-bg: #1d70f4;
   --button-text: #ffffff;
   --card-bg: #f9fafb;
   --border-color: #e5e7eb;
-  --table-bg: #ffffff; /* Table background */
-  --table-header-bg: #e5e7eb; /* Header background */
-  --table-text-color: #1f2937;
-  --placeholder-text-color: #6b7280; /* Text color */
+  --table-bg: #ffffff; 
+  --table-header-bg: #e5e7eb; 
+  --placeholder-text-color: #6b7280; 
+  --best-seller-bg: #1E3A8A;
+  --best-seller-text: #ffffff
 }
 
 [data-theme="dark"] {
   --bg-color: #1f2937;
+  --secondary-bg-color : #2C3E5D;
   --text-color: #f3f4f6;
   --heading-color: #f9fafb;
   --button-bg: #3B82F6;
@@ -28,6 +31,8 @@
   --table-header-bg: #4b5563;
   --table-text-color: #ffffff;
   --placeholder-text-color: #e5e7eb;
+  --best-seller-bg: #121212; 
+  --best-seller-text: #f3f4f6;
 
 
 }

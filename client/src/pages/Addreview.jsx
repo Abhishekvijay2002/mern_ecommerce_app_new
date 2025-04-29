@@ -24,7 +24,7 @@ const ReviewPage = () => {
         navigate(`/productdetails/${productid}`);
       })
       .catch((error) => {
-        toast.error("Failed to add review!");
+        toast.error(error.response?.data?.message);
         console.log(error);
       });
   };
@@ -78,17 +78,26 @@ const ReviewPage = () => {
           ))}
         </div>
 
-        {/* Submit Button */}
-        <button
-          onClick={handleAddReview}
-          className="w-full py-3 rounded-lg font-semibold hover:opacity-90 transition duration-300"
-          style={{
-            backgroundColor: "var(--button-bg)",
-            color: "var(--button-text)",
-          }}
-        >
-          Submit Review
-        </button>
+        <div className="flex justify-between gap-4">
+  <button
+    onClick={handleAddReview}
+    className="w-full py-3 rounded-lg font-semibold hover:opacity-90 transition duration-300"
+    style={{
+      backgroundColor: "var(--button-bg)",
+      color: "var(--button-text)",
+    }}
+  >
+    Submit Review
+  </button>
+  
+  <button 
+    className="border-t-cyan-900 px-4 py-3 rounded-lg border font-semibold hover:opacity-90 transition duration-300"
+    onClick={() => navigate(`/productdetails/${productid}`)}
+  >
+    Cancel
+  </button>
+</div>
+
       </div>
     </div>
   );

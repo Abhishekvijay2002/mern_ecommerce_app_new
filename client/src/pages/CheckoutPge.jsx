@@ -5,7 +5,6 @@ import { addOrder } from "../services/UserService";
 
 const OrderPage = () => {
     const [address, setAddress] = useState("");
-    const [paymentMethod, setPaymentMethod] = useState("Card");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -25,17 +24,19 @@ const OrderPage = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen  px-4">
-            <div className=" bg-[var(--card-bg)] text-[var(--text-color)] p-6 rounded-lg shadow-lg w-full sm:w-96">
-                <h2 className="text-2xl font-semibold text-center  mb-4">
-                    Place Your Order
+        <div className="flex justify-center items-center min-h-screen px-4">
+            <div className="bg-[var(--card-bg)] text-[var(--text-color)] p-6 rounded-lg shadow-lg w-full sm:w-96">
+                <h2 className="text-2xl font-semibold text-center mb-4">
+                    ✅ Payment Successful
                 </h2>
-                <input
-                    type="text"
-                    placeholder="Enter your address"
+                <p className="text-center text-sm text-placeholder-text-color mb-4">
+                    Please enter your address to complete the order.
+                </p>
+                <textarea
+                    placeholder="Enter your full address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-3 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none h-24"
                 />
                 <button
                     onClick={handleOrderSubmit}

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { getAllReviews } from "../../services/UserService";
+import { getAllReviews, Getproductbyid } from "../../services/UserService"; // Make sure Getproductbyid is correct
 import { useNavigate } from "react-router-dom";
 
 function AllReviews() {
     const navigate = useNavigate();
     const [reviews, setReviews] = useState([]);
+    const [products, setProducts] = useState({}); // To store product names
 
     useEffect(() => {
+        // Fetch reviews first
         getAllReviews()
             .then((res) => {
                 setReviews(res.data.reviews || []);
@@ -17,6 +19,23 @@ function AllReviews() {
                 toast.error("Error Fetching Reviews");
             });
     }, []);
+
+    // Fetch product details by ID
+    useEffect(() => {
+        reviews.forEach((review) => {
+            if (review.product && review.product._id) {
+                Getproductbyid(review.product._id).then((productRes) => {
+                    const product = productRes.data; // Make sure this structure is correct
+                    setProducts((prevState) => ({
+                        ...prevState,
+                        [review.product._id]: product.title || "Unknown Product" // Safely access 'title'
+                    }));
+                }).catch(() => {
+                    console.error("Error fetching product details");
+                });
+            }
+        });
+    }, [reviews]);
 
     const handleReply = (reviewId) => {
         navigate(`/admin/addreply/${reviewId}`);
@@ -48,7 +67,8 @@ function AllReviews() {
                                         <td className="py-3 px-6">{review.user?.name || "Unknown User"}</td>
                                         <td className="py-3 px-6 truncate max-w-[200px]">{review.review}</td>
                                         <td className="py-3 px-6 text-yellow-600 font-medium">{review.rating}</td>
-                                        <td className="py-3 px-6">{review.product?.name || "Product deleted"}</td>
+                                        {/* Safely accessing product name */}
+                                        <td className="py-3 px-6">{products[review.product?._id] || "Loading..."}</td>
                                         <td className="py-3 px-6">{new Date(review.createdAt).toLocaleDateString()}</td>
                                         <td className="py-3 px-6 text-center">
                                             <button
@@ -61,7 +81,7 @@ function AllReviews() {
                                 ))
                             ) : (
                                 <tr className="text-gray-500 text-center">
-                                    <td className="py-3 px-6">No reviews available</td>
+                                    <td className="py-3 px-6" colSpan="6">No reviews available</td>
                                 </tr>
                             )}
                         </tbody>

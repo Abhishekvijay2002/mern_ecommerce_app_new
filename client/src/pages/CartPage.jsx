@@ -109,13 +109,8 @@ const CartPage = () => {
                 <td>${item.price}</td>
                 <td>
                   <div className="flex items-center space-x-2 " >
-                    <button className="px-2 py-1 border rounded bg-[var(--button-bg)] text-[var(--button-text)]">
-                      <Minus className="w-4 h-4" />
-                    </button>
                     <span>{item.quantity}</span>
-                    <button className="px-2 py-1 border rounded bg-[var(--button-bg)] text-[var(--button-text)]">
-                      <Plus className="w-4 h-4" />
-                    </button>
+
                   </div>
                 </td>
                 <td>${item.price * item.quantity}</td>

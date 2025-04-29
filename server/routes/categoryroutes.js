@@ -7,7 +7,7 @@ const categoryRouter = require('express').Router()
 
 categoryRouter.post("/create", authAdmin,upload.single("image"),createCategory )
 categoryRouter.get("/getcategories", getAllCategories )
-categoryRouter.get("/getcategories/:categoryid" ,authAdmin , getCategoryById )
+categoryRouter.get("/getcategories/:categoryid"  , getCategoryById )
 categoryRouter.put("/update/:categoryid", authAdmin, upload.single("image"), updateCategory)
 categoryRouter.delete("/delete/:categoryid", authAdmin , deleteCategory)
 

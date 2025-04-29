@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { getAllReviews } from "../../services/UserService";
+import { getAllReviewByseller, getAllReviews } from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 
 function ManageReviewByseller() {
@@ -8,12 +8,14 @@ function ManageReviewByseller() {
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        getAllReviews()
+        getAllReviewByseller()
             .then((res) => {
                 setReviews(res.data.reviews);
+                console.log("res",res);
                 toast.success("Reviews Fetched");
             })
-            .catch(() => {
+            .catch((error) => {
+                console.log("error" , error)
                 toast.error("Error Fetching Reviews");
             });
     }, []);
@@ -44,7 +46,7 @@ function ManageReviewByseller() {
                                         <td className="py-3 px-4">{review.user?.name || "Unknown User"}</td>
                                         <td className="py-3 px-4">{review.review}</td>
                                         <td className="py-3 px-4 text-yellow-600 font-medium">{review.rating}</td>
-                                        <td className="py-3 px-4">{review.product?.name || "Product deleted"}</td>
+                                        <td className="py-3 px-4">{review.product?.title || "Product deleted"}</td>
                                         <td className="py-3 px-4">{new Date(review.createdAt).toLocaleDateString()}</td>
                                         <td className="py-3 px-4 text-center">
                                             <button onClick={() => navigate(`/seller/addreply/${review._id}`)}

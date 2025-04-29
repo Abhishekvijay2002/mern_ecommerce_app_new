@@ -13,7 +13,7 @@ function Card({ product }) {
   } else if (typeof product.image === 'string') {
     imageSrc = product.image; 
   } else {
-    imageSrc = 'https://via.placeholder.com/300x200?text=No+Image';
+    imageSrc = 'https://via.placeholder.com/240x160?text=No+Image'; // Reduced placeholder size
   }
 
   const handleClick = () => {
@@ -23,7 +23,7 @@ function Card({ product }) {
   const Product = product;
 
   const addCourseToCart = async (productId, event) => {
-    event.stopPropagation(); // Prevents navigation when clicking the button
+    event.stopPropagation(); 
     try {
       const response = await addToCart(productId);
       console.log(response.data);
@@ -37,25 +37,25 @@ function Card({ product }) {
   return (
     <div
       onClick={handleClick}
-      className="max-w-sm rounded overflow-hidden shadow-lg bg-[var(--card-bg)]  hover:shadow-xl transition-shadow cursor-pointer sm:max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl text-[var(--text-color)]"
+      className="max-w-xs rounded overflow-hidden shadow-md bg-[var(--card-bg)] hover:shadow-lg transition-shadow cursor-pointer text-[var(--text-color)]"
     >
       {/* Product Image */}
       <img
-        className="w-full h-60 md:h-80 object-cover"
+        className="w-full h-48 md:h-64 object-cover"
         src={imageSrc}
         alt={Product.title}
       />
 
       {/* Content */}
-      <div className="p-2 md:p-4 text-center">
+      <div className="p-1.5 md:p-3 text-center">
         {/* Product Name */}
-        <h2 className="text-sm md:text-lg font-semibold">{Product.title.slice(0,17)}</h2>
+        <h2 className="text-xs md:text-md font-semibold">{Product.title.slice(0,14)}</h2>
 
-        <p className="text-xs md:text-sm mt-2">
+        <p className="text-xs md:text-sm mt-1.5">
           {Product.offerPrice ? (
             <>
-              <span className="text-red-500 font-bold text-xl pr-1">₹{Product.offerPrice}</span>
-              <span className="line-through">₹{Product.price}</span>
+              <span className="text-red-500 font-bold text-lg pr-1">₹{Product.offerPrice}</span>
+              <span className="line-through text-sm">₹{Product.price}</span>
             </>
           ) : (
             `₹${Product.price}`
@@ -64,7 +64,7 @@ function Card({ product }) {
 
         <button
           onClick={(event) => addCourseToCart(Product._id, event)}
-          className="mt-4 px-3 md:px-4 py-1 md:py-2 bg-[var(--button-bg)] text-[var(--button-text)] font-medium rounded-lg hover:brightness-90 transition"
+          className="mt-3 px-2 md:px-3 py-0.5 md:py-1.5 bg-[var(--button-bg)] text-[var(--button-text)] font-medium rounded-md hover:brightness-90 transition"
         >
           Add to Cart
         </button>

@@ -33,6 +33,10 @@ import AddReplyBySeller from "../pages/shared/AddReplyBySeller.jsx";
 import CreateProductbyseller from "../pages/seller/AddproductByseller.jsx";
 import SellerDashboard from "../pages/SellerDasboard.jsx";
 import AdminDashboard from "../pages/AdminDasboard.jsx";
+import ProductDetailForadmin from "../pages/admin/ProductDetailByadmin.jsx";
+import ProductDetailForseller from "../pages/seller/ProductdetailForseller.jsx";
+import PaymentFailed from "../pages/PaymentFailed.jsx";
+import NotFound from "../pages/Notfounded.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -87,7 +91,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/orderHistory",
-        element: <OrderHistory />,
+        element: (
+          <ProtectedRoute allowedRoles={["user","seller"]}>
+            <OrderHistory />
+          </ProtectedRoute>
+        )
       },
 
       {
@@ -96,7 +104,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <CheckoutPage />,
+        element: (
+          <ProtectedRoute allowedRoles={["user","seller"]}>
+         <CheckoutPage />
+          </ProtectedRoute>
+        )
       },
       {
         path: "/about",
@@ -120,7 +132,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "payment/failed",
-        element:<h1>payment failed</h1>,
+        element:<PaymentFailed/>,
       },
     ]
   },
@@ -151,6 +163,10 @@ export const router = createBrowserRouter([
       {
         path: "productlist",
         element: <Allproducts/>,
+      },
+      {
+        path: "productdetail/:productid",
+        element: <ProductDetailForadmin/>,
       },
       {
         path: "addproduct",
@@ -197,6 +213,10 @@ export const router = createBrowserRouter([
         element: <AllProducts/>,
       },
       {
+        path: "productdetail/:productid",
+        element: <ProductDetailForseller/>,
+      },
+      {
         path: "addproduct",
         element: <CreateProductbyseller/>,
       },
@@ -217,7 +237,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <div>404 - Page Not Found</div>,
+    element:<NotFound/>,
   },
 
 ]);

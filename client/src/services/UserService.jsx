@@ -157,6 +157,10 @@ export const deleteReview = (reviewId) => {
 export const getAllReviews = () => {
    return axiosInstance.get("/review");
 };
+export const getAllReviewByseller = () => {
+   return axiosInstance.get("/review/seller");
+};
+
 export const makepaymentOnStripe = (body) => {
    return axiosInstance.post(`/payment/makepayment`, body
    )
