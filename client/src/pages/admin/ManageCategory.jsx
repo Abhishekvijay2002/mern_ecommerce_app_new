@@ -18,12 +18,12 @@ const CategoryManagement = () => {
   const loadCategories = async () => {
     try {
       const res = await GetAllCategory();
-      setCategories(res.data);
+      setCategories(Array.isArray(res.data.categories) ? res.data.categories : []);
     } catch (err) {
-      toast.error(error.error  ||" Error Fetching Categories");
+      toast.error(err.error || "Error Fetching Categories");
     }
   };
-
+  
   const handleAddCategory = async () => {
     if (!newCategory.trim()) {
       toast.error("Category name cannot be empty!");

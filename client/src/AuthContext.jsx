@@ -11,19 +11,27 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-
-    if (token) {
-      userDetail().then((res) => setUser(res.data))
-      .catch(() => {
-        localStorage.removeItem("token");
-        setUser(null);
-        toast.error("logout sucessful")
-      }).finally(() => setLoading(false));
+    const storedUser = localStorage.getItem("user");
+  
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setLoading(false);
+    } else if (token) {
+      userDetail()
+        .then((res) => {
+          setUser(res.data);
+          localStorage.setItem("user", JSON.stringify(res.data));
+        })
+        .catch(() => {
+          console.error("Error fetching user details:", err);
+          toast.error("Failed to fetch user details. Please try again.");
+        })
+        .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
   }, []);
-
+  
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
