@@ -82,7 +82,7 @@ const ProfilePage = () => {
       {isUpdateOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="rounded-lg shadow-lg p-6 w-11/12 sm:w-96 md:w-1/2 lg:w-1/3 bg-[var(--modal-bg)] text-[var(--modal-text)]">
-            <h2 className="text-lg font-semibold mb-4">Update User Details</h2>
+            <h2 className="text-lg font-semibold mb-4 text-white">Update User Details</h2>
             <input
               type="text"
               placeholder="Enter new name"

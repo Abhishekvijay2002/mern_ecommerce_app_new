@@ -16,11 +16,17 @@ const CreateProduct = () => {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch categories on component mount
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await GetAllCategory();
-        setCategories(res.data);
+        console.log(res.data.categories);  // Check if the data is under `categories`
+        if (res.data.categories && Array.isArray(res.data.categories)) {
+          setCategories(res.data.categories);
+        } else {
+          toast.error("Invalid data format for categories");
+        }
       } catch (err) {
         toast.error("Failed to fetch categories");
       }
@@ -108,11 +114,15 @@ const CreateProduct = () => {
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300 sm:p-2 md:p-3"
         >
           <option value="">Select Category</option>
-          {categories.map((cat) => (
-            <option key={cat._id} value={cat._id}>
-              {cat.name}
-            </option>
-          ))}
+          {categories.length > 0 ? (
+            categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))
+          ) : (
+            <option value="">No categories available</option>
+          )}
         </select>
 
         <input
@@ -137,4 +147,3 @@ const CreateProduct = () => {
 };
 
 export default CreateProduct;
-

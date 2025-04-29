@@ -26,7 +26,7 @@ const FooterSections = () => {
           <h3 className="text-lg sm:text-xl font-bold mb-4">Get to Know Us</h3>
           <ul>
             <li className="mb-2">
-              <a href="#" className="hover:underline">About QuickBuy</a>
+              <a href="/about" className="hover:underline">About QuickBuy</a>
             </li>
             <li className="mb-2">
               <a href="#" className="hover:underline">Contact Us</a>

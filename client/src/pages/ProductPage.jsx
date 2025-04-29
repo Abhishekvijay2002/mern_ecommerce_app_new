@@ -8,11 +8,13 @@ import {
   searchProduct 
 } from "../services/UserService";
 import Card from "../components/Card";
+import { FaSpinner } from "react-icons/fa"; // Importing the spinner icon
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const { categoryid } = useParams();
-  console.log(categoryid ,"useparmas")
+  console.log(categoryid, "useparmas");
   const location = useLocation();
   const [queryParams] = useSearchParams();
   const searchQuery = queryParams.get('q');
@@ -20,6 +22,7 @@ function ProductPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true); // Start loading
         let res;
         const path = location.pathname;
 
@@ -32,7 +35,7 @@ function ProductPage() {
           setProducts(res.data); 
         } 
         else if (categoryid) {
-          console.log(categoryid , "getcategory")
+          console.log(categoryid, "getcategory");
           res = await getProductsByCategory(categoryid);
           setProducts(res.data.products); 
         } 
@@ -46,6 +49,8 @@ function ProductPage() {
         }
       } catch (err) {
         console.log("Error while fetching products:", err);
+      } finally {
+        setLoading(false); // End loading
       }
     };
 
@@ -55,12 +60,18 @@ function ProductPage() {
   return (
     <div className="p-4">
       <main className="w-full">
-        <div className=" mb-4 text-center">
-          Showing {products.length} item(s)
+        <div className="mb-4 text-center">
+          {loading ? (
+            <FaSpinner className="animate-spin text-center text-6xl mx-auto" />
+          ) : (
+            <>Showing {products.length} item(s)</>
+          )}
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.length > 0 ? (
+          {loading ? (
+            <p className="text-center   w-full ">Loading products...</p>
+          ) : products.length > 0 ? (
             products.map((product, i) => (
               <Card key={i} product={product} />
             ))

@@ -20,17 +20,17 @@ const CategoryManagement = () => {
       const res = await GetAllCategory();
       setCategories(Array.isArray(res.data.categories) ? res.data.categories : []);
     } catch (err) {
-      toast.error(err.error || "Error Fetching Categories");
+      toast.error(err?.response?.data?.message || "Error Fetching Categories");
     }
   };
-  
+
   const handleAddCategory = async () => {
     if (!newCategory.trim()) {
       toast.error("Category name cannot be empty!");
       return;
     }
     if (!newCategoryImage) {
-      toast.error( "Please upload a category image!");
+      toast.error("Please upload a category image!");
       return;
     }
 
@@ -46,12 +46,12 @@ const CategoryManagement = () => {
       setNewCategoryImage(null);
       loadCategories();
     } catch (error) {
-      toast.error( error.error  ||"Failed to add category!");
+      toast.error(error?.response?.data?.message || "Failed to add category!");
     }
   };
 
   const handleUpdateCategory = async () => {
-    if (!editCategory.id.trim() || !editCategory.name.trim()) {
+    if (!editCategory.id || !editCategory.name.trim()) {
       toast.error("Category name cannot be empty!");
       return;
     }
@@ -63,12 +63,12 @@ const CategoryManagement = () => {
         formData.append("image", editCategory.image);
       }
 
-      await UpdateCategory(editCategory.id, formData);
+      await UpdateCategory(formData, editCategory.id); // Corrected argument order
       toast.success("Category updated successfully!");
       setIsEditModalOpen(false);
       loadCategories();
-    } catch (err) {
-      toast.error( error.error||"Failed to update category!");
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Failed to update category!");
     }
   };
 
@@ -78,7 +78,7 @@ const CategoryManagement = () => {
       toast.success("Category deleted successfully!");
       loadCategories();
     } catch (err) {
-      toast.error("Failed to delete category!");
+      toast.error(err?.response?.data?.message || "Failed to delete category!");
     }
   };
 
@@ -169,20 +169,20 @@ const CategoryManagement = () => {
       {/* Add Category Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-[90%] max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Add New Category</h2>
+          <div className="bg-gray-500 p-6 rounded-lg w-[90%] max-w-md">
+            <h2 className="text-xl font-semibold mb-4 text-white">Add New Category</h2>
             <input
               type="text"
               value={newCategory}
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="Category Name"
-              className="border p-2 w-full mb-4 rounded bg-[var(--input-bg)] text-[var(--text-color)]"
+              className="border p-2 w-full mb-4 rounded text-white"
             />
             <input
               type="file"
               accept="image/*"
               onChange={(e) => handleFileChange(e, "new")}
-              className="border p-2 w-full mb-4 rounded bg-[var(--input-bg)] text-[var(--text-color)]"
+              className="border p-2 w-full mb-4 rounded text-white"
             />
             <div className="flex justify-end gap-2">
               <button onClick={() => setIsAddModalOpen(false)} className="px-4 py-2 rounded bg-gray-500 text-white">Cancel</button>
@@ -196,19 +196,19 @@ const CategoryManagement = () => {
       {isEditModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-[90%] max-w-md">
-            <h2 className="text-xl font-semibold mb-4">Edit Category</h2>
+            <h2 className="text-xl font-semibold mb-4 text-white">Edit Category</h2>
             <input
               type="text"
               value={editCategory.name}
               onChange={(e) => setEditCategory({ ...editCategory, name: e.target.value })}
               placeholder="Category Name"
-              className="border p-2 w-full mb-4 rounded bg-[var(--input-bg)] text-[var(--text-color)]"
+              className="border p-2 w-full mb-4 rounded text-white"
             />
             <input
               type="file"
               accept="image/*"
               onChange={(e) => handleFileChange(e, "edit")}
-              className="border p-2 w-full mb-4 rounded bg-[var(--input-bg)] text-[var(--text-color)]"
+              className="border p-2 w-full mb-4 rounded text-white"
             />
             <div className="flex justify-end gap-2">
               <button onClick={() => setIsEditModalOpen(false)} className="px-4 py-2 rounded bg-gray-500 text-white">Cancel</button>
@@ -222,4 +222,5 @@ const CategoryManagement = () => {
 };
 
 export default CategoryManagement;
+
 

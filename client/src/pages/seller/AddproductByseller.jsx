@@ -20,7 +20,8 @@ const CreateProductbyseller = () => {
     const fetchCategories = async () => {
       try {
         const res = await GetAllCategory();
-        setCategories(res.data);
+        // Updated to properly access categories from res.data.categories
+        setCategories(Array.isArray(res.data.categories) ? res.data.categories : []);
       } catch (err) {
         toast.error("Failed to fetch categories");
       }
@@ -75,7 +76,7 @@ const CreateProductbyseller = () => {
           placeholder="Enter product title"
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
 
         <label className="block text-[var(--text-color)]">Description</label>
@@ -84,7 +85,7 @@ const CreateProductbyseller = () => {
           placeholder="Enter product description"
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
 
         <label className="block text-[var(--text-color)]">Price</label>
@@ -94,7 +95,7 @@ const CreateProductbyseller = () => {
           placeholder="Enter price"
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
 
         <label className="block text-[var(--text-color)]">Stock</label>
@@ -104,7 +105,7 @@ const CreateProductbyseller = () => {
           placeholder="Enter stock quantity"
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         />
 
         <label className="block text-[var(--text-color)]">Category</label>
@@ -113,7 +114,7 @@ const CreateProductbyseller = () => {
           value={formData.category}
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] focus:outline-none focus:ring sm:p-2 md:p-3"
         >
           <option value="">Select Category</option>
           {categories.map((cat) => (
@@ -131,7 +132,7 @@ const CreateProductbyseller = () => {
           multiple
           onChange={handleChange}
           required
-          className="w-full p-3 border border-[var(--table-border)] rounded-lg  text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none sm:p-2 md:p-3"
+          className="w-full p-3 border border-[var(--table-border)] rounded-lg text-[var(--text-color)] placeholder-[var(--placeholder-text-color)] focus:outline-none sm:p-2 md:p-3"
         />
 
         <button

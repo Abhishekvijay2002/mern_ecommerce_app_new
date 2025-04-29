@@ -41,7 +41,7 @@ function Card({ product }) {
     >
       {/* Product Image */}
       <img
-        className="w-full h-48 md:h-64 object-cover"
+        className="w-full h-[40%] md:h-64 object-cover"
         src={imageSrc}
         alt={Product.title}
       />

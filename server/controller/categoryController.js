@@ -17,7 +17,7 @@ const createCategory = async (req, res) => {
 
     const uploadedImage = await uploadToCloudinary(req.file.path);
 
-    const newCategory = new CategoryModel({
+    const newCategory = new categoryModel({
       name,
       image: uploadedImage, 
     });
