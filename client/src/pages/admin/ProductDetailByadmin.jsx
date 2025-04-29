@@ -22,7 +22,7 @@ const ProductDetailForadmin = () => {
           setSelectedImage(res.data.image?.[0] || defaultImage);
         }
       })
-      .catch(() => toast.error("Failed to fetch product details"));
+      .catch((error) => toast.error(error.error ||"Failed to fetch product details"));
 
     return () => {
       isMounted = false;

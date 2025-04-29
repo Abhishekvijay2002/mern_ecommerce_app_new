@@ -30,7 +30,7 @@ const ProductDetails = () => {
       await addToCart(product._id);
       toast.success("Added to cart successfully!");
     } catch {
-      toast.error("Failed to add to cart!");
+     toast.error( error.error || "Failed to add to cart!");
     }
   };
 
@@ -40,7 +40,7 @@ const ProductDetails = () => {
         toast.success("Review deleted successfully!");
         setReviews(prev => prev.filter(review => review._id !== reviewId));
       })
-      .catch(() => toast.error("Failed to delete review!"));
+      .catch((error) => toast.error( error.error ||"Failed to delete review!"));
   };
 
   return (

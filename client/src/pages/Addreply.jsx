@@ -24,7 +24,7 @@ const AddReply = () => {
       toast.success("Review reply submitted successfully!");
       navigate("/admin/allreviews");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Failed!");
+      toast.error(err.error || "Failed!");
     }
   };
 

@@ -33,10 +33,10 @@ const createCategory = async (req, res) => {
 const getAllCategories = async (req, res) => {
     try {
       const categories = await categoryModel.find();
-      res.status(200).json(categories);
+      res.status(200).json({message: "Category created successfully",categories });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Failed to fetch categories" });
+      console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
     }
   };
   
@@ -47,8 +47,8 @@ const getAllCategories = async (req, res) => {
       if (!category) return res.status(404).json({ message: "Category not found" });
       res.status(200).json(category);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Failed to fetch category" });
+      console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
     }
   };
   
@@ -57,7 +57,7 @@ const getAllCategories = async (req, res) => {
     try {
       const { name } = req.body;
       const category = await categoryModel.findById(req.params.categoryid);
-      if (!category) return res.status(404).json({ message: "Category not found" });
+      if (!category) return res.status(404).json({ error: "Category not found" });
   
       let imageUrl = category.image;
   
@@ -72,8 +72,8 @@ const getAllCategories = async (req, res) => {
       const updatedCategory = await category.save();
       res.status(200).json({ message: "Category updated", category: updatedCategory });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Failed to update category" });
+      console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
     }
   };
   
@@ -81,13 +81,13 @@ const getAllCategories = async (req, res) => {
   const deleteCategory = async (req, res) => {
     try {
       const category = await categoryModel.findById(req.params.categoryid);
-      if (!category) return res.status(404).json({ message: "Category not found" });
+      if (!category) return res.status(404).json({ error: "Category not found" });
   
      await category.deleteOne();
       res.status(200).json({ message: "Category deleted" });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Failed to delete category" });
+      console.log(error);
+        res.status(error.status || 500).json({ error: error.message || "Internal Server Error" });
     }
   };
 module.exports ={createCategory , getAllCategories , getCategoryById , updateCategory , deleteCategory} 

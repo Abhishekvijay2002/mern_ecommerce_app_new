@@ -22,7 +22,7 @@ function BecomeSeller() {
       })
       .catch((err) => {
         console.log("Error while fetching seller status:", err);
-        toast.error("Failed to fetch seller status");
+        toast.error(err.error ||"Failed to fetch seller status");
         setLoading(false);
       });
 
@@ -36,8 +36,8 @@ function BecomeSeller() {
         toast.success("Request sent successfully!");
         setStatus('pending');
       })
-      .catch(() => {
-        toast.error("Failed to send request");
+      .catch((error) => {
+        toast.error(error.error  ||"Failed to send request");
       });
   };
 
@@ -47,8 +47,8 @@ function BecomeSeller() {
         toast.success("Request cancelled");
         setStatus('not_requested');
       })
-      .catch(() => {
-        toast.error("Failed to cancel request");
+      .catch((error) => {
+        toast.error(error.error  ||"Failed to cancel request");
       });
   };
 
@@ -58,8 +58,8 @@ function BecomeSeller() {
         toast.success("Reapplication sent successfully!");
         setStatus('pending');
       })
-      .catch(() => {
-        toast.error("Failed to reapply");
+      .catch((error) => {
+        toast.error(error.error ||"Failed to reapply");
       });
   };
 

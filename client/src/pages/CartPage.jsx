@@ -25,8 +25,8 @@ const CartPage = () => {
         setTotalPrice(res.data.cart?.totalprice || 0);
         toast.success("Cart fetched successfully!");
       })
-      .catch(() => {
-        toast.error("Failed to fetch cart!");
+      .catch((error) => {
+        toast.error(error.error ||"Failed to fetch cart!");
       });
   }, []);
 
@@ -76,8 +76,8 @@ const CartPage = () => {
           prev.filter((item) => item.productid._id !== productid)
         );
       })
-      .catch(() => {
-        toast.error("Failed to remove from cart!");
+      .catch((error) => {
+        toast.error( error.error ||"Failed to remove from cart!");
       });
   };
 

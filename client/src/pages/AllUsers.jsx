@@ -11,8 +11,8 @@ function AllUsers() {
                 setUsers(res.data);
                 toast.success("Users Fetched");
             })
-            .catch(() => {
-                toast.error("Error Fetching Users");
+            .catch((error) => {
+                toast.error(error.error ||"Error Fetching Users");
             });
     }, []);
 
@@ -22,8 +22,8 @@ function AllUsers() {
                 setUsers(users.filter(user => user._id !== id));
                 toast.success("User account deleted successfully!");
             })
-            .catch(() => {
-                toast.error("Failed to delete user account.");
+            .catch((error) => {
+                toast.error(error.error ||"Failed to delete user account.");
             });
     };
 

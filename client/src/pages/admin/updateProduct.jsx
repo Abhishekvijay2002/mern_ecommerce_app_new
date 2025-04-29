@@ -63,7 +63,7 @@ const UpdateProduct = () => {
       alert("Product updated successfully!");
       navigate("/admin/dashboard");
     } catch (error) {
-      alert(error.response?.data?.message || "Update failed");
+      alert(error.error || "Update failed");
     }
   };
 

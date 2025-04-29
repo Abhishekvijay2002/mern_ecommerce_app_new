@@ -15,8 +15,7 @@ function ManageReviewByseller() {
                 toast.success("Reviews Fetched");
             })
             .catch((error) => {
-                console.log("error" , error)
-                toast.error("Error Fetching Reviews");
+                toast.error(error.error ||"Error Fetching Reviews");
             });
     }, []);
 

@@ -21,7 +21,7 @@ const createReview = async (req, res) => {
 
         if (!order) {
             return res.status(403).json({ 
-                message: "You can only review delivered products." ,
+                error: "You can only review delivered products." ,
                 success: false, 
                 
             });
@@ -30,7 +30,7 @@ const createReview = async (req, res) => {
 
         const existingReview = await Review.findOne({ product: productId, user: userid });
         if (existingReview) {
-            return res.status(409).json({ success: false, message: "You can only review a product once." });
+            return res.status(409).json({ success: false, error: "You can only review a product once." });
         }
 
         const review = new Review({ product: productId, user: userid, rating, review: newreview });
@@ -61,8 +61,8 @@ const getAllReviews = async (req, res) => {
 
         res.status(200).json({ success: true, reviews });
     } catch (error) {
-        console.error("Error fetching all reviews:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error while deleting product:", error);
+        return res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 };
 
@@ -78,7 +78,7 @@ const getReviewsBySeller = async (req, res) => {
 
 
         if (sellerProducts.length === 0) {
-            return res.status(404).json({ success: false, message: "No products found for this seller." });
+            return res.status(404).json({ success: false, error: "No products found for this seller." });
         }
 
 
@@ -95,8 +95,8 @@ const getReviewsBySeller = async (req, res) => {
         res.status(200).json({ success: true, reviews });
 
     } catch (error) {
-        console.error("Error fetching seller's reviews:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        console.error("Error while deleting product:", error);
+        return res.status(500).json({ message: error.message || "Internal Server Error" });
     }
 };
 
@@ -108,7 +108,7 @@ const addReply = async (req, res) => {
 
         const review = await Review.findById(reviewId);
         if (!review) {
-            return res.status(404).json({ success: false, message: "Review not found" });
+            return res.status(404).json({ success: false, error: "Review not found" });
         }
 
         review.replies.push({ user, review: Comment });

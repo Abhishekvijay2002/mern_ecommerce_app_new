@@ -60,7 +60,7 @@ const CreateProductbyseller = () => {
       navigate("/seller/dashboard");
     } catch (error) {
       console.log(error);
-      toast.error(error.response?.data?.error || "Something went wrong!");
+      toast.error(error.error || "Something went wrong!");
     }
   };
 

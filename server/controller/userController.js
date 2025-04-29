@@ -24,12 +24,6 @@ const register = async (req, res) => {
          name, email, password: hashedPassword
       })
       const saved = await newUser.save()
-      // if (saved) {
-      //    // const token = createToken(saved.id)
-      //    // res.cookie("user_token", token,{sameSite:"None", secure:true});
-      //    const  token = createToken(userExist.id, userExist.role);
-      //    res.status(200).json({ message: "User login successful", user: userObject  , token});
-      // }
    } catch (error) {
       console.log(error)
       res.status(error.status || 500).json({ error: error.message || "Intenal Server Error" })
@@ -53,25 +47,6 @@ const login = async (req, res) => {
       }
       const userObject = userExist.toObject()
         delete userObject.password
-
-      // let token;
-      // if (userExist.role === "seller") {
-      //    token = createToken(userExist.id, userExist.role);
-      //    res.cookie("seller_token", token,{sameSite:"None", secure:true});
-
-      //    res.status(200).json({ message: "Seller login successful", seller: userExist });
-      // } else if (userExist.role === "admin") {
-      //    token = createToken(userExist.id, userExist.role);
-      //    res.cookie("admin_token", token,{sameSite:"None", secure:true});
-
-      //    res.status(200).json({ message: "Admin login successful", admin: userExist });
-      // }
-      // else {
-      //    token = createToken(userExist.id, userExist.role);
-      //    res.cookie("user_token", token,{sameSite:"None", secure:true});
-
-      //    res.status(200).json({ message: "User login successful", user: userExist });
-      // }
    const  token = createToken(userExist.id, userExist.role);
       res.status(200).json({ message: "User login successful", user: userObject  , token});
   
@@ -82,17 +57,7 @@ const login = async (req, res) => {
    }
 
 }
-// const Logout = async (req, res) => {
-//    try {
-//       res.clearCookie("user_token");
-//       res.clearCookie("seller_token");
-//       res.clearCookie("admin_token");
-//       res.status(200).json({ message: " logout successful" });
-//    } catch (error) {
-//       console.log(error);
-//       res.status(500).json({ error: "Internal Server Error" });
-//    }
-// };
+
 
 const getuser = async (req, res) => {
    try {
@@ -114,7 +79,7 @@ const updateuser = async (req, res) => {
    try {
       const User = await userModel.findByIdAndUpdate(req.userId.id, req.body, { new: true });
       if (!User) {
-         return res.status(404).json({ message: "User not found" });
+         return res.status(404).json({ error: "User not found" });
       }
       res.json({ message: "User updated successfully", user: User });
    } catch (error) {
@@ -136,7 +101,7 @@ const deleteUser = async (req, res) => {
 
       const Userexist = await userModel.findById(user);
       if (!Userexist) {
-         return res.status(404).json({ message: 'User not found' });
+         return res.status(404).json({ error: 'User not found' });
       }
 
       // Delete the user
@@ -153,7 +118,7 @@ const GetallUsers = async (req, res) => {
    try {
       const users = await userModel.find().select("-password");
       if (!users) {
-         return res.status(404).json({ message: "Users not found" });
+         return res.status(404).json({ error : "Users not found" });
       }
       res.json(users);
    }

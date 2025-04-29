@@ -19,7 +19,7 @@ const OrderHistory = () => {
       })
       .catch((err) => {
         console.error("Error fetching orders:", err.message);
-        alert("Failed to fetch order history");
+        toast.error(error.error ||"Failed to fetch order history");
       });
   }, []);
 
@@ -52,7 +52,7 @@ const OrderHistory = () => {
       })
       .catch((error) => {
         console.error("Error canceling order:", error.message);
-        toast.error("Failed to cancel order.");
+        toast.error( error.error ||"Failed to cancel order.");
       });
   };
 

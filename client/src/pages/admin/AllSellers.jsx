@@ -14,8 +14,8 @@ function AllSellers() {
                 setFilteredSellers(res.data);
                 toast.success("Users Fetched");
             })
-            .catch(() => {
-                toast.error("Error Fetching Users");
+            .catch((error) => {
+                toast.error( error.error  ||"Error Fetching Users");
             });
     }, []);
 
@@ -40,8 +40,8 @@ function AllSellers() {
                 setSellers((prev) => prev.filter((seller) => seller._id !== id));
                 setFilteredSellers((prev) => prev.filter((seller) => seller._id !== id));
             })
-            .catch(() => {
-                toast.error("Error Removing User");
+            .catch((error) => {
+                toast.error(error.error ||"Error Removing User");
             });
     };
 

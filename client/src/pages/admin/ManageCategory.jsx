@@ -20,7 +20,7 @@ const CategoryManagement = () => {
       const res = await GetAllCategory();
       setCategories(res.data);
     } catch (err) {
-      toast.error("Error Fetching Categories");
+      toast.error(error.error  ||" Error Fetching Categories");
     }
   };
 
@@ -30,7 +30,7 @@ const CategoryManagement = () => {
       return;
     }
     if (!newCategoryImage) {
-      toast.error("Please upload a category image!");
+      toast.error( "Please upload a category image!");
       return;
     }
 
@@ -45,8 +45,8 @@ const CategoryManagement = () => {
       setNewCategory("");
       setNewCategoryImage(null);
       loadCategories();
-    } catch (err) {
-      toast.error("Failed to add category!");
+    } catch (error) {
+      toast.error( error.error  ||"Failed to add category!");
     }
   };
 
@@ -68,7 +68,7 @@ const CategoryManagement = () => {
       setIsEditModalOpen(false);
       loadCategories();
     } catch (err) {
-      toast.error("Failed to update category!");
+      toast.error( error.error||"Failed to update category!");
     }
   };
 

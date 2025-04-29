@@ -61,7 +61,7 @@ const CreateProduct = () => {
 
       console.log(response.data);
     } catch (error) {
-      toast.error(error.response?.data?.error || "Something went wrong!");
+      toast.error(error.error || "Something went wrong!");
     }
   };
 

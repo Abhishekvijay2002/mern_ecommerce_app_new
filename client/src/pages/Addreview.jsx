@@ -24,7 +24,7 @@ const ReviewPage = () => {
         navigate(`/productdetails/${productid}`);
       })
       .catch((error) => {
-        toast.error(error.response?.data?.message);
+        toast.error(error.error);
         console.log(error);
       });
   };

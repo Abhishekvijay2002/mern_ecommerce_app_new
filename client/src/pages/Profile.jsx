@@ -43,8 +43,8 @@ const ProfilePage = () => {
           toast.success("User account deleted successfully!");
           setIsDeleteOpen(false);
         })
-        .catch(() => {
-          toast.error("Failed to delete user account.");
+        .catch((error) => {
+          toast.error( error.error ||"Failed to delete user account.");
         });
     } else {
       toast.error("Please confirm by ticking the checkbox.");

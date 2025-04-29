@@ -67,7 +67,7 @@ const productDetails = async (req, res) => {
 
     const productDetail = await productM0del.findById(productid);
     if (!productDetail) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ error : "Product not found" });
     }
     res.status(200).json(productDetail);
   } catch (error) {
@@ -93,12 +93,11 @@ const searchProducts = async (req, res) => {
 
     const products = await productModel.find(query).populate("category", "name");
 
-    console.log("Products found:", products);
 
     res.json(products);
   } catch (error) {
-    console.error("Error in searchProducts:", error);
-    res.status(500).json({ message: "Server Error" });
+    console.log(error);
+    res.status(error.status || 500).json({ message: error.message || "Internal Server Error" });
   }
 };
 
@@ -112,13 +111,13 @@ const setOfferprice = async (req, res) => {
     const userRole = req.userId.role;
 
     if (typeof offerPrice !== 'number' || offerPrice <= 0) {
-      return res.status(400).json({ message: 'Offer price must be a valid positive number' });
+      return res.status(400).json({ error: 'Offer price must be a valid positive number' });
     }
 
     const product = await productModel.findById(productid);
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ error: 'Product not found' });
     }
 
     if (userRole === 'seller' && product.addedBy.toString() !== userId) {
@@ -136,8 +135,8 @@ const setOfferprice = async (req, res) => {
     res.status(200).json({ message: 'Offer added successfully', product: updatedProduct });
 
   } catch (error) {
-    console.error('Set Offer Error:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
 
@@ -149,7 +148,7 @@ const  removeOfferprice = async (req, res) => {
     const product = await productModel.findById(productid);
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      return res.status(404).json({ MediaError: 'Product not found' });
     }
 
     if (userRole === 'seller' && product.addedBy.toString() !== userId) {
@@ -157,7 +156,7 @@ const  removeOfferprice = async (req, res) => {
     }
 
     if (product.offerPrice === null) {
-      return res.status(400).json({ message: 'No offer to remove' });
+      return res.status(400).json({ error: 'No offer to remove' });
     }
 
     product.offerPrice = null;
@@ -166,8 +165,8 @@ const  removeOfferprice = async (req, res) => {
     res.status(200).json({ message: 'Offer removed successfully', product });
 
   } catch (error) {
-    console.error('Remove Offer Error:', error);
-    res.status(500).json({ message: 'Server error', error: error.message });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
 
@@ -180,8 +179,8 @@ const offerproduct = async (req, res) => {
 
     res.json(productsWithOffers);
   } catch (error) {
-    console.error('Error fetching offers:', error);
-    res.status(500).json({ message: 'Failed to fetch products with offers' });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 }
 
@@ -192,7 +191,8 @@ const bestselling = async (req, res) => {
       .limit(10);
     res.json(products);
   } catch (err) {
-    res.status(500).json({ message: 'Error fetching bestsellers' });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 }
 
@@ -213,13 +213,13 @@ const getProductsByCategory = async (req, res) => {
       .exec();
 
     if (!products || products.length === 0) {
-      return res.status(404).json({ message: "No products found in this category" });
+      return res.status(404).json({ error: "No products found in this category" });
     }
 
     res.status(200).json({ products });
   } catch (error) {
-    console.error("Error in getProductsByCategory:", error);
-    res.status(500).json({ message: "Server error while fetching products" });
+    console.error(error);
+    res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
 
@@ -229,18 +229,18 @@ const updateProduct = async (req, res) => {
     const product = await productModel.findById(req.params.productid);
 
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ error : "Product not found" });
     }
 
     // Ensure 'addedBy' is defined before using toString()
     if (req.userId.role === 'seller') {
       if (!product.addedBy) {
-        return res.status(400).json({ message: "'addedBy' field is missing in the product" });
+        return res.status(400).json({ error : "'addedBy' field is missing in the product" });
       }
 
       // Check if the user trying to update the product is the seller who added it
       if (product.addedBy.toString() !== req.userId.id) {
-        return res.status(403).json({ message: "Unauthorized" });
+        return res.status(403).json({ error : "Unauthorized" });
       }
     }
 
@@ -279,7 +279,7 @@ const deleteProduct = async (req, res) => {
   try {
     // Check if user info is attached
     if (!req.userId) {
-      return res.status(401).json({ message: "Unauthorized. No user data." });
+      return res.status(401).json({ error : "Unauthorized. No user data." });
     }
 
     // Log IDs for debugging
@@ -292,7 +292,7 @@ const deleteProduct = async (req, res) => {
 
     // Check if product exists
     if (!product) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ error: "Product not found" });
     }
 
     // Log createdBy info
@@ -304,7 +304,7 @@ const deleteProduct = async (req, res) => {
       product.createdBy &&
       product.createdBy.toString() !== req.userId.id
     ) {
-      return res.status(403).json({ message: "Unauthorized: Not your product" });
+      return res.status(403).json({ error: "Unauthorized: Not your product" });
     }
 
     // Delete product
@@ -314,7 +314,7 @@ const deleteProduct = async (req, res) => {
     return res.status(200).json({ message: "Product deleted successfully" });
 
   } catch (error) {
-    // Log and return error
+
     console.error("Error while deleting product:", error);
     return res.status(500).json({ message: error.message || "Internal Server Error" });
   }

@@ -1,3 +1,4 @@
+const { Error } = require('mongoose');
 const User = require('../models/userModel');
 
 const requestSeller = async (req, res) => {
@@ -6,14 +7,14 @@ const requestSeller = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     if (user.role === "seller") {
-      return res.status(400).json({ message: "You are already a seller" });
+      return res.status(400).json({ error: "You are already a seller" });
     }
     if (user.sellerApprovalStatus === "pending") {
-      return res.status(400).json({ message: "Seller request already pending" });
+      return res.status(400).json({ error: "Seller request already pending" });
     }
     user.sellerApprovalStatus = "pending";
     await user.save();
@@ -35,7 +36,7 @@ const getSellerStatus = async (req, res) => {
     const user = await User.findById(userId).select("sellerApprovalStatus role");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     return res.status(200).json({
@@ -57,11 +58,11 @@ const cancelSellerRequest = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ Error: "User not found" });
     }
 
     if (user.sellerApprovalStatus !== "pending") {
-      return res.status(400).json({ message: "No pending seller request to cancel" });
+      return res.status(400).json({ error: "No pending seller request to cancel" });
     }
 
     user.sellerApprovalStatus = null;
@@ -94,7 +95,7 @@ const getSellerRequest = async (req, res) => {
     const user = await User.findById(userId).select("name email sellerApprovalStatus role");
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     return res.status(200).json({
@@ -113,10 +114,10 @@ const approveSellerRequest = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
     if (user.sellerApprovalStatus !== "pending") {
-      return res.status(400).json({ message: "Seller request is not pending" });
+      return res.status(400).json({ error: "Seller request is not pending" });
     }
     user.sellerApprovalStatus = "approved";
     user.role = "seller"; // Change role to seller
@@ -136,10 +137,10 @@ const rejectSellerRequest = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
     if (user.sellerApprovalStatus !== "pending") {
-      return res.status(400).json({ message: "Seller request is not pending" });
+      return res.status(400).json({ error: "Seller request is not pending" });
     }
     user.sellerApprovalStatus = "rejected";
     await user.save();
@@ -158,10 +159,10 @@ const removeSeller = async (req, res) => {
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ error: "User not found" });
     }
     if (user.role !== "seller") {
-      return res.status(400).json({ message: "User is not a seller" });
+      return res.status(400).json({ error: "User is not a seller" });
     }
     user.role = "user"; // Change role back to user
     user.sellerApprovalStatus = null; 

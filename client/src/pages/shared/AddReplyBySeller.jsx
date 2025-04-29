@@ -12,7 +12,7 @@ const AddReplyBySeller = () => {
     e.preventDefault();
 
     if (!reviewid) {
-      toast.error("Review ID is missing!");
+      toast.error( "Review ID is missing!");
       console.error("Review ID is undefined");
       return;
     }
@@ -23,7 +23,7 @@ const AddReplyBySeller = () => {
       toast.success("Review reply submitted successfully!");
       navigate("/seller/allreviews");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Failed!");
+      toast.error(err.error|| "Failed!");
       console.error("Error:", err);
     }
 

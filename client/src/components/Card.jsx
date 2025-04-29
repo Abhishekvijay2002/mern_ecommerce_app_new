@@ -29,7 +29,7 @@ function Card({ product }) {
       console.log(response.data);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error("Failed to add to cart!");
+      toast.error( error.error || "Failed to add to cart!");
       console.log(error);
     }
   };

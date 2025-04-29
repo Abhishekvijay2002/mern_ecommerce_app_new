@@ -59,7 +59,7 @@ function AllProducts() {
         setIsModalOpen(false);
         setOfferPrice("");
       })
-      .catch(() => toast.error("Failed to add offer price."));
+      .catch((error) => toast.error( error.error ||"Failed to add offer price."));
   };
 
   const handleRemoveOffer = (id) => {
@@ -67,7 +67,7 @@ function AllProducts() {
       .then(() => {
         toast.success("Offer removed successfully!");
       })
-      .catch(() => toast.error("Failed to remove offer."));
+      .catch((error) => toast.error( error.error ||"Failed to remove offer."));
   };
 
   return (

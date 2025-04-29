@@ -40,7 +40,7 @@ function AllOrders() {
                 toast.success("Orders & Products Fetched");
             } catch (err) {
                 console.error("Error Fetching Orders:", err);
-                toast.error("Error Fetching Orders");
+                toast.error(error.error  ||"Error Fetching Orders");
             }
         };
         fetchOrders();
@@ -59,7 +59,7 @@ function AllOrders() {
             toast.success(`Order status updated to ${status}`);
         } catch (error) {
             console.error("Update Error:", error);
-            toast.error("Failed to update order.");
+            toast.error( error.error ||"Failed to update order.");
         }
     };
 

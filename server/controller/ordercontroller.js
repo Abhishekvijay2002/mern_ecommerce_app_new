@@ -11,7 +11,7 @@ const addOrder = async (req, res) => {
         const cart = await Cart.findOne({ userid }).populate("product.productid");
 
         if (!cart || cart.product.length === 0) {
-            return res.status(400).json({ message: "Cart is empty" });
+            return res.status(400).json({ error : "Cart is empty" });
         }
 
         const totalAmount = cart.product.reduce(
@@ -62,7 +62,7 @@ const getOrders = async (req, res) => {
         const orders = await Order.find({ userId }).sort({ createdAt: -1 });
 
         if (!orders.length) {
-            return res.status(404).json({ message: "No orders found for this user." });
+            return res.status(404).json({ error : "No orders found for this user." });
         }
 
         res.json(orders);
@@ -103,11 +103,11 @@ const cancelOrder = async (req, res) => {
         const order = await Order.findById(req.params.id);
 
         if (!order) {
-            return res.status(404).json({ message: "Order not found" });
+            return res.status(404).json({ error : "Order not found" });
         }
 
         if (order.orderstatus !== "pending") {
-            return res.status(400).json({ message: "Order cannot be canceled" });
+            return res.status(400).json({ error : "Order cannot be canceled" });
         }
 
         order.orderstatus = "cancelled";

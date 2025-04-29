@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Getproductbyid, UpdateProductbyid } from "../../services/UserService";
+import {toast} from "sonner"
 
 const UpdateProductbyseller = () => {
   const { productid } = useParams();
@@ -11,7 +12,7 @@ const UpdateProductbyseller = () => {
     price: "",
     stock: "",
     category: "",
-    images: [], // changed from 'image' to 'images'
+    images: [], 
   });
 
   useEffect(() => {
@@ -60,11 +61,11 @@ const UpdateProductbyseller = () => {
 
       const response = await UpdateProductbyid(productid, data);
       console.log(response.data);
-      alert("Product updated successfully!");
+      toast.success("Product updated successfully!");
       navigate("/seller/dashboard");
 
     } catch (error) {
-      alert(error.response?.data?.message || "Update failed");
+      toast.error(error.error || "Update failed");
       console.log(error);
     }
   };

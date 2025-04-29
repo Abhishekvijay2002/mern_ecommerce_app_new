@@ -23,8 +23,8 @@ function SellerRequest() {
                 toast.success("Seller Request Rejected");
                 setSeller((prev) => prev.filter((request) => request._id !== id)); 
             })
-            .catch(() => {
-                toast.error("Error Rejecting Seller Request");
+            .catch((error) => {
+                toast.error(error ||"Error Rejecting Seller Request");
             });
     };
 
@@ -38,8 +38,8 @@ function SellerRequest() {
                     ).filter((request) => request.sellerApprovalStatus !== "approved")
                 );
             })
-            .catch(() => {
-                toast.error("Error Approving Seller Request");
+            .catch((error) => {
+                toast.error(error.error ||"Error Approving Seller Request");
             });
     };
 

@@ -17,7 +17,7 @@ const OrderPage = () => {
                 navigate("/success");
             })
             .catch((err) => {
-                toast.error(err.response?.data?.error || "Order failed!");
+                toast.error(err.error || "Order failed!");
                 console.log(err.response?.data?.error || "Order failed!");
             })
             .finally(() => setLoading(false));

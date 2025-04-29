@@ -15,8 +15,8 @@ function AllReviews() {
                 setReviews(res.data.reviews || []);
                 toast.success("Reviews Fetched");
             })
-            .catch(() => {
-                toast.error("Error Fetching Reviews");
+            .catch((error) => {
+                toast.error(  error.error ||"Error Fetching Reviews");
             });
     }, []);
 
@@ -30,8 +30,8 @@ function AllReviews() {
                         ...prevState,
                         [review.product._id]: product.title || "Unknown Product" // Safely access 'title'
                     }));
-                }).catch(() => {
-                    console.error("Error fetching product details");
+                }).catch((error) => {
+                    console.error( error.error  ||"Error fetching product details");
                 });
             }
         });

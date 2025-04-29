@@ -13,8 +13,8 @@ function AllReviews() {
                 setReviews(res.data.reviews || []);
                 toast.success("Reviews Fetched");
             })
-            .catch(() => {
-                toast.error("Error Fetching Reviews");
+            .catch((error) => {
+                toast.error(error.error ||"Error Fetching Reviews");
             });
     }, []);
 

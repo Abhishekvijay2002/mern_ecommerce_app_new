@@ -26,7 +26,7 @@ const SignupPage = () => {
         navigate("/login");
       })
       .catch((err) => {
-        toast.error(err.response?.data?.error || "Signup failed!");
+        toast.error(err.error|| "Signup failed!");
         console.log(err);
       });
   };

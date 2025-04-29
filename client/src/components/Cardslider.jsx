@@ -18,7 +18,7 @@ const CardSlider = ({ products }) => {
       await addToCart(productId);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error("Failed to add to cart!");
+      toast.error( error.error || "Failed to add to cart!");
     }
   };
 
@@ -61,10 +61,10 @@ const CardSlider = ({ products }) => {
                       <span className="text-red-500 font-bold text-lg pr-1">
                         ₹{product.offerPrice}
                       </span>
-                      <span className="line-through">₹{product.price}</span>
+                      <span className="line-through ">₹{product.price}</span>
                     </>
                   ) : (
-                    `₹${product.price}`
+                    <span className="font-bold text-lg pr-1">₹{product.price}</span>
                   )}
                 </p>
                 <button
