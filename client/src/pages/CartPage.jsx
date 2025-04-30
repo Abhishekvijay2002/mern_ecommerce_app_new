@@ -26,7 +26,9 @@ const CartPage = () => {
         toast.success("Cart fetched successfully!");
       })
       .catch((error) => {
-        toast.error(error.error ||"Failed to fetch cart!");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   }, []);
 
@@ -77,7 +79,9 @@ const CartPage = () => {
         );
       })
       .catch((error) => {
-        toast.error( error.error ||"Failed to remove from cart!");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 

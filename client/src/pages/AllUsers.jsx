@@ -12,7 +12,9 @@ function AllUsers() {
                 toast.success("Users Fetched");
             })
             .catch((error) => {
-                toast.error(error.error ||"Error Fetching Users");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     }, []);
 
@@ -23,7 +25,9 @@ function AllUsers() {
                 toast.success("User account deleted successfully!");
             })
             .catch((error) => {
-                toast.error(error.error ||"Failed to delete user account.");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+                toast.error(errorMsg);
+                console.error(errorMsg);
             });
     };
 

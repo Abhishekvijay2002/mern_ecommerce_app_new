@@ -18,7 +18,9 @@ const CardSlider = ({ products }) => {
       await addToCart(productId);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error( error.error || "Failed to add to cart!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

@@ -17,8 +17,9 @@ const OrderPage = () => {
                 navigate("/success");
             })
             .catch((err) => {
-                toast.error(err.error || "Order failed!");
-                console.log(err.response?.data?.error || "Order failed!");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             })
             .finally(() => setLoading(false));
     };

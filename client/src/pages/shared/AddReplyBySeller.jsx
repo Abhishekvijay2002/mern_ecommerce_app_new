@@ -23,8 +23,9 @@ const AddReplyBySeller = () => {
       toast.success("Review reply submitted successfully!");
       navigate("/seller/allreviews");
     } catch (err) {
-      toast.error(err.error|| "Failed!");
-      console.error("Error:", err);
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
 
     console.log("Submitted Values:", values);

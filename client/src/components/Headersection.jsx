@@ -5,6 +5,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { BsFillPersonFill, BsSearch } from "react-icons/bs";
 import { FaSpinner } from "react-icons/fa";
 import { useTheme } from "../theme-context";
+import { toast } from "sonner";
 
 const Headersection = () => {
   const { theme, toggleTheme } = useTheme();

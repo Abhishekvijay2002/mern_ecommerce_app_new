@@ -23,7 +23,9 @@ const CreateProductbyseller = () => {
         // Updated to properly access categories from res.data.categories
         setCategories(Array.isArray(res.data.categories) ? res.data.categories : []);
       } catch (err) {
-        toast.error("Failed to fetch categories");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       }
     };
 
@@ -60,8 +62,9 @@ const CreateProductbyseller = () => {
       console.log(response.data);
       navigate("/seller/dashboard");
     } catch (error) {
-      console.log(error);
-      toast.error(error.error || "Something went wrong!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

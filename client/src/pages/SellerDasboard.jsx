@@ -12,8 +12,9 @@ const Sellerdasboard = ({ sellerId }) => {
         setProducts(response.data || []);
         toast.success("Products Fetched");
       } catch (error) {
-        console.error("Error fetching seller products", error);
-        toast.error(error.error ||"Error Fetching Products");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       }
     };
     fetchProducts();

@@ -29,8 +29,9 @@ function AllProducts() {
 
         toast.success("Products and categories fetched!");
       } catch (err) {
-        console.error(err);
-        toast.error("Error fetching products or categories");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+        toast.error(errorMsg);
+        console.error(errorMsg);
       }
     };
 
@@ -43,8 +44,9 @@ function AllProducts() {
       toast.success("Product deleted successfully!");
       setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id));
     } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete product.");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 
@@ -59,7 +61,11 @@ function AllProducts() {
         setIsModalOpen(false);
         setOfferPrice("");
       })
-      .catch(() => toast.error("Failed to add offer price."));
+      .catch(() => {
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
+      });
   };
 
   const handleRemoveOffer = (id) => {
@@ -67,7 +73,9 @@ function AllProducts() {
       .then(() => {
         toast.success("Offer removed successfully!");
       })
-      .catch((error) => toast.error(error.error ||"Failed to remove offer."));
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
   };
 
   return (

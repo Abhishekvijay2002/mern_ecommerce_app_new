@@ -24,7 +24,9 @@ function SellerRequest() {
                 setSeller((prev) => prev.filter((request) => request._id !== id)); 
             })
             .catch((error) => {
-                toast.error(error ||"Error Rejecting Seller Request");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     };
 
@@ -39,7 +41,9 @@ function SellerRequest() {
                 );
             })
             .catch((error) => {
-                toast.error(error.error ||"Error Approving Seller Request");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     };
 

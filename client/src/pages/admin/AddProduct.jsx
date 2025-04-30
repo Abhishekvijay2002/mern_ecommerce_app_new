@@ -28,7 +28,9 @@ const CreateProduct = () => {
           toast.error("Invalid data format for categories");
         }
       } catch (err) {
-        toast.error("Failed to fetch categories");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       }
     };
 
@@ -67,7 +69,9 @@ const CreateProduct = () => {
 
       console.log(response.data);
     } catch (error) {
-      toast.error(error.error || "Something went wrong!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

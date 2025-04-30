@@ -29,7 +29,9 @@ const UpdateProductbyseller = () => {
         }));
       })
       .catch((error) => {
-        console.error("Error fetching product:", error);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   }, [productid]);
 
@@ -65,8 +67,9 @@ const UpdateProductbyseller = () => {
       navigate("/seller/dashboard");
 
     } catch (error) {
-      toast.error(error.error || "Update failed");
-      console.log(error);
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+      toast.error(errorMsg);
+      console.error(errorMsg);
     }
   };
 

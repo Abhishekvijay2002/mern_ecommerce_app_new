@@ -18,9 +18,9 @@ const ProfilePage = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error fetching user details:", err);
-        toast.error("Failed to fetch user data.");
-        setLoading(false);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+        toast.error(errorMsg);
+        console.error(errorMsg);
       });
   }, []);
 
@@ -32,7 +32,9 @@ const ProfilePage = () => {
         setIsUpdateOpen(false);
       })
       .catch(() => {
-        toast.error("Failed to update user details.");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 
@@ -44,7 +46,9 @@ const ProfilePage = () => {
           setIsDeleteOpen(false);
         })
         .catch((error) => {
-          toast.error( error.error ||"Failed to delete user account.");
+          const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
         });
     } else {
       toast.error("Please confirm by ticking the checkbox.");

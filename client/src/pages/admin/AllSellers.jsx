@@ -15,7 +15,9 @@ function AllSellers() {
                 toast.success("Users Fetched");
             })
             .catch((error) => {
-                toast.error( error.error  ||"Error Fetching Users");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     }, []);
 
@@ -41,7 +43,9 @@ function AllSellers() {
                 setFilteredSellers((prev) => prev.filter((seller) => seller._id !== id));
             })
             .catch((error) => {
-                toast.error(error.error ||"Error Removing User");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     };
 

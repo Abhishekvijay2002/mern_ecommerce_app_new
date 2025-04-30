@@ -17,9 +17,10 @@ const OrderHistory = () => {
         );
         setOrders(enrichedOrders);
       })
-      .catch((err) => {
-        console.error("Error fetching orders:", err.message);
-        toast.error(error.error ||"Failed to fetch order history");
+      .catch((error) => {
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   }, []);
 
@@ -51,8 +52,9 @@ const OrderHistory = () => {
         );
       })
       .catch((error) => {
-        console.error("Error canceling order:", error.message);
-        toast.error( error.error ||"Failed to cancel order.");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 

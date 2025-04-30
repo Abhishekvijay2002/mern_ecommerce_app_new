@@ -29,8 +29,9 @@ function Card({ product }) {
       console.log(response.data);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error( error.error || "Failed to add to cart!");
-      console.log(error);
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

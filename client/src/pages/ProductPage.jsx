@@ -8,7 +8,8 @@ import {
   searchProduct 
 } from "../services/UserService";
 import Card from "../components/Card";
-import { FaSpinner } from "react-icons/fa"; // Importing the spinner icon
+import { FaSpinner } from "react-icons/fa"; 
+import { toast } from "sonner";
 
 function ProductPage() {
   const [products, setProducts] = useState([]);
@@ -47,8 +48,10 @@ function ProductPage() {
           res = await listProducts();
           setProducts(res.data); 
         }
-      } catch (err) {
-        console.log("Error while fetching products:", err);
+      } catch (error) {
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       } finally {
         setLoading(false); // End loading
       }

@@ -24,8 +24,9 @@ const ReviewPage = () => {
         navigate(`/productdetails/${productid}`);
       })
       .catch((error) => {
-        toast.error(error.error);
-        console.log(error);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 

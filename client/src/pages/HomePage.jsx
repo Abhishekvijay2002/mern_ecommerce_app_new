@@ -3,6 +3,7 @@ import CardSlider from "../components/Cardslider";
 import { GetAllCategory, ListBestsellingProducts, listProductswithOffers } from "../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import { toast } from "sonner";
 
 function HomePage() {
   const [bestsellingProducts, setBestsellingProducts] = useState([]);
@@ -27,8 +28,10 @@ function HomePage() {
 
         // Correctly extract categories from `data`
         setCategory(categoriesRes.data.categories);
-      } catch (err) {
-        console.error("Error fetching homepage data:", err);
+      } catch (error) {
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+        toast.error(errorMsg);
+        console.error(errorMsg);
       }
     };
 

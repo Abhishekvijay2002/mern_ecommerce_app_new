@@ -46,7 +46,9 @@ const CategoryManagement = () => {
       setNewCategoryImage(null);
       loadCategories();
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to add category!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+      toast.error(errorMsg);
+      console.error(errorMsg);
     }
   };
 
@@ -68,7 +70,9 @@ const CategoryManagement = () => {
       setIsEditModalOpen(false);
       loadCategories();
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to update category!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 
@@ -76,9 +80,12 @@ const CategoryManagement = () => {
     try {
       await DeleteCategory(categoryId);
       toast.success("Category deleted successfully!");
-      loadCategories();
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category._id !== categoryId) )
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Failed to delete category!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

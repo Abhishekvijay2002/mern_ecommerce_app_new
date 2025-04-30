@@ -24,6 +24,7 @@ const register = async (req, res) => {
          name, email, password: hashedPassword
       })
       const saved = await newUser.save()
+      return res.status(201).json({ message: "User registered successfully" })
    } catch (error) {
       console.log(error)
       res.status(error.status || 500).json({ error: error.message || "Intenal Server Error" })

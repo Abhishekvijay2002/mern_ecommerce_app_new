@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Getproductbyid, UpdateProductbyid } from "../../services/UserService";
+import { toast } from "sonner";
 
 const UpdateProduct = () => {
   const { productid } = useParams();
@@ -29,7 +30,9 @@ const UpdateProduct = () => {
         }));
       })
       .catch((error) => {
-        console.error("Error fetching product:", error);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   }, [productid]);
 
@@ -63,7 +66,9 @@ const UpdateProduct = () => {
       alert("Product updated successfully!");
       navigate("/admin/dashboard");
     } catch (error) {
-      alert(error.error || "Update failed");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 

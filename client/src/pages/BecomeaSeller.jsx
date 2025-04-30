@@ -21,9 +21,9 @@ function BecomeSeller() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log("Error while fetching seller status:", err);
-        toast.error(err.error ||"Failed to fetch seller status");
-        setLoading(false);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
 
     // Apply the current theme
@@ -37,7 +37,9 @@ function BecomeSeller() {
         setStatus('pending');
       })
       .catch((error) => {
-        toast.error(error.error  ||"Failed to send request");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 
@@ -48,7 +50,9 @@ function BecomeSeller() {
         setStatus('not_requested');
       })
       .catch((error) => {
-        toast.error(error.error  ||"Failed to cancel request");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+        toast.error(errorMsg);
+        console.error(errorMsg);
       });
   };
 
@@ -59,7 +63,9 @@ function BecomeSeller() {
         setStatus('pending');
       })
       .catch((error) => {
-        toast.error(error.error ||"Failed to reapply");
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       });
   };
 

@@ -16,7 +16,9 @@ function AllReviews() {
                 toast.success("Reviews Fetched");
             })
             .catch((error) => {
-                toast.error(  error.error ||"Error Fetching Reviews");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
             });
     }, []);
 
@@ -31,7 +33,9 @@ function AllReviews() {
                         [review.product._id]: product.title || "Unknown Product" // Safely access 'title'
                     }));
                 }).catch((error) => {
-                    console.error( error.error  ||"Error fetching product details");
+                    const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
                 });
             }
         });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GetAllUsers, listProducts } from "../services/UserService";
+import { toast } from "sonner";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
@@ -21,7 +22,9 @@ const AdminDashboard = () => {
           productData.filter((product) => product.roleOfAdder === "seller")
         );
       } catch (error) {
-        console.error("Error fetching data:", error);
+        const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
       }
     };
 

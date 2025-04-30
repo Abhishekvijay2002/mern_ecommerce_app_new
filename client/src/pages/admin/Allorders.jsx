@@ -39,8 +39,9 @@ function AllOrders() {
                 setOrders(enrichedOrders);
                 toast.success("Orders & Products Fetched");
             } catch (err) {
-                console.error("Error Fetching Orders:", err);
-                toast.error(error.error  ||"Error Fetching Orders");
+                const errorMsg = error.response?.data?.error || "Something went wrong";
+                toast.error(errorMsg);
+                console.error(errorMsg);
             }
         };
         fetchOrders();
@@ -58,8 +59,9 @@ function AllOrders() {
 
             toast.success(`Order status updated to ${status}`);
         } catch (error) {
-            console.error("Update Error:", error);
-            toast.error( error.error ||"Failed to update order.");
+            const errorMsg = error.response?.data?.error || "Something went wrong";
+            toast.error(errorMsg);
+            console.error(errorMsg);
         }
     };
 

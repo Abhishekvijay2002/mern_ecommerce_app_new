@@ -26,7 +26,9 @@ const Login = () => {
       toast.success(res?.data?.message || "Login successful!");
       navigate(res.data.user.role === "admin" ? "/admin/dashboard" : "/");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Login failed!");
+      const errorMsg = error.response?.data?.error || "Something went wrong";
+    toast.error(errorMsg);
+    console.error(errorMsg);
     }
   };
 
