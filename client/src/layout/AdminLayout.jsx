@@ -11,7 +11,10 @@ function AdminLayout() {
   const [menuOpen, setMenuOpen] = useState(false);
    const {  logout } = useAuth();
 
-
+   const handleLogout = () => {
+    logout();
+    navigate("/"); // Navigate after logout
+  };
   return (
     <div className="h-screen w-ful flex flex-col overflow-hidden">
       {/* Header */}
@@ -32,8 +35,7 @@ function AdminLayout() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-6">
-            <button onClick={() => navigate('/')} className="text-md px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Go home</button>
-            <button onClick={logout} className="text-md px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Logout</button>
+            <button onClick={handleLogout} className="text-md px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Logout</button>
           </div>
 
           {/* Hamburger Menu Button */}
@@ -65,8 +67,7 @@ function AdminLayout() {
             <button onClick={() => { navigate("/admin/productlist"); setMenuOpen(false); }} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white text-left">Manage Products</button>
             <button onClick={() => { navigate("/admin/addproduct"); setMenuOpen(false); }} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white text-left">Add Product</button>
             <button onClick={() => { navigate("/admin/managecategory"); setMenuOpen(false); }} className="bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded text-white text-left">Manage Category</button>
-            <button onClick={() => { navigate("/"); setMenuOpen(false); }} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded text-white text-left">Go Home</button>
-            <button onClick={() => { logout(); setMenuOpen(false); }} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded text-white text-left">Logout</button>
+            <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded text-white text-left">Logout</button>
           </div>
         </div>
       </div>

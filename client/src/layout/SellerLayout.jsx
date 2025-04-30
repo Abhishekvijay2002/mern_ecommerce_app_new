@@ -12,7 +12,10 @@ function SellerLayout() {
   const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
 
-
+  const handleLogout = () => {
+    logout();
+    navigate("/"); 
+  };
   return (
     <div className="h-screen w-screen flex flex-col">
       {/* Header */}
@@ -79,7 +82,7 @@ function SellerLayout() {
         <button onClick={() => { navigate('/'); setMenuOpen(false); }} className="text-md px-6 py-3 bg-gray-500 rounded hover:bg-gray-400 w-full">
           Go home
         </button>
-        <button onClick={() => { logout(); setMenuOpen(false); }} className="text-md px-6 py-3 bg-gray-500 rounded hover:bg-gray-400 w-full">
+        <button onClick={() => { handleLogout(); setMenuOpen(false); }} className="text-md px-6 py-3 bg-gray-500 rounded hover:bg-gray-400 w-full">
           Logout
         </button>
       </div>
@@ -106,7 +109,7 @@ function SellerLayout() {
             <button onClick={() => navigate('/')} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded">
               Go home
             </button>
-            <button onClick={logout} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded">
+            <button onClick={handleLogout} className="bg-gray-500 hover:bg-gray-400 px-6 py-3 rounded">
               Logout
             </button>
           </div>

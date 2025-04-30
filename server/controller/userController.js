@@ -117,9 +117,9 @@ const deleteUser = async (req, res) => {
 
 const GetallUsers = async (req, res) => {
    try {
-      const users = await userModel.find().select("-password");
-      if (!users) {
-         return res.status(404).json({ error : "Users not found" });
+      const users = await userModel.find({ role: { $ne: "admin" } }).select("-password");
+      if (!users || users.length === 0) {
+         return res.status(404).json({ error: "Users not found" });
       }
       res.json(users);
    }
@@ -127,7 +127,8 @@ const GetallUsers = async (req, res) => {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
    }
-}
+};
+
 
 
 
