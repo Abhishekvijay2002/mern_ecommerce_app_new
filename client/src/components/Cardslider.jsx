@@ -47,7 +47,7 @@ const CardSlider = ({ products }) => {
             >
               {/* Image covers full top */}
               <img
-                className="w-full h-[30%] object-cover "
+                className="w-full h-[30%] object-contain p-4 bg-white "
                 src={product.image[0]}
                 alt={product.title}
               />

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import {toast } from "sonner"
 
 
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const location = useLocation();
+  const Navigate = useNavigate
   const [role, setRole] = useState(localStorage.getItem("user_role"));
   const token = localStorage.getItem("token");
 

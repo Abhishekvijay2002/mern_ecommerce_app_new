@@ -99,13 +99,13 @@ function AllProducts() {
                     </td>
                     <td className="py-3 px-6 text-center">
                       <div className="flex justify-center gap-2">
-                        <button onClick={() => navigate(`/seller/productdetail/${product._id}`)} className="bg-orange-300 text-white px-4 py-2 rounded-md hover:bg-orange-400 transition">
+                        <button onClick={() => navigate(`/admin/productdetail/${product._id}`)} className="bg-orange-300 text-white px-4 py-2 rounded-md hover:bg-orange-400 transition">
                           View Details
                         </button>
                         <button onClick={() => handleDelete(product._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition">
                           Delete
                         </button>
-                        <button onClick={() => navigate(`/seller/updateproduct/${product._id}`)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+                        <button onClick={() => navigate(`/admin/updateproduct/${product._id}`)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
                           Edit
                         </button>
                         <button onClick={() => { setSelectedProduct(product._id); setIsModalOpen(true); }} className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
