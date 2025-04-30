@@ -31,7 +31,18 @@ const ProductDetailForadmin = () => {
       isMounted = false;
     };
   }, [productid]);
+  const [categories, setCategory] = useState(null);
 
+  useEffect(() => {
+    if (product.category) { 
+      GetCategoryByid(product.category)
+        .then((res) => {
+          setCategory(res.data.name);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [product.category]); 
+  
 
 
   return (
@@ -63,7 +74,7 @@ const ProductDetailForadmin = () => {
         <div className="flex flex-col justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-[var(--heading-color)]">{product.title}</h2>
-            <p className="text-sm text-[var(--text-color)] mt-1">{product.category}</p>
+            <p className="text-sm text-[var(--text-color)] mt-1">{categories}</p>
             <p className="text-xl text-[var(--text-color)] mt-2">
               {product.offerPrice ? (
                 <>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { addToCart, deleteReview, Getproductbyid, getReviewsByProduct } from "../services/UserService";
+import { addToCart, deleteReview, GetCategoryByid, Getproductbyid, getReviewsByProduct } from "../services/UserService";
 import { toast } from "sonner";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
   const { productid } = useParams();
-  
   const [product, setProduct] = useState({});
   const [reviews, setReviews] = useState([]);
   const [activeTab, setActiveTab] = useState("description");
@@ -24,6 +23,22 @@ const ProductDetails = () => {
       .then((res) => setReviews(res.data.reviews))
       .catch((err) => console.log(err));
   }, [productid]);
+
+
+  const [categories, setCategory] = useState(null);
+
+  useEffect(() => {
+    if (product.category) { 
+      GetCategoryByid(product.category)
+        .then((res) => {
+          setCategory(res.data.name);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [product.category]); 
+  
+
+
 
   const addToCartHandler = async () => {
     try {
@@ -54,25 +69,28 @@ const ProductDetails = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Product Image Section */}
         <div>
-          <img src={selectedImage} alt="Selected" className="w-[70%] h-[70%] object-cover rounded-lg shadow-lg" />
-          <div className="flex space-x-4 mt-4 overflow-x-auto">
-            {product.image?.map((imgUrl, index) => (
-              <img 
-                key={index} 
-                src={imgUrl} 
-                alt={`Thumbnail ${index + 1}`} 
-                className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${selectedImage === imgUrl ? "border-4 border-blue-500" : ""}`} 
-                onClick={() => setSelectedImage(imgUrl)} 
-              />
-            ))}
-          </div>
+        <img src={selectedImage} alt="Selected" className="w-full max-w-[70%] h-auto aspect-[4/3] rounded-lg shadow-lg object-contain" />
+
+<div className="flex space-x-4 mt-4 overflow-x-auto">
+  {product.image?.map((imgUrl, index) => (
+    <img 
+      key={index} 
+      src={imgUrl} 
+      alt={`Thumbnail ${index + 1}`} 
+      className={`w-20 h-auto aspect-square object-contain rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${
+        selectedImage === imgUrl ? "border-4 border-blue-500" : ""
+      }`} 
+      onClick={() => setSelectedImage(imgUrl)} 
+    />
+  ))}
+</div>
         </div>
 
         {/* Product Details Section */}
         <div className="flex flex-col justify-between">
           <div>
             <h2 className="text-2xl font-semibold text-[var(--heading-color)]">{product.title}</h2>
-            <p className="text-sm text-[var(--text-color)] mt-1">{product.category}</p>
+            <p className="text-sm text-[var(--text-color)] mt-1">{categories}</p>
             <p className="text-xl text-[var(--text-color)] mt-2">
               {product.offerPrice ? (
                 <>

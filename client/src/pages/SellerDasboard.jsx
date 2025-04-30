@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { ListProductforSeller } from "../services/UserService";
+import { ListProductforSeller, GetCategoryByid } from "../services/UserService";
 
 const Sellerdasboard = ({ sellerId }) => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState({}); // Fix: Added missing state
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProductsAndCategories = async () => {
       try {
-        const response = await ListProductforSeller();
-        setProducts(response.data || []);
-        toast.success("Products Fetched");
-      } catch (error) {
-        const errorMsg = error.response?.data?.error || "Something went wrong";
-    toast.error(errorMsg);
-    console.error(errorMsg);
+        const productsRes = await ListProductforSeller();
+        setProducts(productsRes.data);
+        console.log("product" , productsRes)
+
+        const categoryPromises = productsRes.data.map((product) => GetCategoryByid(product.category));
+        const categoriesRes = await Promise.all(categoryPromises);
+        
+        const categoryMap = {};
+        categoriesRes.forEach((res, index) => {
+          categoryMap[productsRes.data[index].category] = res.data.name;
+        });
+        setCategories(categoryMap);
+
+        toast.success("Products and categories fetched!");
+      } catch (err) {
+        const errorMsg = err.response?.data?.error || "Something went wrong"; // Fix: Use `err` instead of `error`
+        toast.error(errorMsg);
+        console.error(errorMsg);
       }
     };
-    fetchProducts();
-  }, [sellerId]);
+
+    fetchProductsAndCategories();
+  }, []);
 
   return (
     <div className="p-6 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
@@ -39,41 +52,45 @@ const Sellerdasboard = ({ sellerId }) => {
       </div>
 
       {/* Scrollable Product Table */}
-      <div className="mt-6 p-4 shadow rounded-lg overflow-hidden border border-[var(--table-border)] bg-[var(--table-bg)]">
-        <div className="overflow-y-auto max-h-[400px]">
-          <table className="w-full text-left border-separate border-spacing-y-4"
-            style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
-            <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
-              <tr>
-                <th className="py-3 px-6">Product Name</th>
-                <th className="py-3 px-6">Category</th>
-                <th className="py-3 px-6">Price</th>
-                <th className="py-3 px-6">Stock</th>
-                <th className="py-3 px-6">Image</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length > 0 ? (
-                products.map((product) => (
-                  <tr key={product._id} className="border-b border-[var(--table-border)] hover:bg-opacity-90 transition">
-                    <td className="py-3 px-6">{product.title}</td>
-                    <td className="py-3 px-6">{product.category}</td>
-                    <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.price}</td>
-                    <td className="py-3 px-6">{product.stock}</td>
-                    <td className="py-3 px-6">
-                      {product.image?.[0] && (
-                        <img src={product.image[0]} alt={product.title} className="w-16 h-16 object-cover rounded-lg" />
-                      )}
+      <div className="p-6 min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]">
+        <h2 className="text-2xl font-semibold mb-4">All Products</h2>
+
+        {/* Scrollable Table */}
+        <div className="shadow-lg rounded-lg overflow-hidden border border-[var(--table-border)] bg-[var(--table-bg)]">
+          <div className="overflow-y-auto max-h-[400px]">
+            <table className="w-full text-left border-separate border-spacing-y-4" style={{ backgroundColor: "var(--table-bg)", color: "var(--table-text-color)" }}>
+              <thead style={{ backgroundColor: "var(--table-header-bg)", color: "var(--table-text-color)" }}>
+                <tr>
+                  <th className="py-3 px-6">Product Name</th>
+                  <th className="py-3 px-6">Category</th>
+                  <th className="py-3 px-6">Stock</th>
+                  <th className="py-3 px-6">Price</th>
+                  <th className="py-3 px-6">Image</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.length > 0 ? (
+                  products.map((product) => (
+                    <tr key={product._id} className="border-b border-[var(--table-border)] hover:bg-opacity-90 transition">
+                      <td className="py-3 px-6">{product.title}</td>
+                      <td className="py-3 px-6">{categories[product.category]}</td>
+                      <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.stock}</td>
+                      <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.price}</td>
+                      <td className="py-3 px-6">
+                        <img src={product.image[0]} alt="Product" className="w-16 h-16 object-cover rounded-lg" />
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="py-3 px-6 text-center text-[var(--table-text-color)]">
+                      No products available
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="5" className="py-3 px-6 text-center text-[var(--table-text-color)]">No products available</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -90,6 +90,7 @@ function AllProducts() {
               <tr>
                 <th className="py-3 px-6">Product Name</th>
                 <th className="py-3 px-6">Category</th>
+                <th className="py-3 px-6">Stock</th>
                 <th className="py-3 px-6">Price</th>
                 <th className="py-3 px-6">Image</th>
                 <th className="py-3 px-6">Action</th>
@@ -101,6 +102,7 @@ function AllProducts() {
                   <tr key={product._id} className="border-b border-[var(--table-border)] hover:bg-opacity-90 transition">
                     <td className="py-3 px-6">{product.title}</td>
                     <td className="py-3 px-6">{categories[product.category] }</td>
+                    <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.stock}</td>
                     <td className="py-3 px-6 text-yellow-600 font-medium">₹{product.price}</td>
                     <td className="py-3 px-6">
                       <img src={product.image[0]} alt="Product" className="w-16 h-16 object-cover rounded-lg" />
