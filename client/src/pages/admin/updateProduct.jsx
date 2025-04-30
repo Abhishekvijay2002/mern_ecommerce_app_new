@@ -18,15 +18,15 @@ const UpdateProduct = () => {
   useEffect(() => {
     Getproductbyid(productid)
       .then((res) => {
-        const { title, description, price, stock, category, images } = res.data;
+        const { title, description, price, stock, category} = res.data;
         setFormData((prev) => ({
           ...prev,
           title,
           description,
           price,
           stock,
-          category,
-          images,
+          category
+    
         }));
       })
       .catch((error) => {
@@ -80,14 +80,14 @@ const UpdateProduct = () => {
           <input
             type="text"
             name="title"
-            value={formData.title || ""}
+            value={formData.title}
             onChange={handleChange}
             required
             className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
           />
           <textarea
             name="description"
-            value={formData.description || ""}
+            value={formData.description}
             onChange={handleChange}
             required
             className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -97,7 +97,7 @@ const UpdateProduct = () => {
           <input
             type="number"
             name="price"
-            value={formData.price || ""}
+            value={formData.price }
             onChange={handleChange}
             required
             className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -105,7 +105,7 @@ const UpdateProduct = () => {
           <input
             type="number"
             name="stock"
-            value={formData.stock || ""}
+            value={formData.stock}
             onChange={handleChange}
             required
             className="w-full sm:w-1/2 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
@@ -114,7 +114,7 @@ const UpdateProduct = () => {
         <input
           type="text"
           name="category"
-          value={formData.category || ""}
+          value={formData.category}
           onChange={handleChange}
           required
           className="w-full p-3 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"

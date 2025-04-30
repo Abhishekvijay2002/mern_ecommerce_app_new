@@ -39,7 +39,7 @@ const UpdateProductbyseller = () => {
     if (e.target.name === "images") {
       setFormData({
         ...formData,
-        images: Array.from(e.target.files), // support multiple files
+        images: Array.from(e.target.files), 
       });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -56,9 +56,9 @@ const UpdateProductbyseller = () => {
       data.append("stock", formData.stock);
       data.append("category", formData.category);
 
-      // Append each image
+      
       formData.images.forEach((file) => {
-        data.append("images", file); // same field name as multer expects
+        data.append("images", file); 
       });
 
       const response = await UpdateProductbyid(productid, data);
@@ -118,9 +118,9 @@ const UpdateProductbyseller = () => {
         />
         <input
           type="file"
-          name="images" // changed from 'image' to 'images'
+          name="images" 
           accept="image/*"
-          multiple // ✅ allow multiple image selection
+          multiple
           onChange={handleChange}
           className="w-full p-3 border rounded-lg focus:outline-none"
         />
