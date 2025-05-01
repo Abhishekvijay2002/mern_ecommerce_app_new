@@ -15,26 +15,24 @@
   --table-header-bg: #e5e7eb; 
   --placeholder-text-color: #6b7280; 
   --best-seller-bg: #1E3A8A;
-  --best-seller-text: #ffffff
+  --best-seller-text: #ffffff;
 }
 
 [data-theme="dark"] {
-  --bg-color: #1f2937;
-  --secondary-bg-color : #2C3E5D;
-  --text-color: #f3f4f6;
-  --heading-color: #f9fafb;
-  --button-bg: #3B82F6;
+  --bg-color: #0f172a;                 
+  --secondary-bg-color : #1e293b;       
+  --text-color: #e2e8f0;               
+  --heading-color: #f8fafc;            
+  --button-bg: #6366f1;                 
   --button-text: #ffffff;
-  --card-bg: #374151;
-  --border-color: #4b5563;
-  --table-bg: #374151;
-  --table-header-bg: #4b5563;
-  --table-text-color: #ffffff;
-  --placeholder-text-color: #e5e7eb;
-  --best-seller-bg: #121212; 
-  --best-seller-text: #f3f4f6;
-
-
+  --card-bg: #364153;                   
+  --border-color: #334155;              
+  --table-bg: #1e293b;
+  --table-header-bg: #334155;
+  --table-text-color: #f1f5f9;
+  --placeholder-text-color: #94a3b8;    
+  --best-seller-bg: #0f2455;
+  --best-seller-text: #f8fafc;
 }
 
 
