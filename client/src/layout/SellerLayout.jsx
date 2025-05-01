@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import { useTheme } from '../theme-context';
 import { FaUserCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from '../AuthContext';
+import ThemeToggle from '../redux/ThemeToggle';
 
 function SellerLayout() {
   const navigate = useNavigate();
      const {  logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -23,17 +22,7 @@ function SellerLayout() {
         <div className="text-2xl font-bold">MyApp</div>
         <div className="flex items-center gap-6">
           {/* Theme Toggle */}
-          <label className="relative cursor-pointer w-10 h-5 bg-gray-400 rounded-full flex items-center sm:w-12 sm:h-6">
-            <input
-              type="checkbox"
-              onChange={toggleTheme}
-              checked={theme === "dark"}
-              className="hidden peer"
-              aria-label="Toggle Theme"
-            />
-            <span className="absolute left-1 w-4 h-4 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5 sm:peer-checked:translate-x-6 peer-checked:bg-blue-500"></span>
-          </label>
-
+<ThemeToggle/>
           {/* Desktop Profile */}
           <div className="hidden md:flex items-center gap-3">
             <FaUserCircle className="text-2xl" />

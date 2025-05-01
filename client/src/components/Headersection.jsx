@@ -4,11 +4,11 @@ import { MdShoppingCart } from "react-icons/md";
 import { HiMenu, HiX } from "react-icons/hi";
 import { BsFillPersonFill, BsSearch } from "react-icons/bs";
 import { FaSpinner } from "react-icons/fa";
-import { useTheme } from "../theme-context";
 import { toast } from "sonner";
+import ThemeToggle from "../redux/ThemeToggle";
+
 
 const Headersection = () => {
-  const { theme, toggleTheme } = useTheme();
   
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -82,15 +82,7 @@ const Headersection = () => {
         </form>
 
         <div className="flex items-center gap-4">
-          <label className="relative cursor-pointer w-10 h-5 bg-gray-400 rounded-full flex items-center sm:w-12 sm:h-6">
-            <input
-              type="checkbox"
-              onChange={toggleTheme}
-              checked={theme === "dark"}
-              className="hidden peer"
-            />
-            <span className="absolute left-1 w-3 h-3.5 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-5 sm:peer-checked:translate-x-7 peer-checked:bg-blue-500"></span>
-          </label>
+          <ThemeToggle/>
 
           <Link to="/cart" className="text-white text-lg">
             <MdShoppingCart size={22} />

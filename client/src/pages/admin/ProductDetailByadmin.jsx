@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Getproductbyid } from "../../services/UserService";
+import { GetCategoryByid, Getproductbyid } from "../../services/UserService";
 
 const defaultImage = "https://via.placeholder.com/150"; // Fallback image URL
 

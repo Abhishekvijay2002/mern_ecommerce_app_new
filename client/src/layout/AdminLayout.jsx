@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useTheme } from '../theme-context';
 import { toast } from "sonner";
-import { userLogout } from '../services/UserService';
 import { useAuth } from '../AuthContext';
+import ThemeToggle from '../redux/ThemeToggle';
 
 function AdminLayout() {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
    const {  logout } = useAuth();
 
@@ -22,16 +20,7 @@ function AdminLayout() {
         <div className="text-2xl font-bold">MyApp</div>
         <div className="flex items-center gap-6">
           {/* Theme Toggle */}
-          <label className="relative cursor-pointer w-14 h-7 bg-gray-400 rounded-full flex items-center">
-            <input
-              type="checkbox"
-              onChange={toggleTheme}
-              checked={theme === "dark"}
-              className="hidden peer"
-              aria-label="Toggle Theme"
-            />
-            <span className="absolute left-1 w-6 h-6 bg-white rounded-full transition-all duration-300 peer-checked:translate-x-7 peer-checked:bg-blue-500"></span>
-          </label>
+        <ThemeToggle/>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-6">
