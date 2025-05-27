@@ -123,6 +123,13 @@ export const getCart = () => {
 export const removeFromCart = (productid) => {
    return axiosInstance.delete(`/cart/removecart/${productid}`);
 };
+export const increaseQuantityofProduct = (productid) => {
+   return axiosInstance.patch(`/cart/increasequantity/${productid}`);
+};
+export const decreaseQuantityofProduct = (productid) => {
+   return axiosInstance.patch(`/cart/decreasequantity/${productid}`);
+};
+
 // order
 export const addOrder = (data) => {
    return axiosInstance.post("/order/add", data);

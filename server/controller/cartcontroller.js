@@ -71,4 +71,68 @@ const removefromcart = async (req, res) => {
     }
 };
 
-module.exports = { addToCart, getcart, removefromcart };
+const increasequantity = async (req, res) => {
+  try {
+    const userid = req.userId.id;
+    const { productid } = req.params;
+
+    const cart = await cartModel.findOne({ userid });
+    if (!cart) return res.status(404).json({ error: "Cart not found" });
+
+    const productInCart = cart.product.find(p => p.productid.equals(productid));
+    if (!productInCart) return res.status(404).json({ error: "Product not in cart" });
+
+    productInCart.quantity += 1;
+    
+    cart.totalprice = cart.product.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+
+    await cart.save();
+
+    res.status(200).json({ message: "Quantity increased", cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+const decreasequantity = async (req, res) => {
+  try {
+    const userid = req.userId.id;
+    const { productid } = req.params;
+
+    const cart = await cartModel.findOne({ userid });
+    if (!cart) return res.status(404).json({ error: "Cart not found" });
+
+    const productIndex = cart.product.findIndex(p => p.productid.equals(productid));
+    if (productIndex === -1) return res.status(404).json({ error: "Product not in cart" });
+
+    // Decrease quantity or remove product if quantity is 1
+    if (cart.product[productIndex].quantity > 1) {
+      cart.product[productIndex].quantity -= 1;
+    } else {
+      // Remove product if quantity is 1 and decrease requested
+      cart.product.splice(productIndex, 1);
+    }
+
+    // Recalculate total price
+    cart.totalprice = cart.product.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+
+    await cart.save();
+
+    res.status(200).json({ message: "Quantity decreased", cart });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+
+module.exports = { addToCart, getcart, removefromcart ,decreasequantity ,increasequantity };
